@@ -14,10 +14,12 @@ import scalafx.stage.WindowEvent
 import org.clulab.linnaeus.model.TableNode
 
 class TableStage(val stageManager: StageManager) extends Stage {
+  val COUNT = 100000
+
   title = "Linnaeus Table"
   scene = new Scene(900, 400) {
     val tableNodes = ObservableBuffer.empty[TableNode]
-    0.until(100000).foreach(_ => tableNodes.append(TableNode.random))
+    0.until(COUNT).foreach(_ => tableNodes.append(TableNode.random))
 
     val tableView = new TableView(tableNodes) {
       selectionModel().selectedItem.onChange { (_, _, newValue) =>

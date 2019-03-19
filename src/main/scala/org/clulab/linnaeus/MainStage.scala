@@ -1,11 +1,16 @@
 package org.clulab.linnaeus
 
 import scalafx.Includes._
-
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.event.ActionEvent
 import scalafx.scene.Scene
 import scalafx.scene.control.Button
+import scalafx.scene.control.CheckMenuItem
+import scalafx.scene.control.Menu
+import scalafx.scene.control.MenuBar
+import scalafx.scene.control.MenuItem
+import scalafx.scene.control.SeparatorMenuItem
+import scalafx.scene.layout.BorderPane
 import scalafx.scene.layout.ColumnConstraints
 import scalafx.scene.layout.GridPane
 import scalafx.scene.layout.RowConstraints
@@ -14,6 +19,35 @@ import scalafx.stage.WindowEvent
 class MainStage(val stageManager: StageManager) extends PrimaryStage {
   title = "Linnaeus"
   scene = new Scene(300, 300) {
+    val menuBar = new MenuBar {
+      menus = List(
+        new Menu("_File") {
+          mnemonicParsing = true
+          items = List(
+            new MenuItem("_New..."),
+            new MenuItem("_Open..."),
+            new MenuItem("Save"),
+            new MenuItem("Save _As..."),
+            new SeparatorMenuItem,
+            new MenuItem("E_xit")
+          )
+        },
+        new Menu("_View") {
+          mnemonicParsing = true
+          items = List(
+            new CheckMenuItem("Table") { selected = true },
+            new CheckMenuItem("Tree") { selected = true },
+            new CheckMenuItem("Text") { selected = true }
+          )
+        },
+        new Menu("_Help") {
+          mnemonicParsing = true
+          items = List(
+            new MenuItem("_About Linnaeus...")
+          )
+        }
+      )
+    }
     val table = new Button {
       text = "Table"
       onAction = (actionEvent: ActionEvent) => {
@@ -56,7 +90,12 @@ class MainStage(val stageManager: StageManager) extends PrimaryStage {
     textRowConstraints.setPercentHeight(33.333)
     gridPane.getRowConstraints.addAll(tableRowConstraints, treeRowConstraints, textRowConstraints)
 
-    root = gridPane
+    val borderPane = new BorderPane() {
+      top = menuBar
+      center = gridPane
+    }
+
+    root = borderPane
   }
 
   stageManager.mainStageOpt = Some(this)

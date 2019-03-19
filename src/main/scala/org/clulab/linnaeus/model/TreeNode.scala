@@ -5,8 +5,6 @@ import scalafx.scene.control.TreeItem
 import scala.util.Random
 
 object TreeNode {
-  protected val LEVELS = 10
-  protected val COUNT = 100000
   protected val rng = new Random()
 
   protected def randomWord(): String = {
@@ -36,7 +34,7 @@ object TreeNode {
     (treeItem, countUsed)
   }
 
-  def random(levels: Int = LEVELS, count: Int = COUNT): TreeItem[String] = {
+  def random(levels: Int, count: Int): TreeItem[String] = {
     var (treeItem, countUsed) = innerRandom(levels, count)
     println("Count used: " + countUsed)
     treeItem
