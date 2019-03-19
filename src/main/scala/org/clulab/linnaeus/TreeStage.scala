@@ -1,22 +1,30 @@
 package org.clulab.linnaeus
 
-import javafx.stage.WindowEvent
-import scalafx.application.JFXApp
-import scalafx.application.JFXApp.PrimaryStage
+import scalafx.Includes._
+
 import scalafx.scene.Scene
-import scalafx.scene.control.Button
-import scalafx.scene.layout.ColumnConstraints
-import scalafx.scene.layout.GridPane
-import scalafx.scene.layout.RowConstraints
+import scalafx.scene.control.TreeView
 import scalafx.stage.Stage
+import scalafx.stage.WindowEvent
+
+import org.clulab.linnaeus.model.TreeNode
 
 class TreeStage(val stageManager: StageManager) extends Stage {
   title = "Linnaeus Tree"
-  scene = new Scene
-  show
-  stageManager.treeStage = Some(this)
+  scene = new Scene(400, 400) {
+    val treeNode = TreeNode.random
+    val treeView = new TreeView(treeNode) {
+      selectionModel().selectedItem.onChange { (_, _, newValue) =>
+        stageManager.changedTreeSelection(Option(newValue))
+      }
+    }
 
-  onCloseRequest = (windowEvent: WindowEvent) => {
+    root = treeView
+  }
+  stageManager.treeStageOpt = Some(this)
+  show
+
+  onCloseRequest = { windowEvent: WindowEvent =>
     stageManager.closeTreeStage(windowEvent)
   }
 }

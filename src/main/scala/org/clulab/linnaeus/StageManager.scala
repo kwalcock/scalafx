@@ -1,21 +1,17 @@
 package org.clulab.linnaeus
 
 import javafx.stage.WindowEvent
-import scalafx.application.JFXApp
-import scalafx.application.JFXApp.PrimaryStage
 import scalafx.application.Platform
 import scalafx.event.ActionEvent
-import scalafx.scene.Scene
-import scalafx.scene.control.Button
-import scalafx.scene.layout.ColumnConstraints
-import scalafx.scene.layout.GridPane
-import scalafx.scene.layout.RowConstraints
+import scalafx.scene.control.TreeItem
+
+import org.clulab.linnaeus.model.TableNode
 
 class StageManager {
-  var mainStage: Option[MainStage] = None
-  var tableStage: Option[TableStage] = None
-  var treeStage: Option[TreeStage] = None
-  var textStage: Option[TextStage] = None
+  var mainStageOpt: Option[MainStage] = None
+  var tableStageOpt: Option[TableStage] = None
+  var treeStageOpt: Option[TreeStage] = None
+  var textStageOpt: Option[TextStage] = None
 
   def closeMainStage(windowEvent: WindowEvent): Unit = {
     windowEvent.consume()
@@ -24,32 +20,40 @@ class StageManager {
 
   def closeTableStage(event: WindowEvent): Unit = {
     event.consume()
-    tableStage.get.hide()
+    tableStageOpt.get.hide()
   }
 
   def openTableStage(event: ActionEvent): Unit = {
     event.consume()
-    tableStage.get.show()
+    tableStageOpt.get.show()
   }
 
   def closeTreeStage(event: WindowEvent): Unit = {
     event.consume()
-    treeStage.get.hide()
+    treeStageOpt.get.hide()
   }
 
   def openTreeStage(event: ActionEvent): Unit = {
     event.consume()
-    treeStage.get.show()
+    treeStageOpt.get.show()
   }
 
   def closeTextStage(event: WindowEvent): Unit = {
     event.consume()
-    textStage.get.hide()
+    textStageOpt.get.hide()
   }
 
   def openTextStage(event: ActionEvent): Unit = {
     // Get position and other state info first
     event.consume()
-    textStage.get.show()
+    textStageOpt.get.show()
+  }
+
+  def changedTableSelection(relationOpt: Option[TableNode]): Unit = {
+    textStageOpt.map(_.changedTableSelection(relationOpt))
+  }
+
+  def changedTreeSelection(treeItemOpt: Option[TreeItem[String]]): Unit = {
+    textStageOpt.map(_.changedTreeSelection(treeItemOpt))
   }
 }

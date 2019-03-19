@@ -1,17 +1,50 @@
 package org.clulab.linnaeus
 
-import javafx.stage.WindowEvent
-import scalafx.application.Platform
+import scalafx.Includes._
+
+import scalafx.stage.WindowEvent
+import scalafx.beans.property.ObjectProperty
+import scalafx.beans.property.StringProperty
+import scalafx.collections.ObservableBuffer
 import scalafx.scene.Scene
+import scalafx.scene.control.TableColumn
+import scalafx.scene.control.TableView
 import scalafx.stage.Stage
+
+import org.clulab.linnaeus.model.TableNode
 
 class TableStage(val stageManager: StageManager) extends Stage {
   title = "Linnaeus Table"
-  scene = new Scene
-  show
-  stageManager.tableStage = Some(this)
+  scene = new Scene(900, 400) {
+    val tableNodes = ObservableBuffer.empty[TableNode]
+    0.until(100000).foreach(_ => tableNodes.append(TableNode.random))
 
-  onCloseRequest = (windowEvent: WindowEvent) => {
+    val tableView = new TableView(tableNodes) {
+      selectionModel().selectedItem.onChange { (_, _, newValue) =>
+         stageManager.changedTableSelection(Option(newValue))
+      }
+
+      val hypernymCol = new TableColumn[TableNode, String]("Hypernym")
+      hypernymCol.cellValueFactory = cellDataFeature => StringProperty(cellDataFeature.value.hypernym)
+
+      val hyponymCol = new TableColumn[TableNode, String]("Hyponym")
+      hyponymCol.cellValueFactory = cellDataFeature => StringProperty(cellDataFeature.value.hyponym)
+
+      val exampleCol = new TableColumn[TableNode, String]("Example")
+      exampleCol.cellValueFactory = cellDataFeature => StringProperty(cellDataFeature.value.example)
+
+      val priorityCol = new TableColumn[TableNode, Int]("Priority")
+      priorityCol.cellValueFactory = cellDataFeature => ObjectProperty(cellDataFeature.value.priority)
+
+      columns ++= List(hypernymCol, hyponymCol, exampleCol, priorityCol)
+    }
+    root = tableView
+  }
+
+  stageManager.tableStageOpt = Some(this)
+  show
+
+  onCloseRequest = { windowEvent: WindowEvent =>
     stageManager.closeTableStage(windowEvent)
   }
 }
