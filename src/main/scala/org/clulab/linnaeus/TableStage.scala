@@ -2,7 +2,6 @@ package org.clulab.linnaeus
 
 import scalafx.Includes._
 
-import scalafx.stage.WindowEvent
 import scalafx.beans.property.ObjectProperty
 import scalafx.beans.property.StringProperty
 import scalafx.collections.ObservableBuffer
@@ -10,6 +9,7 @@ import scalafx.scene.Scene
 import scalafx.scene.control.TableColumn
 import scalafx.scene.control.TableView
 import scalafx.stage.Stage
+import scalafx.stage.WindowEvent
 
 import org.clulab.linnaeus.model.TableNode
 

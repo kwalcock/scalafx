@@ -4,11 +4,11 @@ import scalafx.Includes._
 
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.event.ActionEvent
+import scalafx.scene.Scene
 import scalafx.scene.control.Button
 import scalafx.scene.layout.ColumnConstraints
 import scalafx.scene.layout.GridPane
 import scalafx.scene.layout.RowConstraints
-import scalafx.scene.Scene
 import scalafx.stage.WindowEvent
 
 class MainStage(val stageManager: StageManager) extends PrimaryStage {

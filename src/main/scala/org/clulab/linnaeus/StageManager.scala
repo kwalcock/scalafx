@@ -1,9 +1,9 @@
 package org.clulab.linnaeus
 
-import javafx.stage.WindowEvent
 import scalafx.application.Platform
 import scalafx.event.ActionEvent
 import scalafx.scene.control.TreeItem
+import scalafx.stage.WindowEvent
 
 import org.clulab.linnaeus.model.TableNode
 
@@ -50,10 +50,10 @@ class StageManager {
   }
 
   def changedTableSelection(relationOpt: Option[TableNode]): Unit = {
-    textStageOpt.map(_.changedTableSelection(relationOpt))
+    textStageOpt.foreach(_.changedTableSelection(relationOpt))
   }
 
   def changedTreeSelection(treeItemOpt: Option[TreeItem[String]]): Unit = {
-    textStageOpt.map(_.changedTreeSelection(treeItemOpt))
+    textStageOpt.foreach(_.changedTreeSelection(treeItemOpt))
   }
 }
