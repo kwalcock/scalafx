@@ -1,10 +1,10 @@
 package org.clulab.linnaeus
 
+import org.clulab.linnaeus.graphStage.GraphStage
 import scalafx.application.Platform
 import scalafx.event.ActionEvent
 import scalafx.scene.control.TreeItem
 import scalafx.stage.WindowEvent
-
 import org.clulab.linnaeus.model.TableNode
 
 class StageManager {
@@ -12,6 +12,7 @@ class StageManager {
   var tableStageOpt: Option[TableStage] = None
   var treeStageOpt: Option[TreeStage] = None
   var textStageOpt: Option[TextStage] = None
+  var graphStageOpt: Option[GraphStage] = None
 
   def closeMainStage(windowEvent: WindowEvent): Unit = {
     windowEvent.consume()
@@ -55,5 +56,15 @@ class StageManager {
 
   def changedTreeSelection(treeItemOpt: Option[TreeItem[String]]): Unit = {
     textStageOpt.foreach(_.changedTreeSelection(treeItemOpt))
+  }
+
+  def openGraphStage(event: ActionEvent): Unit = {
+    event.consume()
+    graphStageOpt.get.show()
+  }
+
+  def closeGraphStage(event: WindowEvent): Unit = {
+    event.consume()
+    graphStageOpt.get.hide()
   }
 }

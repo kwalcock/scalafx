@@ -1,0 +1,13 @@
+Graph Libraries
+
+Cytoscape, https://github.com/cytoscape/
+Gephi, https://github.com/gephi/
+
+EighthBridge, https://github.com/giancosta86/EighthBridge
+
+FXGraph, https://github.com/sirolf2009/fxgraph - done
+JGraphX, https://github.com/jgraph/jgraphx - done
+
+GraphStream, http://graphstream-project.org/ - done kind of
+JUNG, http://jung.sourceforge.net/ - done
+jgrapht, https://github.com/jgrapht/jgrapht - done

@@ -16,8 +16,8 @@ class TreeStage(val stageManager: StageManager) extends Stage {
 
   title = "Linnaeus Tree"
   scene = new Scene(400, 400) {
-//    val rootTreeItem: TreeItem[String] = TreeNode.random(LEVELS, COUNT)
-    val rootTreeItem: TreeItem[String] = TreeNode.fromEidos
+    val rootTreeItem: TreeItem[String] = TreeNode.random(LEVELS, COUNT)
+//    val rootTreeItem: TreeItem[String] = TreeNode.fromEidos
 
     val treeView = new TreeView(rootTreeItem) {
       selectionModel().selectedItem.onChange { (_, _, newValue) =>
