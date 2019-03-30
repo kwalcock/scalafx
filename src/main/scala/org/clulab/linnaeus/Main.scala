@@ -28,6 +28,6 @@ object Main extends JFXApp {
 //  val cytoscapeStage: GraphStage = new CytoscapeStage(stageManager)
 //  val fxGraph: GraphStage = new FXGraphStage(stageManager)
 //  val graphStreamStage: GraphStage = new GraphStreamStage(stageManager)
-  val jGraphTStage: GraphStage = new JGraphTStage(stageManager)
-//  val jungStage: GraphStage = new JUNGStage(stageManager)
+//  val jGraphTStage: GraphStage = new JGraphTStage(stageManager)
+  val jungStage: GraphStage = new JUNGStage(stageManager)
 }
