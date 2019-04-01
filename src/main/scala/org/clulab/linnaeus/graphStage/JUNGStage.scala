@@ -19,8 +19,8 @@ import scalafx.scene.Scene
 import scalafx.scene.layout.BorderPane
 
 class JUNGStage(stageManager: StageManager) extends GraphStage(stageManager) {
-  val WIDTH = 400
-  val HEIGHT = 400
+  val WIDTH = 800
+  val HEIGHT = 800
 
   protected def getGraphFromScratch(): Graph[_, _] = SimpleGraphDraw.getGraph()
 

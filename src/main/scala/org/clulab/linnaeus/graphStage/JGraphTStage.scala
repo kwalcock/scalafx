@@ -25,8 +25,8 @@ import scala.collection.mutable
 class JGraphTStage(stageManager: StageManager) extends GraphStage(stageManager) {
   protected val ONTOLOGY_PATH =  "/org/clulab/wm/eidos/english/ontologies/un_ontology.yml"
 
-  val WIDTH = 400
-  val HEIGHT = 400
+  val WIDTH = 800
+  val HEIGHT = 800
 
   protected def newGraphAdapterFromScratch(): JGraphXAdapter[String, DefaultEdge] = {
     val graph = new DefaultListenableGraph[String, DefaultEdge](new DefaultDirectedGraph[String, DefaultEdge](classOf[DefaultEdge]))
