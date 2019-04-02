@@ -39,6 +39,9 @@ libraryDependencies ++= {
     "net.sf.jung" % "jung-algorithms"    % "2.1.1",
     "net.sf.jung" % "jung-io"            % "2.1.1",
     "net.sf.jung" % "jung-visualization" % "2.1.1",
-    "net.sf.jung" % "jung-samples"       % "2.1.1"
+    "net.sf.jung" % "jung-samples"       % "2.1.1",
+
+    "guru.nidi" % "graphviz-java" % "0.8.3",
+    "org.apache.xmlgraphics" % "batik-rasterizer" % "1.10"
   )
 }
