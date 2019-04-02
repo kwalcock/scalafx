@@ -1,19 +1,19 @@
 # scalafx
 
-Here's what it looks like so far:
+## Sample GraphStages
 
-This is a collection of possibilities for the tree/graph view:
+This growing collection shows possibilities for the tree/graph view:
 
-![GraphVizStage](/doc/GraphViz.png?raw=True")
+* GraphViz with default layout rendered to PNG graphic ![GraphVizStage](/doc/GraphViz.png?raw=True")
 
-![JGraphTStage](/doc/JGraphT.png?raw=True")
+* JGraphT with mxCompactTreeLayout rendered to JGraphX ![JGraphTStage](/doc/JGraphT.png?raw=True")
 
-![JUNGStage](/doc/JUNG.png?raw=True")
+* JUNG with SparseMultigraph rendered to Swing component ![JUNGStage](/doc/JUNG.png?raw=True")
 
-This has a UN ontology loaded, 20190325
+## Sample Stages
 
-![UNTreeData](/doc/Linnaeus20190325a.PNG?raw=True")
+These images show how the various windows/panels/stages might be combined:
 
-This is the original version, 20190319
+* This has a UN ontology loaded, dated 20190325<br>![UNTreeData](/doc/Linnaeus20190325a.PNG?raw=True")
 
-![RandomData](/doc/Linnaeus20190319.PNG?raw=True")
+* This is the original version, dated 20190319<br>![RandomData](/doc/Linnaeus20190319.PNG?raw=True")
