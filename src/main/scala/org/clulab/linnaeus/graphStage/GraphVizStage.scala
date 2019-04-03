@@ -9,7 +9,7 @@ import guru.nidi.graphviz.engine.Graphviz
 import guru.nidi.graphviz.model.Factory
 import guru.nidi.graphviz.model.Graph
 import org.clulab.linnaeus.StageManager
-import org.clulab.linnaeus.model.OntologyTree
+import org.clulab.linnaeus.model.reader.EidosReader
 import org.clulab.linnaeus.model.OntologyTreeItem
 import scalafx.Includes._
 import scalafx.scene.image.Image
@@ -22,7 +22,7 @@ class GraphVizStage(stageManager: StageManager) extends GraphStage(stageManager)
   val HEIGHT = 800
 
   protected def getGraphFromEidos(): Graph = {
-    val ontologyRootItem = OntologyTree.mkTree()
+    val ontologyRootItem = EidosReader.read()
     var graph = Factory
         .graph("example1")
         .directed()

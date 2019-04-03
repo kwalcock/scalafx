@@ -6,7 +6,7 @@ import org.clulab.linnaeus.StageManager
 import com.mxgraph.layout.mxCircleLayout
 import com.mxgraph.layout.mxCompactTreeLayout
 import com.mxgraph.swing.mxGraphComponent
-import org.clulab.linnaeus.model.OntologyTree
+import org.clulab.linnaeus.model.reader.EidosReader
 import org.clulab.linnaeus.model.OntologyTreeItem
 import org.jgrapht.ListenableGraph
 import org.jgrapht.ext.JGraphXAdapter
@@ -55,7 +55,7 @@ class JGraphTStage(stageManager: StageManager) extends GraphStage(stageManager) 
   }
 
   protected def newGraphAdapterFromEidos(): JGraphXAdapter[OntologyTreeItem, MyEdge] = {
-    val ontologyRootItem = OntologyTree.mkTree()
+    val ontologyRootItem = EidosReader.read()
 //    val graph = new DefaultListenableGraph[OntologyTreeItem, DefaultEdge](new DefaultDirectedGraph[OntologyTreeItem, DefaultEdge](classOf[DefaultEdge]))
     val graph = new DefaultListenableGraph[OntologyTreeItem, MyEdge](new DefaultDirectedGraph[OntologyTreeItem, MyEdge](classOf[MyEdge]))
     val jgxAdapter = new JGraphXAdapter[OntologyTreeItem, MyEdge](graph)

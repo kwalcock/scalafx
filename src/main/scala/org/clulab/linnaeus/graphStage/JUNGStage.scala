@@ -11,7 +11,7 @@ import edu.uci.ics.jung.visualization.VisualizationViewer
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller
 
 import org.clulab.linnaeus.StageManager
-import org.clulab.linnaeus.model.OntologyTree
+import org.clulab.linnaeus.model.reader.EidosReader
 import org.clulab.linnaeus.model.OntologyTreeItem
 
 import scalafx.embed.swing.SwingNode
@@ -25,7 +25,7 @@ class JUNGStage(stageManager: StageManager) extends GraphStage(stageManager) {
   protected def getGraphFromScratch(): Graph[_, _] = SimpleGraphDraw.getGraph()
 
   protected def getGraphFromEidos(): SparseMultigraph[OntologyTreeItem, String] = {
-    val ontologyRootItem = OntologyTree.mkTree()
+    val ontologyRootItem = EidosReader.read()
     val graph = new SparseMultigraph[OntologyTreeItem, String]()
 
     def addChildren(ontologyTreeItem: OntologyTreeItem, remaining: Int): Unit = {
