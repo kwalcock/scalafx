@@ -1,5 +1,12 @@
 # scalafx
 
+## Sample External Applications
+
+Some existing applications include complete source and architectures that might allow manipulation into what we want:
+
+* Gephi with UN ontology ![GephiApp](/doc/Gephi.png?raw=True")
+
+
 ## Sample GraphStages
 
 This growing collection shows possibilities for the tree/graph view:
@@ -9,6 +16,7 @@ This growing collection shows possibilities for the tree/graph view:
 * JGraphT with mxCompactTreeLayout rendered to JGraphX ![JGraphTStage](/doc/JGraphT.png?raw=True")
 
 * JUNG with SparseMultigraph rendered to Swing component ![JUNGStage](/doc/JUNG.png?raw=True")
+
 
 ## Sample Stages
 
