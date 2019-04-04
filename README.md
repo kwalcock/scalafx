@@ -11,11 +11,13 @@ Some existing applications include complete source and architectures that might 
 
 This growing collection shows possibilities for the tree/graph view:
 
+* GraphStream with default layout rendered to a Swing component ![GraphStreamStage](/doc/GraphStream.png?raw=True")
+
 * GraphViz with default layout rendered to PNG graphic ![GraphVizStage](/doc/GraphViz.png?raw=True")
 
 * JGraphT with mxCompactTreeLayout rendered to JGraphX ![JGraphTStage](/doc/JGraphT.png?raw=True")
 
-* JUNG with SparseMultigraph rendered to Swing component ![JUNGStage](/doc/JUNG.png?raw=True")
+* JUNG with SparseMultigraph rendered to a Swing component ![JUNGStage](/doc/JUNG.png?raw=True")
 
 
 ## Sample Stages
