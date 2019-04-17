@@ -4,7 +4,9 @@
 
 Some existing applications include complete source and architectures that might allow manipulation into what we want:
 
-* Gephi with UN ontology ![GephiApp](/doc/Gephi.png?raw=True")
+* Gephi with larger, extracted, taxonomy ![GephiAppTax](/doc/taxonomy3.png?raw=True")
+
+* Gephi with UN ontology ![GephiAppUN](/doc/Gephi.png?raw=True")
 
 
 ## Sample GraphStages
