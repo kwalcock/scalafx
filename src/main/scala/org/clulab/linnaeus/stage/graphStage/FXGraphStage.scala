@@ -1,9 +1,6 @@
-package org.clulab.linnaeus.graphStage
+package org.clulab.linnaeus.stage.graphStage
 
 import org.abego.treelayout.Configuration.Location
-
-import org.clulab.linnaeus.StageManager
-
 import com.fxgraph.cells.RectangleCell
 import com.fxgraph.cells.TriangleCell
 import com.fxgraph.edges.CorneredEdge
@@ -13,7 +10,7 @@ import com.fxgraph.graph.Graph
 import com.fxgraph.graph.ICell
 import com.fxgraph.graph.Model
 import com.fxgraph.layout.AbegoTreeLayout
-
+import org.clulab.linnaeus.stage.StageManager
 import scalafx.Includes._
 import scalafx.geometry.Orientation
 import scalafx.scene.Scene

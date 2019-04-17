@@ -1,6 +1,6 @@
-package org.clulab.linnaeus.graphStage
+package org.clulab.linnaeus.stage.graphStage
 
-import org.clulab.linnaeus.StageManager
+import org.clulab.linnaeus.stage.StageManager
 import org.graphstream.ui.graphicGraph.GraphicGraph
 import org.graphstream.ui.swingViewer.DefaultView
 import org.graphstream.ui.swingViewer.basicRenderer.SwingBasicGraphRenderer

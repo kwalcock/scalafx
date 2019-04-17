@@ -1,4 +1,4 @@
-package org.clulab.linnaeus.graphStage
+package org.clulab.linnaeus.stage.graphStage
 
 import edu.uci.ics.jung.algorithms.layout.FRLayout
 import edu.uci.ics.jung.algorithms.layout.SpringLayout
@@ -9,11 +9,9 @@ import edu.uci.ics.jung.graph.UndirectedSparseGraph
 import edu.uci.ics.jung.samples.SimpleGraphDraw
 import edu.uci.ics.jung.visualization.VisualizationViewer
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller
-
-import org.clulab.linnaeus.StageManager
 import org.clulab.linnaeus.model.reader.EidosReader
 import org.clulab.linnaeus.model.OntologyTreeItem
-
+import org.clulab.linnaeus.stage.StageManager
 import scalafx.embed.swing.SwingNode
 import scalafx.scene.Scene
 import scalafx.scene.layout.BorderPane

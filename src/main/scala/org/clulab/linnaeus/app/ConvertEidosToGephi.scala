@@ -2,6 +2,6 @@ package org.clulab.linnaeus.app
 
 import org.clulab.linnaeus.model.converter.EidosToGephiConverter
 
-object Convert extends App {
-  EidosToGephiConverter.convert()
+object ConvertEidosToGephi extends App {
+  EidosToGephiConverter.convert("test")
 }

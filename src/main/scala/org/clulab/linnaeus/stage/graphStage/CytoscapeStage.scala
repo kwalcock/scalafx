@@ -1,4 +1,4 @@
-package org.clulab.linnaeus.graphStage
+package org.clulab.linnaeus.stage.graphStage
 
 import java.util.UUID
 
@@ -12,7 +12,7 @@ import info.gianlucacosta.eighthbridge.graphs.point2point.EdgeBinding
 import info.gianlucacosta.eighthbridge.graphs.point2point.visual.DefaultVisualGraph
 import info.gianlucacosta.eighthbridge.graphs.point2point.visual.DefaultVisualLink
 import info.gianlucacosta.eighthbridge.graphs.point2point.visual.DefaultVisualVertex
-import org.clulab.linnaeus.StageManager
+import org.clulab.linnaeus.stage.StageManager
 import scalafx.scene.Scene
 
 class CytoscapeStage(stageManager: StageManager) extends GraphStage(stageManager) {

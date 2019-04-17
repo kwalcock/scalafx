@@ -1,10 +1,8 @@
-package org.clulab.linnaeus.graphStage
+package org.clulab.linnaeus.stage.graphStage
 
 import com.mxgraph.swing.mxGraphComponent
 import com.mxgraph.view.mxGraph
-
-import org.clulab.linnaeus.StageManager
-
+import org.clulab.linnaeus.stage.StageManager
 import scalafx.Includes._
 import scalafx.embed.swing.SwingNode
 import scalafx.scene.Scene

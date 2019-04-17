@@ -1,4 +1,4 @@
-package org.clulab.linnaeus.graphStage
+package org.clulab.linnaeus.stage.graphStage
 
 import java.io.File
 
@@ -8,9 +8,9 @@ import guru.nidi.graphviz.engine.Format
 import guru.nidi.graphviz.engine.Graphviz
 import guru.nidi.graphviz.model.Factory
 import guru.nidi.graphviz.model.Graph
-import org.clulab.linnaeus.StageManager
 import org.clulab.linnaeus.model.reader.EidosReader
 import org.clulab.linnaeus.model.OntologyTreeItem
+import org.clulab.linnaeus.stage.StageManager
 import scalafx.Includes._
 import scalafx.scene.image.Image
 import scalafx.scene.image.ImageView

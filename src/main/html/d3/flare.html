@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="d3.js" charset="utf-8"></script>
+		<script src="flare.json" charset="utf-8"></script>
+		<script>
+			function doit() {
+				function chart() {
+					var width = 932;
+					var data = elements;
+					var radius = width / 2;
+					var svg = d3
+						.select("#my_dataviz")
+						.append("svg")
+						.style("width", "100%")
+						.style("height", "auto")
+						.style("padding", "10px")
+						.style("box-sizing", "border-box")
+						.style("font", "10px sans-serif");
+					var cluster = d3
+						.cluster()
+						.size([2 * Math.PI, radius - 100])
+					
+					var root = d3.hierarchy(data).sort((a, b) => (a.height - b.height) || a.data.name.localeCompare(b.data.name));
+					cluster(root);
+					
+					var g = svg.append("g");
+					var link = g.append("g")
+						.attr("fill", "none")
+						.attr("stroke", "#555")
+						.attr("stroke-opacity", 0.4)
+						.attr("stroke-width", 1.5)
+						.selectAll("path")
+						.data(root.links())
+						.enter().append("path")
+						.attr("d", d3.linkRadial()
+							.angle(d => d.x)
+							.radius(d => d.y)
+						);
+					var node = g.append("g")
+						.attr("stroke-linejoin", "round")
+						.attr("stroke-width", 3)
+						.selectAll("g")
+						.data(root.descendants().reverse())
+						.enter().append("g")
+						.attr("transform", d => `
+							rotate(${d.x * 180 / Math.PI - 90})
+							translate(${d.y},0)
+						`);
+					
+					node.append("circle")
+						.attr("fill", d => d.children ? "#555" : "#999")
+						.attr("r", 2.5);
+					node.append("text")
+						.attr("dy", "0.31em")
+						.attr("x", d => d.x < Math.PI === !d.children ? 6 : -6)
+						.attr("text-anchor", d => d.x < Math.PI === !d.children ? "start" : "end")
+						.attr("transform", d => d.x >= Math.PI ? "rotate(180)" : null)
+						.text(d => d.data.name)
+						.filter(d => d.children)
+						.clone(true).lower()
+						.attr("stroke", "white");
+					
+					document.body.appendChild(svg.node());
+
+					var box = g.node().getBBox();
+
+					svg
+						.attr("width", box.width)
+						.attr("height", box.height)
+						.attr("viewBox", `${box.x} ${box.y} ${box.width} ${box.height}`);
+
+					return svg.node();
+				}
+				chart()
+			}
+		</script>
+	</head>
+	<body>
+		<h1>Flare</h1>
+		<div id="my_dataviz"></div>
+		<script>
+			doit()
+		</script>
+	</body>
+</html>

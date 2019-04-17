@@ -1,19 +1,18 @@
-package org.clulab.linnaeus.graphStage
+package org.clulab.linnaeus.stage.graphStage
 
 import com.mxgraph.swing.mxGraphComponent
 import com.mxgraph.view.mxGraph
-import org.clulab.linnaeus.StageManager
 import com.mxgraph.layout.mxCircleLayout
 import com.mxgraph.layout.mxCompactTreeLayout
 import com.mxgraph.swing.mxGraphComponent
 import org.clulab.linnaeus.model.reader.EidosReader
 import org.clulab.linnaeus.model.OntologyTreeItem
+import org.clulab.linnaeus.stage.StageManager
 import org.jgrapht.ListenableGraph
 import org.jgrapht.ext.JGraphXAdapter
 import org.jgrapht.graph.DefaultDirectedGraph
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.DefaultListenableGraph
-
 import scalafx.Includes._
 import scalafx.embed.swing.SwingNode
 import scalafx.scene.Scene

@@ -1,4 +1,4 @@
-package org.clulab.linnaeus.graphStage
+package org.clulab.linnaeus.stage.graphStage
 
 import info.gianlucacosta.eighthbridge.fx.canvas.GraphCanvas
 import info.gianlucacosta.eighthbridge.fx.canvas.basic.DefaultBasicLink
@@ -13,11 +13,9 @@ import info.gianlucacosta.eighthbridge.graphs.point2point.EdgeBinding
 import info.gianlucacosta.eighthbridge.graphs.point2point.visual.DefaultVisualGraph
 import info.gianlucacosta.eighthbridge.graphs.point2point.visual.DefaultVisualLink
 import info.gianlucacosta.eighthbridge.graphs.point2point.visual.DefaultVisualVertex
-
 import java.util.UUID
 
-import org.clulab.linnaeus.StageManager
-
+import org.clulab.linnaeus.stage.StageManager
 import scalafx.Includes._
 import scalafx.geometry.Point2D
 import scalafx.scene.Scene
