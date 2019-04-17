@@ -6,8 +6,8 @@ import org.clulab.linnaeus.model.writer.GephiWriter
 
 object EidosToGephiConverter {
 
-  def convert() = {
+  def convert(fileBasename: String) = {
     val root: OntologyTreeItem = EidosReader.read()
-    new GephiWriter("test").write(root)
+    new GephiWriter(fileBasename).write(root)
   }
 }

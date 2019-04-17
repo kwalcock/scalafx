@@ -1,14 +1,12 @@
-package org.clulab.linnaeus
+package org.clulab.linnaeus.stage
 
+import org.clulab.linnaeus.model.TableNode
 import scalafx.Includes._
-
 import scalafx.scene.Scene
 import scalafx.scene.control.TreeItem
 import scalafx.scene.web.WebView
 import scalafx.stage.Stage
 import scalafx.stage.WindowEvent
-
-import org.clulab.linnaeus.model.TableNode
 
 class TextStage(val stageManager: StageManager) extends Stage {
   var currentRelationOpt: Option[TableNode] = None

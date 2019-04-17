@@ -1,16 +1,20 @@
 package org.clulab.linnaeus
 
-import org.clulab.linnaeus.graphStage.CytoscapeStage
-import org.clulab.linnaeus.graphStage.EighthBridgeStage
-import org.clulab.linnaeus.graphStage.FXGraphStage
-import org.clulab.linnaeus.graphStage.GephiStage
-import org.clulab.linnaeus.graphStage.GraphStage
-import org.clulab.linnaeus.graphStage.GraphStreamStage
-import org.clulab.linnaeus.graphStage.GraphVizStage
-import org.clulab.linnaeus.graphStage.JGraphTStage
-import org.clulab.linnaeus.graphStage.JGraphXStage
-import org.clulab.linnaeus.graphStage.JUNGStage
-
+import org.clulab.linnaeus.stage.graphStage.CytoscapeStage
+import org.clulab.linnaeus.stage.graphStage.EighthBridgeStage
+import org.clulab.linnaeus.stage.graphStage.FXGraphStage
+import org.clulab.linnaeus.stage.graphStage.GephiStage
+import org.clulab.linnaeus.stage.graphStage.GraphStage
+import org.clulab.linnaeus.stage.graphStage.GraphStreamStage
+import org.clulab.linnaeus.stage.graphStage.GraphVizStage
+import org.clulab.linnaeus.stage.graphStage.JGraphTStage
+import org.clulab.linnaeus.stage.graphStage.JGraphXStage
+import org.clulab.linnaeus.stage.graphStage.JUNGStage
+import org.clulab.linnaeus.stage.MainStage
+import org.clulab.linnaeus.stage.StageManager
+import org.clulab.linnaeus.stage.TableStage
+import org.clulab.linnaeus.stage.TextStage
+import org.clulab.linnaeus.stage.TreeStage
 import scalafx.application.JFXApp
 import scalafx.application.Platform
 

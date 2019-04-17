@@ -1,11 +1,11 @@
-package org.clulab.linnaeus
+package org.clulab.linnaeus.stage
 
-import org.clulab.linnaeus.graphStage.GraphStage
+import org.clulab.linnaeus.stage.graphStage.GraphStage
+import org.clulab.linnaeus.model.TableNode
 import scalafx.application.Platform
 import scalafx.event.ActionEvent
 import scalafx.scene.control.TreeItem
 import scalafx.stage.WindowEvent
-import org.clulab.linnaeus.model.TableNode
 
 class StageManager {
   var mainStageOpt: Option[MainStage] = None

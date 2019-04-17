@@ -1,14 +1,12 @@
-package org.clulab.linnaeus
+package org.clulab.linnaeus.stage
 
+import org.clulab.linnaeus.model.TreeNode
 import scalafx.Includes._
-
 import scalafx.scene.Scene
 import scalafx.scene.control.TreeItem
 import scalafx.scene.control.TreeView
 import scalafx.stage.Stage
 import scalafx.stage.WindowEvent
-
-import org.clulab.linnaeus.model.TreeNode
 
 class TreeStage(val stageManager: StageManager) extends Stage {
   protected val LEVELS = 10

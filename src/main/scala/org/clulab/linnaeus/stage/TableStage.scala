@@ -1,7 +1,7 @@
-package org.clulab.linnaeus
+package org.clulab.linnaeus.stage
 
+import org.clulab.linnaeus.model.TableNode
 import scalafx.Includes._
-
 import scalafx.beans.property.ObjectProperty
 import scalafx.beans.property.StringProperty
 import scalafx.collections.ObservableBuffer
@@ -10,8 +10,6 @@ import scalafx.scene.control.TableColumn
 import scalafx.scene.control.TableView
 import scalafx.stage.Stage
 import scalafx.stage.WindowEvent
-
-import org.clulab.linnaeus.model.TableNode
 
 class TableStage(val stageManager: StageManager) extends Stage {
   val COUNT = 100000

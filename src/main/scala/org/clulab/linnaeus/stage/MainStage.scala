@@ -1,4 +1,4 @@
-package org.clulab.linnaeus
+package org.clulab.linnaeus.stage
 
 import scalafx.Includes._
 import scalafx.application.JFXApp.PrimaryStage
