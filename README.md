@@ -4,7 +4,7 @@
 
 Some JavaScript libraries draw very nicely onto an HTML canvas.
 
-* D3 with a radial dendrogram of taxonomy.  The multiple root nodes were connected to \<root\> and for nodes with multiple parents, only the first parent was used.  ![D3Taxonomy](/doc/D3Taxonomy.png?raw=True")
+* D3 with a radial dendrogram of taxonomy.  The multiple root nodes were connected to \<root\> and for nodes with multiple parents, only the first parent was used.  ![D3Taxonomy](/doc/D3Taxonomy2.png?raw=True")
 
 * D3 with a radial dendrogram of UN ontology ![D3UN](/doc/D3UN.png?raw=True")
 
