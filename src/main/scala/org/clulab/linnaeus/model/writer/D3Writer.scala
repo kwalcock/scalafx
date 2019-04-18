@@ -1,7 +1,6 @@
 package org.clulab.linnaeus.model.writer
 
-import java.io.PrintWriter
-
+import org.clulab.linnaeus.model.LinnaeusNode
 import org.clulab.linnaeus.model.OntologyTreeItem
 import org.clulab.linnaeus.util.Closer.AutoCloser
 import org.clulab.linnaeus.util.FileUtil
@@ -26,6 +25,30 @@ class D3Writer(val filename: String) {
   }
 
   def write(root: OntologyTreeItem): Unit = {
+    FileUtil.newPrintWriter(filename).autoClose { printWriter =>
+      printWriter.println("var elements = ")
+      val jObject = toJObject(root)
+      val json = JsonMethods.pretty(jObject)
+
+      printWriter.print(json)
+      printWriter.println(";")
+    }
+  }
+
+  protected def toJArrayB(children: List[LinnaeusNode]): JArray = {
+    new JArray(children.map { child =>
+      toJObject(child)
+    })
+  }
+
+  protected def toJObject(node: LinnaeusNode): JObject = {
+    JObject(
+      "name" -> node.toString,
+      "children" -> toJArrayB(node.children.toList)
+    )
+  }
+
+  def write(root: LinnaeusNode): Unit = {
     FileUtil.newPrintWriter(filename).autoClose { printWriter =>
       printWriter.println("var elements = ")
       val jObject = toJObject(root)
