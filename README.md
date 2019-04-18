@@ -1,5 +1,13 @@
 # scalafx
 
+## Sample JavaScript Presentations
+
+Some JavaScript libraries draw very nicely onto an HTML canvas.
+
+* Cytoscape.js with breadthfirst algorithm and circle=false ![CytoscapeLine](/doc/CytoscapeBreadthFirstLine.png?raw=True")
+
+* Cytoscape.js with breadthfirst algorithm and circle=true ![CytoscapeCircle](/doc/CytoscapeBreadthFirstCircle.png?raw=True")
+
 ## Sample External Applications
 
 Some existing applications include complete source and architectures that might allow manipulation into what we want:
