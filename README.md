@@ -16,6 +16,8 @@ Some JavaScript libraries draw very nicely onto an HTML canvas.
 
 Some existing applications include complete source and architectures that might allow manipulation into what we want:
 
+* Cytoscape with the large extracted taxonomy ![CytoscapeAppTaxonomy](/doc/CytoscapeAppTaxonomy.png?raw=True")
+
 * Gephi with larger, extracted, taxonomy ![GephiAppTax](/doc/taxonomy3.png?raw=True")
 
 * Gephi with UN ontology ![GephiAppUN](/doc/Gephi.png?raw=True")
