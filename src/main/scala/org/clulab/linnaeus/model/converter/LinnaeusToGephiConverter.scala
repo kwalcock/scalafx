@@ -6,8 +6,8 @@ import org.clulab.linnaeus.model.writer.GephiWriter
 object LinnaeusToGephiConverter {
 
   def convert(infilename: String, outfileBasename: String) = {
-    val (nodes, edges) = new LinnaeusReader(infilename).read()
+    val nodes = new LinnaeusReader(infilename).read()
 
-    new GephiWriter(outfileBasename).write(nodes, edges)
+    new GephiWriter(outfileBasename).write(nodes)
   }
 }

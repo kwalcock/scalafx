@@ -1,7 +1,6 @@
 package org.clulab.linnaeus.model.reader
 
-import org.clulab.linnaeus.model.SimpleEdge
-import org.clulab.linnaeus.model.SimpleNode
+import org.clulab.linnaeus.model.LinnaeusNode
 import org.clulab.linnaeus.util.Closer.AutoCloser
 import org.clulab.linnaeus.util.FileUtil
 
@@ -9,14 +8,16 @@ import scala.io.Source
 
 class LinnaeusReader(val filename: String, val hasWeights: Boolean = true) {
 
-  def read(): (Seq[SimpleNode], Seq[SimpleEdge]) = {
+  def read(): Seq[LinnaeusNode.Node] = {
     Source.fromFile(filename, FileUtil.utf8).autoClose { source =>
-      var nodes: Seq[SimpleNode] = Seq.empty
-      var edges: Seq[SimpleEdge] = Seq.empty
+      var nodes: Seq[LinnaeusNode.Node] = Seq.empty
+      var nodeMap: Map[String, LinnaeusNode.Node] = Map.empty
 
       source.getLines().zipWithIndex.foreach { case (line, index) =>
-        if (index == 0)
-          nodes = line.split('\t').map(SimpleNode)
+        if (index == 0) {
+          nodes = line.split('\t').map { nodeId => new LinnaeusNode.Node(nodeId) }
+          nodes.foreach { node => nodeMap = nodeMap + (node.data -> node ) }
+        }
         else {
           val (sourceId, targetId) = if (hasWeights) {
             val Array(sourceId, targetId, _) = line.split('\t')
@@ -26,12 +27,15 @@ class LinnaeusReader(val filename: String, val hasWeights: Boolean = true) {
             val Array(sourceId, targetId) = line.split('\t')
             (sourceId, targetId)
           }
-          val edgeId = sourceId + "_" + targetId
+          val parent = nodeMap(sourceId)
+          val child = nodeMap(targetId)
 
-          edges = SimpleEdge(edgeId, sourceId, targetId) +: edges
+          parent.addChild(child)
         }
       }
-      (nodes, edges.reverse)
+
+      val roots = nodes.filter { node => node.isRoot }
+      roots
     }
   }
 }

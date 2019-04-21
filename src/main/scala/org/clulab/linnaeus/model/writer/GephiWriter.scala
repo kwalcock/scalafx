@@ -2,9 +2,8 @@ package org.clulab.linnaeus.model.writer
 
 import java.io.PrintWriter
 
+import org.clulab.linnaeus.model.LinnaeusNode
 import org.clulab.linnaeus.model.OntologyTreeItem
-import org.clulab.linnaeus.model.SimpleEdge
-import org.clulab.linnaeus.model.SimpleNode
 import org.clulab.linnaeus.util.Closer.AutoCloser
 import org.clulab.linnaeus.util.FileUtil
 
@@ -51,42 +50,48 @@ class GephiWriter(val fileBasename: String) {
     writeEdge(root)
   }
 
-  protected def writeNode(node: SimpleNode, printWriter: PrintWriter): Unit = {
-    printWriter.print(node.id)
+  protected def writeNode(printWriter: PrintWriter, node: LinnaeusNode.Node): Unit = {
+    printWriter.print(node.data)
     printWriter.print(",")
-    printWriter.println(node.id)
+    printWriter.println(node.data)
+    node.children.foreach { child =>
+      writeNode(printWriter, child)
+    }
   }
 
-  protected def writeNodes(nodes: Seq[SimpleNode]): Unit = {
+  protected def writeNodes(nodes: Seq[LinnaeusNode.Node]): Unit = {
     val filename = fileBasename + "_nodes.csv"
 
     FileUtil.newPrintWriter(filename).autoClose { printWriter =>
       printWriter.println("id,label")
       nodes.foreach { node =>
-        writeNode(node, printWriter)
+        writeNode(printWriter, node)
       }
     }
   }
 
-  protected def writeEdge(edge: SimpleEdge, printWriter: PrintWriter): Unit = {
-    printWriter.print(edge.sourceId)
-    printWriter.print(",")
-    printWriter.println(edge.targetId)
+  protected def writeEdge(printWriter: PrintWriter, node: LinnaeusNode.Node): Unit = {
+    node.children.foreach { child =>
+      printWriter.print(node.data)
+      printWriter.print(",")
+      printWriter.println(child.data)
+      writeEdge(printWriter, child)
+    }
   }
 
-  protected def writeEdges(edges: Seq[SimpleEdge]): Unit = {
+  protected def writeEdges(nodes: Seq[LinnaeusNode.Node]): Unit = {
     val filename = fileBasename + "_edges.csv"
 
     FileUtil.newPrintWriter(filename).autoClose { printWriter =>
       printWriter.println("Source,Target")
-      edges.foreach { edge =>
-        writeEdge(edge, printWriter)
+      nodes.foreach { node =>
+        writeEdge(printWriter, node)
       }
     }
   }
 
-  def write(nodes: Seq[SimpleNode], edges: Seq[SimpleEdge]): Unit = {
-    writeNodes(nodes)
-    writeEdges(edges)
+  def write(roots: Seq[LinnaeusNode.Node]): Unit = {
+    writeNodes(roots)
+    writeEdges(roots)
   }
 }

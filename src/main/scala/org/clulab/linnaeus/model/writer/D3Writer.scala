@@ -35,20 +35,20 @@ class D3Writer(val filename: String) {
     }
   }
 
-  protected def toJArrayB(children: List[LinnaeusNode]): JArray = {
+  protected def toJArrayB(children: List[LinnaeusNode.Node]): JArray = {
     new JArray(children.map { child =>
       toJObject(child)
     })
   }
 
-  protected def toJObject(node: LinnaeusNode): JObject = {
+  protected def toJObject(node: LinnaeusNode.Node): JObject = {
     JObject(
       "name" -> node.toString,
       "children" -> toJArrayB(node.children.toList)
     )
   }
 
-  def write(root: LinnaeusNode): Unit = {
+  def write(root: LinnaeusNode.Node): Unit = {
     FileUtil.newPrintWriter(filename).autoClose { printWriter =>
       printWriter.println("var elements = ")
       val jObject = toJObject(root)
