@@ -7,7 +7,7 @@ import org.clulab.linnaeus.util.FileUtil
 
 import scala.io.Source
 
-class LinnaeusReader(val filename: String) {
+class LinnaeusReader(val filename: String, val hasWeights: Boolean = true) {
 
   def read(): (Seq[SimpleNode], Seq[SimpleEdge]) = {
     Source.fromFile(filename, FileUtil.utf8).autoClose { source =>
@@ -18,7 +18,14 @@ class LinnaeusReader(val filename: String) {
         if (index == 0)
           nodes = line.split('\t').map(SimpleNode)
         else {
-          val Array(sourceId, targetId, _) = line.split('\t')
+          val (sourceId, targetId) = if (hasWeights) {
+            val Array(sourceId, targetId, _) = line.split('\t')
+            (sourceId, targetId)
+          }
+          else {
+            val Array(sourceId, targetId) = line.split('\t')
+            (sourceId, targetId)
+          }
           val edgeId = sourceId + "_" + targetId
 
           edges = SimpleEdge(edgeId, sourceId, targetId) +: edges
