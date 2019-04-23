@@ -7,8 +7,8 @@ import org.clulab.wm.eidos.groundings.OntologyRootNode
 
 class EidosNode(id: Int, ontologyNode: OntologyNode) extends DirectedGraphNode[(Int, OntologyNode)]((id, ontologyNode)) {
 
-  def getId: Int = data._1
-  def getOntologyNode = data._2
+  def getId: Int = value._1
+  def getOntologyNode = value._2
 
   def ontologyParentNode: Option[OntologyNode] = getOntologyNode match {
     case node: OntologyLeafNode => Option(node.parent)

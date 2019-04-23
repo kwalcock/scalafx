@@ -16,7 +16,7 @@ class LinnaeusReader(val filename: String, val hasWeights: Boolean = true) {
       source.getLines().zipWithIndex.foreach { case (line, index) =>
         if (index == 0) {
           nodes = line.split('\t').map { nodeId => new LinnaeusNode.Node(nodeId) }
-          nodes.foreach { node => nodeMap = nodeMap + (node.data -> node ) }
+          nodes.foreach { node => nodeMap = nodeMap + (node.value -> node ) }
         }
         else {
           val (sourceId, targetId) = if (hasWeights) {

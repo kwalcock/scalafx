@@ -1,5 +1,5 @@
 package org.clulab.linnaeus.model
 
-trait Identifyable {
-  def getId: Int
+trait Identifyable[IdentityType] {
+  def getId: IdentityType
 }

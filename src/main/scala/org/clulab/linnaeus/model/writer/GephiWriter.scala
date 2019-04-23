@@ -44,16 +44,16 @@ class GephiWriter(val fileBasename: String) {
   }
 
   protected def writeNodeLinnaeus(printWriter: PrintWriter, node: LinnaeusNode.Node): Unit = {
-    printWriter.print(node.data)
+    printWriter.print(node.value)
     printWriter.print(",")
-    printWriter.println(node.data)
+    printWriter.println(node.value)
   }
 
   protected def writeEdgesLinnaeus(printWriter: PrintWriter, node: LinnaeusNode.Node): Unit = {
     node.children.foreach { child =>
-      printWriter.print(node.data)
+      printWriter.print(node.value)
       printWriter.print(",")
-      printWriter.println(child.data)
+      printWriter.println(child.value)
     }
   }
 

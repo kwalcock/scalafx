@@ -30,9 +30,9 @@ class SifWriter(val filename: String) {
 
   protected def writeNodeLinnaeus(printWriter: PrintWriter)(node: LinnaeusNode.Node): Boolean = {
     node.children.foreach { child =>
-      printWriter.print(node.data.replace(' ', '_'))
+      printWriter.print(node.value.replace(' ', '_'))
       printWriter.print(" is_a_hypernym_of ")
-      printWriter.println(child.data.replace(' ', '_'))
+      printWriter.println(child.value.replace(' ', '_'))
     }
     false
   }

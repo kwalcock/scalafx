@@ -12,12 +12,12 @@ class CytoscapeWriter(val filename: String) {
   protected def writeNode(printWriter: PrintWriter, node: LinnaeusNode.Node, isFirst: Boolean): Unit = {
     if (!isFirst)
       printWriter.println(",")
-    printWriter.print(s"""\t{data: {id: "${node.data}"}}""")
+    printWriter.print(s"""\t{data: {id: "${node.value}"}}""")
     node.children.foreach { child =>
-      val id = node.data + "_" + child.data
+      val id = node.value + "_" + child.value
 
       writeNode(printWriter, child, false)
-      printWriter.print(s""",\n\t{data: {id: "${id}", source: "${node.data}", target: "${child.data}"}}""")
+      printWriter.print(s""",\n\t{data: {id: "${id}", source: "${node.value}", target: "${child.value}"}}""")
     }
   }
 
