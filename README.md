@@ -1,5 +1,13 @@
 # scalafx
 
+## Application Extensions
+
+A pair of the applications, Gephi and Cytoscape, allow themselves to be extended.
+
+* Cytoscape with Linnaeus extension  ![CytoscapeAppLinnaeus](/doc/CytoscapeAppLinnaeus.png?raw=True)
+
+
+
 ## Sample JavaScript Presentations
 
 Some JavaScript libraries draw very nicely onto an HTML canvas.
