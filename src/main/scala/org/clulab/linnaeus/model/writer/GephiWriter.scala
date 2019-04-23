@@ -3,95 +3,76 @@ package org.clulab.linnaeus.model.writer
 import java.io.PrintWriter
 
 import org.clulab.linnaeus.model.LinnaeusNode
-import org.clulab.linnaeus.model.OntologyTreeItem
+import org.clulab.linnaeus.model.EidosNode
 import org.clulab.linnaeus.util.Closer.AutoCloser
 import org.clulab.linnaeus.util.FileUtil
 
 class GephiWriter(val fileBasename: String) {
 
-  protected def writeNode(item: OntologyTreeItem, printWriter: PrintWriter): Unit = {
-    printWriter.print(item.id)
+  protected def writeNodeEidos(printWriter: PrintWriter, node: EidosNode.Node): Unit = {
+    printWriter.print(node.getId)
     printWriter.print(",")
     // Hack for CSV file
-    printWriter.println(item.toString.replace(',', ';'))
-
-    item.children.foreach(writeNode(_, printWriter))
+    printWriter.println(node.toString.replace(',', ';'))
   }
 
-  protected def writeNode(root: OntologyTreeItem): Unit = {
-    val filename = fileBasename + "_nodes.csv"
-
-    FileUtil.newPrintWriter(filename).autoClose { printWriter =>
-      printWriter.println("id,label")
-      writeNode(root, printWriter)
-    }
-  }
-
-  protected def writeEdge(item: OntologyTreeItem, printWriter: PrintWriter): Unit = {
-    item.children.foreach { child =>
-      printWriter.print(child.id)
-      printWriter.print(",")
-      printWriter.println(item.id)
-      writeEdge(child, printWriter)
-    }
-  }
-
-  protected def writeEdge(root: OntologyTreeItem): Unit = {
-    val filename = fileBasename + "_edges.csv"
-
-    FileUtil.newPrintWriter(filename).autoClose { printWriter =>
-      printWriter.println("Source,Target")
-      writeEdge(root, printWriter)
-    }
-  }
-
-  def write(root: OntologyTreeItem): Unit = {
-    writeNode(root)
-    writeEdge(root)
-  }
-
-  protected def writeNode(printWriter: PrintWriter, node: LinnaeusNode.Node): Unit = {
-    printWriter.print(node.data)
-    printWriter.print(",")
-    printWriter.println(node.data)
+  protected def writeEdgesEidos(printWriter: PrintWriter, node: EidosNode.Node): Unit = {
     node.children.foreach { child =>
-      writeNode(printWriter, child)
+      printWriter.print(child.asInstanceOf[EidosNode.Node].getId)
+      printWriter.print(",")
+      printWriter.println(node.getId)
     }
   }
 
-  protected def writeNodes(nodes: Seq[LinnaeusNode.Node]): Unit = {
-    val filename = fileBasename + "_nodes.csv"
+  protected def writeNodeAndEdgesEidos(nodePrintWriter: PrintWriter, edgePrintWriter: PrintWriter)(node: EidosNode.Node): Boolean = {
+    writeNodeEidos(nodePrintWriter, node)
+    writeEdgesEidos(edgePrintWriter, node)
+    false
+  }
 
-    FileUtil.newPrintWriter(filename).autoClose { printWriter =>
-      printWriter.println("id,label")
-      nodes.foreach { node =>
-        writeNode(printWriter, node)
+  def writeEidos(roots: Seq[EidosNode.Node]): Unit = {
+    val nodeFilename = fileBasename + "_nodes.csv"
+    val edgeFilename = fileBasename + "_edges.csv"
+
+    FileUtil.newPrintWriter(nodeFilename).autoClose { nodePrintWriter =>
+      nodePrintWriter.println("id,label")
+      FileUtil.newPrintWriter(edgeFilename).autoClose { edgePrintWriter =>
+        edgePrintWriter.println ("Source,Target")
+        roots.foreach { root => root.foreach(writeNodeAndEdgesEidos(nodePrintWriter, edgePrintWriter)) }
       }
     }
   }
 
-  protected def writeEdge(printWriter: PrintWriter, node: LinnaeusNode.Node): Unit = {
+  protected def writeNodeLinnaeus(printWriter: PrintWriter, node: LinnaeusNode.Node): Unit = {
+    printWriter.print(node.data)
+    printWriter.print(",")
+    printWriter.println(node.data)
+  }
+
+  protected def writeEdgesLinnaeus(printWriter: PrintWriter, node: LinnaeusNode.Node): Unit = {
     node.children.foreach { child =>
       printWriter.print(node.data)
       printWriter.print(",")
       printWriter.println(child.data)
-      writeEdge(printWriter, child)
     }
   }
 
-  protected def writeEdges(nodes: Seq[LinnaeusNode.Node]): Unit = {
-    val filename = fileBasename + "_edges.csv"
+  protected def writeNodeAndEdgesLinnaeus(nodePrintWriter: PrintWriter, edgePrintWriter: PrintWriter)(node: LinnaeusNode.Node): Boolean = {
+    writeNodeLinnaeus(nodePrintWriter, node)
+    writeEdgesLinnaeus(edgePrintWriter, node)
+    false
+  }
 
-    FileUtil.newPrintWriter(filename).autoClose { printWriter =>
-      printWriter.println("Source,Target")
-      nodes.foreach { node =>
-        writeEdge(printWriter, node)
+  def writeLinnaeus(roots: Seq[LinnaeusNode.Node]): Unit = {
+    val nodeFilename = fileBasename + "_nodes.csv"
+    val edgeFilename = fileBasename + "_edges.csv"
+
+    FileUtil.newPrintWriter(nodeFilename).autoClose { nodePrintWriter =>
+      nodePrintWriter.println("id,label")
+      FileUtil.newPrintWriter(edgeFilename).autoClose { edgePrintWriter =>
+        edgePrintWriter.println("Source,Target")
+        roots.foreach { root => root.foreach(writeNodeAndEdgesLinnaeus(nodePrintWriter, edgePrintWriter)) }
       }
     }
-  }
-
-  def write(roots: Seq[LinnaeusNode.Node]): Unit = {
-    writeNodes(roots)
-    writeEdges(roots)
   }
 }

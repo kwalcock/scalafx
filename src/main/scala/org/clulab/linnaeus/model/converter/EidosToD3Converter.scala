@@ -1,13 +1,15 @@
 package org.clulab.linnaeus.model.converter
 
-import org.clulab.linnaeus.model.OntologyTreeItem
+import org.clulab.linnaeus.model.EidosNode
+import org.clulab.linnaeus.model.EidosNode
 import org.clulab.linnaeus.model.reader.EidosReader
 import org.clulab.linnaeus.model.writer.D3Writer
 
 object EidosToD3Converter {
 
-  def convert(filename: String) = {
-    val root: OntologyTreeItem = EidosReader.read()
-    new D3Writer(filename).write(root)
+  def convert(resourceName: String, filename: String) = {
+    val root: EidosNode.Node = EidosReader.read(resourceName)
+
+    new D3Writer(filename).writeEidos(root)
   }
 }

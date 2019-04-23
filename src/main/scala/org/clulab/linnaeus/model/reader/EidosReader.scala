@@ -1,6 +1,6 @@
 package org.clulab.linnaeus.model.reader
 
-import org.clulab.linnaeus.model.OntologyTreeItem
+import org.clulab.linnaeus.model.EidosNode
 import org.clulab.wm.eidos.EidosSystem
 import org.clulab.wm.eidos.groundings.OntologyNode
 import org.clulab.wm.eidos.groundings.TreeDomainOntology.TreeDomainOntologyBuilder
@@ -9,7 +9,6 @@ import scala.annotation.tailrec
 import scala.collection.mutable
 
 object EidosReader {
-  protected val ONTOLOGY_PATH =  "/org/clulab/wm/eidos/english/ontologies/un_ontology.yml"
 
   protected def indexer(start: Int): () => Int = {
     var value = start
@@ -19,18 +18,18 @@ object EidosReader {
       value += 1
       result
     }
-    next _
+    next
   }
 
   @tailrec
-  protected final def read(nextId: () => Int, treeItems: Seq[OntologyTreeItem], ontologyParentNodeToOntologyTreeItemMap: mutable.Map[OntologyNode, OntologyTreeItem]): Unit = {
-    val newParentItems = treeItems.flatMap { ontologyTreeItem =>
-      val ontologyParentNodeOpt = ontologyTreeItem.ontologyParentNode
+  protected final def read(nextId: () => Int, treeItems: Seq[EidosNode], ontologyParentNodeToOntologyTreeItemMap: mutable.Map[OntologyNode, EidosNode]): Unit = {
+    val newParentItems = treeItems.flatMap { eidosNode =>
+      val ontologyParentNodeOpt = eidosNode.ontologyParentNode
       val parentItemOpt = ontologyParentNodeOpt.flatMap { ontologyParentNode =>
-        val parentItem = ontologyParentNodeToOntologyTreeItemMap.getOrElseUpdate(ontologyParentNode, OntologyTreeItem(nextId(), ontologyParentNode))
+        val parentItem = ontologyParentNodeToOntologyTreeItemMap.getOrElseUpdate(ontologyParentNode, new EidosNode.Node(nextId(), ontologyParentNode))
         val isNewParentItem = parentItem.children.isEmpty
 
-        parentItem.children = parentItem.children :+ ontologyTreeItem
+        parentItem.children = parentItem.children :+ eidosNode
         if (isNewParentItem) Some(parentItem)
         else None
       }
@@ -42,31 +41,31 @@ object EidosReader {
       read(nextId, newParentItems, ontologyParentNodeToOntologyTreeItemMap)
   }
 
-  def read(): OntologyTreeItem = {
+  def read(path: String): EidosNode.Node = {
     val nextId = indexer(0)
     val eidosSystem = new EidosSystem()
     val proc = eidosSystem.proc
     val canonicalizer = eidosSystem.canonicalizer
     val filter = true
-    val treeDomainOntology = new TreeDomainOntologyBuilder(proc, canonicalizer, filter).buildFromPath(ONTOLOGY_PATH)
-    val ontologyTreeItems = treeDomainOntology.ontologyNodes.map(OntologyTreeItem(nextId(), _))
-    val ontologyParentNodeToOntologyTreeItemMap = mutable.Map.empty[OntologyNode, OntologyTreeItem]
+    val treeDomainOntology = new TreeDomainOntologyBuilder(proc, canonicalizer, filter).buildFromPath(path)
+    val eidosNodes = treeDomainOntology.ontologyNodes.map(new EidosNode.Node(nextId(), _))
+    val ontologyNodeToEidosNodeMap = mutable.Map.empty[OntologyNode, EidosNode.Node]
 
 
-    val newParentItems = ontologyTreeItems.flatMap { ontologyTreeItem =>
+    val newParentItems = eidosNodes.flatMap { ontologyTreeItem =>
       val ontologyNode = ontologyTreeItem.ontologyParentNode.get
-      val parentItem = ontologyParentNodeToOntologyTreeItemMap.getOrElseUpdate(ontologyNode, OntologyTreeItem(nextId(), ontologyNode))
+      val parentItem = ontologyNodeToEidosNodeMap.getOrElseUpdate(ontologyNode, new EidosNode.Node(nextId(), ontologyNode))
       val isNewParentItem = parentItem.children.isEmpty
 
       parentItem.children = parentItem.children :+ ontologyTreeItem
       if (isNewParentItem) Some(parentItem)
       else None
     }
-    read(nextId, newParentItems, ontologyParentNodeToOntologyTreeItemMap)
+    read(nextId, newParentItems, ontologyNodeToEidosNodeMap)
 
-    val ontologyParentNodeToParentItemOpt = ontologyParentNodeToOntologyTreeItemMap.find { case (ontologyParentNode, _) =>
+    val ontologyNodeToEidosNodeOpt = ontologyNodeToEidosNodeMap.find { case (ontologyParentNode, _) =>
       ontologyParentNode.isRoot
     }
-    ontologyParentNodeToParentItemOpt.get._2.children.head
+    ontologyNodeToEidosNodeOpt.get._2.children.head.asInstanceOf[EidosNode.Node]
   }
 }

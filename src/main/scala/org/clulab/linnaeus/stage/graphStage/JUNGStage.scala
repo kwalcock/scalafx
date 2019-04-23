@@ -10,7 +10,7 @@ import edu.uci.ics.jung.samples.SimpleGraphDraw
 import edu.uci.ics.jung.visualization.VisualizationViewer
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller
 import org.clulab.linnaeus.model.reader.EidosReader
-import org.clulab.linnaeus.model.OntologyTreeItem
+import org.clulab.linnaeus.model.EidosNode
 import org.clulab.linnaeus.stage.StageManager
 import scalafx.embed.swing.SwingNode
 import scalafx.scene.Scene
@@ -22,16 +22,16 @@ class JUNGStage(stageManager: StageManager) extends GraphStage(stageManager) {
 
   protected def getGraphFromScratch(): Graph[_, _] = SimpleGraphDraw.getGraph()
 
-  protected def getGraphFromEidos(): SparseMultigraph[OntologyTreeItem, String] = {
-    val ontologyRootItem = EidosReader.read()
-    val graph = new SparseMultigraph[OntologyTreeItem, String]()
+  protected def getGraphFromEidos(): SparseMultigraph[EidosNode, String] = {
+    val ontologyRootItem = EidosReader.read(EidosNode.UN)
+    val graph = new SparseMultigraph[EidosNode, String]()
 
-    def addChildren(ontologyTreeItem: OntologyTreeItem, remaining: Int): Unit = {
+    def addChildren(ontologyTreeItem: EidosNode, remaining: Int): Unit = {
       if (remaining > 0)
         ontologyTreeItem.children.foreach { child =>
-          graph.addVertex(child)
-          graph.addEdge(ontologyTreeItem.toString + " - " + child.toString(), ontologyTreeItem, child)
-          addChildren(child, remaining - 1)
+          graph.addVertex(child.asInstanceOf[EidosNode.Node])
+          graph.addEdge(ontologyTreeItem.toString + " - " + child.toString(), ontologyTreeItem, child.asInstanceOf[EidosNode.Node])
+          addChildren(child.asInstanceOf[EidosNode.Node], remaining - 1)
         }
     }
 

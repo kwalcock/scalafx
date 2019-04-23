@@ -9,7 +9,7 @@ import guru.nidi.graphviz.engine.Graphviz
 import guru.nidi.graphviz.model.Factory
 import guru.nidi.graphviz.model.Graph
 import org.clulab.linnaeus.model.reader.EidosReader
-import org.clulab.linnaeus.model.OntologyTreeItem
+import org.clulab.linnaeus.model.EidosNode
 import org.clulab.linnaeus.stage.StageManager
 import scalafx.Includes._
 import scalafx.scene.image.Image
@@ -22,18 +22,18 @@ class GraphVizStage(stageManager: StageManager) extends GraphStage(stageManager)
   val HEIGHT = 800
 
   protected def getGraphFromEidos(): Graph = {
-    val ontologyRootItem = EidosReader.read()
+    val ontologyRootItem = EidosReader.read(EidosNode.UN)
     var graph = Factory
         .graph("example1")
         .directed()
         .graphAttr()
         .`with`(RankDir.LEFT_TO_RIGHT)
 
-    def addChildren(ontologyTreeItem: OntologyTreeItem, remaining: Int): Unit = {
+    def addChildren(ontologyTreeItem: EidosNode.Node, remaining: Int): Unit = {
       if (remaining > 0)
         ontologyTreeItem.children.foreach { child =>
           graph = graph.`with`(Factory.node(child.toString).link(Factory.node(ontologyTreeItem.toString)))
-          addChildren(child, remaining - 1)
+          addChildren(child.asInstanceOf[EidosNode.Node], remaining - 1)
         }
     }
 

@@ -1,13 +1,14 @@
 package org.clulab.linnaeus.model.converter
 
-import org.clulab.linnaeus.model.OntologyTreeItem
+import org.clulab.linnaeus.model.EidosNode
 import org.clulab.linnaeus.model.reader.EidosReader
 import org.clulab.linnaeus.model.writer.GephiWriter
 
 object EidosToGephiConverter {
 
-  def convert(fileBasename: String) = {
-    val root: OntologyTreeItem = EidosReader.read()
-    new GephiWriter(fileBasename).write(root)
+  def convert(resourceName: String, fileBasename: String) = {
+    val root: EidosNode.Node = EidosReader.read(resourceName)
+
+    new GephiWriter(fileBasename).writeEidos(Seq(root))
   }
 }

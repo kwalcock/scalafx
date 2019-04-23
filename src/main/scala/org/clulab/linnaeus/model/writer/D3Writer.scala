@@ -1,7 +1,7 @@
 package org.clulab.linnaeus.model.writer
 
 import org.clulab.linnaeus.model.LinnaeusNode
-import org.clulab.linnaeus.model.OntologyTreeItem
+import org.clulab.linnaeus.model.EidosNode
 import org.clulab.linnaeus.util.Closer.AutoCloser
 import org.clulab.linnaeus.util.FileUtil
 import org.json4s.JObject
@@ -11,23 +11,23 @@ import org.json4s.jackson.JsonMethods
 
 class D3Writer(val filename: String) {
 
-  protected def toJArray(children: List[OntologyTreeItem]): JArray = {
+  protected def toJArrayEidos(children: List[EidosNode.Node]): JArray = {
     new JArray(children.map { child =>
-      toJObject(child)
+      toJObjectEidos(child)
     })
   }
 
-  protected def toJObject(node: OntologyTreeItem): JObject = {
+  protected def toJObjectEidos(node: EidosNode.Node): JObject = {
     JObject(
       "name" -> node.toString,
-      "children" -> toJArray(node.children.toList)
+      "children" -> toJArrayEidos(node.children.map(_.asInstanceOf[EidosNode.Node]).toList)
     )
   }
 
-  def write(root: OntologyTreeItem): Unit = {
+  def writeEidos(root: EidosNode.Node): Unit = {
     FileUtil.newPrintWriter(filename).autoClose { printWriter =>
       printWriter.println("var elements = ")
-      val jObject = toJObject(root)
+      val jObject = toJObjectEidos(root)
       val json = JsonMethods.pretty(jObject)
 
       printWriter.print(json)
@@ -35,23 +35,23 @@ class D3Writer(val filename: String) {
     }
   }
 
-  protected def toJArrayB(children: List[LinnaeusNode.Node]): JArray = {
+  protected def toJArrayLinnaeus(children: List[LinnaeusNode.Node]): JArray = {
     new JArray(children.map { child =>
-      toJObject(child)
+      toJObjectLinnaeus(child)
     })
   }
 
-  protected def toJObject(node: LinnaeusNode.Node): JObject = {
+  protected def toJObjectLinnaeus(node: LinnaeusNode.Node): JObject = {
     JObject(
       "name" -> node.toString,
-      "children" -> toJArrayB(node.children.toList)
+      "children" -> toJArrayLinnaeus(node.children.toList)
     )
   }
 
-  def write(root: LinnaeusNode.Node): Unit = {
+  def writeLinnaeus(root: LinnaeusNode.Node): Unit = {
     FileUtil.newPrintWriter(filename).autoClose { printWriter =>
       printWriter.println("var elements = ")
-      val jObject = toJObject(root)
+      val jObject = toJObjectLinnaeus(root)
       val json = JsonMethods.pretty(jObject)
 
       printWriter.print(json)

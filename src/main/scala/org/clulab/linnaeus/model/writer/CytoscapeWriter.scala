@@ -21,7 +21,7 @@ class CytoscapeWriter(val filename: String) {
     }
   }
 
-  def write(roots: Seq[LinnaeusNode.Node]): Unit = {
+  def writeLinnaeus(roots: Seq[LinnaeusNode.Node]): Unit = {
     FileUtil.newPrintWriter(filename).autoClose { printWriter =>
       printWriter.println("var elements = [")
       roots.zipWithIndex.foreach { case (root, index) => writeNode(printWriter, root, index == 0) }

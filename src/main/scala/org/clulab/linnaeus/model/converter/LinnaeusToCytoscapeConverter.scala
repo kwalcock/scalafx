@@ -8,6 +8,6 @@ object LinnaeusToCytoscapeConverter {
   def convert(infilename: String, outfilename: String) = {
     val roots = new LinnaeusReader(infilename).read()
 
-    new CytoscapeWriter(outfilename).write(roots)
+    new CytoscapeWriter(outfilename).writeLinnaeus(roots)
   }
 }

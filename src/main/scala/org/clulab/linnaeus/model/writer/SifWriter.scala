@@ -3,43 +3,44 @@ package org.clulab.linnaeus.model.writer
 import java.io.PrintWriter
 
 import org.clulab.linnaeus.model.LinnaeusNode
-import org.clulab.linnaeus.model.OntologyTreeItem
+import org.clulab.linnaeus.model.EidosNode
 import org.clulab.linnaeus.util.Closer.AutoCloser
 import org.clulab.linnaeus.util.FileUtil
 
 class SifWriter(val filename: String) {
 
-  protected def writeEdge(item: OntologyTreeItem, printWriter: PrintWriter): Unit = {
+  protected def writeEdgeEidos(printWriter: PrintWriter, item: EidosNode.Node): Unit = {
     item.children.foreach { child =>
       printWriter.print(item.toString.replace(' ', '_'))
       printWriter.print(" is_a_hypernym_of ")
       printWriter.println(child.toString.replace(' ', '_'))
-      writeEdge(child, printWriter)
+      writeEdgeEidos(printWriter, child.asInstanceOf[EidosNode.Node])
     }
   }
 
-  protected def writeEdge(root: OntologyTreeItem): Unit = {
+  protected def writeEdgeEidos(root: EidosNode.Node): Unit = {
     FileUtil.newPrintWriter(filename).autoClose { printWriter =>
-      writeEdge(root, printWriter)
+      writeEdgeEidos(printWriter, root)
     }
   }
 
-  def write(root: OntologyTreeItem): Unit = {
-    writeEdge(root)
+  def writeEidos(roots: Seq[EidosNode.Node]): Unit = {
+    writeEdgeEidos(roots.head)
   }
 
-  protected def writeEdge(printWriter: PrintWriter, node: LinnaeusNode.Node): Unit = {
+  protected def writeNodeLinnaeus(printWriter: PrintWriter)(node: LinnaeusNode.Node): Boolean = {
     node.children.foreach { child =>
       printWriter.print(node.data.replace(' ', '_'))
       printWriter.print(" is_a_hypernym_of ")
       printWriter.println(child.data.replace(' ', '_'))
     }
+    false
   }
 
-  def write(roots: Seq[LinnaeusNode.Node]): Unit = {
+  def writeLinnaeus(roots: Seq[LinnaeusNode.Node]): Unit = {
     FileUtil.newPrintWriter(filename).autoClose { printWriter =>
       roots.foreach { root =>
-        writeEdge(printWriter, root)
+        root.foreach(writeNodeLinnaeus(printWriter))
       }
     }
   }

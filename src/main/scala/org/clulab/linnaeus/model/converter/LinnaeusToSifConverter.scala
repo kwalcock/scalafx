@@ -6,8 +6,8 @@ import org.clulab.linnaeus.model.writer.SifWriter
 object LinnaeusToSifConverter {
 
   def convert(infilename: String, outfilename: String, hasWeights: Boolean) = {
-    val nodes = new LinnaeusReader(infilename, hasWeights).read()
+    val roots = new LinnaeusReader(infilename, hasWeights).read()
 
-    new SifWriter(outfilename).write(nodes)
+    new SifWriter(outfilename).writeLinnaeus(roots)
   }
 }
