@@ -1,0 +1,586 @@
+graph "taxonomy_edges.sif" {
+bgcolor = "#FFFFFFFF"
+splines = "false"
+outputorder = "edgesfirst"
+esep = "0"
+pad = "2"
+node [label = "",penwidth = "0.000000",height = "0.486111",width = "1.041667",tooltip = "",color = "#CCCCCCFF",fillcolor = "#89D0F5FF",shape = "rectangle",style = "solid,rounded,filled",fontname = "SansSerif.plain",fontsize = "12",fontcolor = "#000000FF",fixedsize = "true",labelloc = "c"]
+edge [label = "",penwidth = "2.000000",tooltip = "",arrowhead = "none",arrowtail = "none",color = "#848484FF",fontname = "Dialog.plain",fontsize = "10",fontcolor = "#000000FF",style = "solid",dir = "both"]
+"zinc§62" [label = "zinc",pos = "3067.726655,4177.437971"]
+"Council§63" [label = "Council",pos = "-2794.822645,-1580.140249"]
+"divorce§64" [label = "divorce",pos = "389.596072,5164.096311"]
+"allies§65" [label = "allies",pos = "-4657.150001,4884.717441"]
+"Russia§66" [label = "Russia",pos = "-4327.469888,4633.107190"]
+"sclerosis§67" [label = "sclerosis",pos = "3354.696417,-3783.703220"]
+"water§68" [label = "water",pos = "4375.585035,156.792033"]
+"epilepsy§69" [label = "epilepsy",pos = "2705.967665,-4399.278837"]
+"Britain§70" [label = "Britain",pos = "-3421.012292,-5090.486247"]
+"home§71" [label = "home",pos = "1035.556109,649.395926"]
+"violence§72" [label = "violence",pos = "4146.813312,-1491.517307"]
+"development§73" [label = "development",pos = "886.735821,-907.426344"]
+"procedure§74" [label = "procedure",pos = "105.170728,5227.407479"]
+"Organization§75" [label = "Organization",pos = "-2856.420187,-1505.549064"]
+"Asia§76" [label = "Asia",pos = "-3855.047604,4951.113001"]
+"dementia§77" [label = "dementia",pos = "3291.995485,-3852.160549"]
+"assistance§78" [label = "assistance",pos = "-2917.822912,197.680058"]
+"coverage§79" [label = "coverage",pos = "-2956.098160,1468.417410"]
+"oxygen§80" [label = "oxygen",pos = "3403.318912,3826.515488"]
+"alcohol§81" [label = "alcohol",pos = "4372.866586,249.589275"]
+"repair§82" [label = "repair",pos = "-132.474673,1923.334102"]
+"addiction§83" [label = "addiction",pos = "2410.085586,-4623.540931"]
+"productivity§84" [label = "productivity",pos = "-2839.670746,1623.888629"]
+"mental§85" [label = "mental",pos = "3651.690292,-4593.195721"]
+"email§86" [label = "email",pos = "-2853.364678,-478.881675"]
+"aids§87" [label = "aids",pos = "-2905.851683,5835.390876"]
+"sets§88" [label = "sets",pos = "-2997.370485,5802.825251"]
+"guidance§89" [label = "guidance",pos = "-2582.658429,-1075.360337"]
+"Africa§90" [label = "Africa",pos = "-3935.946438,4901.401478"]
+"retardation§91" [label = "retardation",pos = "3584.926128,-4657.709212"]
+"attack§92" [label = "attack",pos = "3687.747924,-2557.741303"]
+"roads§93" [label = "roads",pos = "-2947.186132,4909.570059"]
+"ALS§94" [label = "ALS",pos = "3416.279092,-3714.238214"]
+"loss§95" [label = "loss",pos = "4368.515441,342.324305"]
+"abnormalities§96" [label = "abnormalities",pos = "4152.838293,-3415.590305"]
+"temperature§97" [label = "temperature",pos = "-32.223613,-2296.451712"]
+"damage§98" [label = "damage",pos = "4362.532948,434.968397"]
+"operations§99" [label = "operations",pos = "-3281.770349,-705.657839"]
+"categories§100" [label = "categories",pos = "-1231.974418,-1948.586791"]
+"Canada§101" [label = "Canada",pos = "-4313.859881,-4545.787473"]
+"emergency§102" [label = "emergency",pos = "-850.427545,-1975.699502"]
+"growth§103" [label = "growth",pos = "1531.921080,-4633.104090"]
+"therapy§104" [label = "therapy",pos = "-1511.054670,-1881.334710"]
+"copyright§105" [label = "copyright",pos = "295.181639,5186.944874"]
+"erosion§106" [label = "erosion",pos = "4338.560806,-584.376468"]
+"asthma§107" [label = "asthma",pos = "3843.816692,-3827.846312"]
+"Security§108" [label = "Security",pos = "-2899.394909,1547.284151"]
+"prenatal§109" [label = "prenatal",pos = "-1137.175593,-1962.127971"]
+"abuse§110" [label = "abuse",pos = "4297.850909,-859.867214"]
+"Center§111" [label = "Center",pos = "-3383.319727,4701.727168"]
+"Association§112" [label = "Association",pos = "-2663.205108,-1721.897863"]
+"insurance§113" [label = "insurance",pos = "-2894.728102,387.750691"]
+"lung§114" [label = "lung",pos = "4626.302907,-4085.110522"]
+"kidney§115" [label = "kidney",pos = "4570.182258,-4159.069520"]
+"surgery§116" [label = "surgery",pos = "-1326.027068,-1930.579023"]
+"accommodation§117" [label = "accommodation",pos = "931.186958,916.820140"]
+"channels§118" [label = "channels",pos = "-3104.976648,-1126.260880"]
+"air§119" [label = "air",pos = "3593.179902,-2717.519562"]
+"diabetes§120" [label = "diabetes",pos = "4204.759166,-3338.643644"]
+"heart§121" [label = "heart",pos = "4030.361242,-3587.725977"]
+"injury§122" [label = "injury",pos = "2485.410158,-4569.282091"]
+"autism§123" [label = "autism",pos = "3109.190487,-4039.734827"]
+"Fund§124" [label = "Fund",pos = "545.053462,2089.985806"]
+"funds§125" [label = "funds",pos = "238.473241,1724.548561"]
+"poverty§126" [label = "poverty",pos = "4364.675093,-307.121188"]
+"marriage§127" [label = "marriage",pos = "-278.674740,5287.215009"]
+"light§128" [label = "light",pos = "2925.359257,4309.625478"]
+"AIDS§129" [label = "AIDS",pos = "4354.920961,527.492858"]
+"multiple§130" [label = "multiple",pos = "2848.299803,-4280.070836"]
+"disease§131" [label = "disease",pos = "3708.488960,-3350.242853"]
+"chronic_disease§132" [label = "chronic_disease",pos = "3902.020686,-3755.535451"]
+"calcium§133" [label = "calcium",pos = "3137.207773,4109.551621"]
+"spinal§134" [label = "spinal",pos = "2986.691764,-4156.310380"]
+"fear§135" [label = "fear",pos = "4345.681836,619.869027"]
+"Cuba§136" [label = "Cuba",pos = "-3918.254188,-4814.962844"]
+"substance§137" [label = "substance",pos = "1449.150161,-4675.148031"]
+"research§138" [label = "research",pos = "803.038347,5515.090124"]
+"carbon§139" [label = "carbon",pos = "2997.103705,4244.135658"]
+"station§140" [label = "station",pos = "-858.208409,2548.412741"]
+"overhead§141" [label = "overhead",pos = "1191.112678,1421.440050"]
+"dental§142" [label = "dental",pos = "-3009.694898,1387.407464"]
+"training§143" [label = "training",pos = "-44.707048,1885.032342"]
+"obesity§144" [label = "obesity",pos = "3476.727316,-3643.783797"]
+"processing§145" [label = "processing",pos = "-2894.456998,-291.874624"]
+"treatment§146" [label = "treatment",pos = "-2292.193702,1517.648195"]
+"schizophrenia§147" [label = "schizophrenia",pos = "2917.997501,-4218.751640"]
+"Brazil§148" [label = "Brazil",pos = "-3998.361290,-4764.299515"]
+"hypertension§149" [label = "hypertension",pos = "2559.845035,-4513.809019"]
+"life§150" [label = "life",pos = "-3151.061093,1132.756424"]
+"police§151" [label = "police",pos = "-2853.784991,574.790466"]
+"storage§152" [label = "storage",pos = "-2876.468416,481.754758"]
+"democracy§153" [label = "democracy",pos = "-596.513211,-5217.625377"]
+"interest§154" [label = "interest",pos = "1136.719004,1500.858591"]
+"pension§155" [label = "pension",pos = "-3060.104211,1304.376610"]
+"performance§156" [label = "performance",pos = "1695.179295,-4544.679216"]
+"physician§157" [label = "physician",pos = "-2759.748323,846.020507"]
+"nausea§158" [label = "nausea",pos = "4376.669948,63.961321"]
+"trust§159" [label = "trust",pos = "-2876.122319,-385.864093"]
+"center§160" [label = "center",pos = "-1228.299757,2526.859757"]
+"Argentina§161" [label = "Argentina",pos = "-3589.770942,-5004.151217"]
+"tubes§162" [label = "tubes",pos = "-3178.801286,5733.360618"]
+"translation§163" [label = "translation",pos = "-2922.862950,6.277827"]
+"control§164" [label = "control",pos = "1101.061160,369.900456"]
+"failure§165" [label = "failure",pos = "1855.224528,-4450.563721"]
+"speech§166" [label = "speech",pos = "998.228119,5450.472548"]
+"iron§167" [label = "iron",pos = "3272.664837,3970.291443"]
+"Chicago§168" [label = "Chicago",pos = "-4016.009683,4850.355093"]
+"Social§169" [label = "Social",pos = "-3107.250001,1219.450194"]
+"climate§170" [label = "climate",pos = "4262.656670,-1042.167977"]
+"malaria§171" [label = "malaria",pos = "4376.120987,-28.874107"]
+"depreciation§172" [label = "depreciation",pos = "1079.308288,1578.124276"]
+"Congress§173" [label = "Congress",pos = "-2521.021233,-1853.054801"]
+"voice§174" [label = "voice",pos = "1004.996778,740.150034"]
+"racism§175" [label = "racism",pos = "3818.912443,-2312.082361"]
+"injustice§176" [label = "injustice",pos = "4348.891737,-492.116022"]
+"access§177" [label = "access",pos = "-2922.606389,102.038544"]
+"store§178" [label = "store",pos = "-1136.140658,2537.395778"]
+"illness§179" [label = "illness",pos = "1933.980153,-4401.408156"]
+"Peru§180" [label = "Peru",pos = "-3673.055173,-4958.900167"]
+"honesty§181" [label = "honesty",pos = "-402.797598,-5202.941028"]
+"syndrome§182" [label = "syndrome",pos = "2633.370649,-4457.136300"]
+"freedom§183" [label = "freedom",pos = "-306.175434,-5192.926060"]
+"cancer§184" [label = "cancer",pos = "4373.938322,-121.685497"]
+"pain§185" [label = "pain",pos = "2333.891127,-4676.571274"]
+"difficulties§186" [label = "difficulties",pos = "4221.068690,-1223.117260"]
+"Iran§187" [label = "Iran",pos = "-3322.782719,-5137.550218"]
+"powers§188" [label = "powers",pos = "-3492.178327,-5499.910712"]
+"laboratory§189" [label = "laboratory",pos = "-1320.004559,2512.912127"]
+"Paris§190" [label = "Paris",pos = "-4173.541551,4744.314266"]
+"England§191" [label = "England",pos = "-3223.675538,-5182.736865"]
+"monitoring§192" [label = "monitoring",pos = "-509.149310,-1938.520144"]
+"retirement§193" [label = "retirement",pos = "-2777.015834,1698.115198"]
+"shortness§194" [label = "shortness",pos = "4197.892840,-1313.014969"]
+"Gulf§195" [label = "Gulf",pos = "-4095.215317,4797.987888"]
+"GDP§196" [label = "GDP",pos = "58.225379,-2261.037005"]
+"depression§197" [label = "depression",pos = "4058.496740,-1755.624538"]
+"stroke§198" [label = "stroke",pos = "3228.192781,-3919.592201"]
+"television§199" [label = "television",pos = "-6127.678997,-643.584036"]
+"California§200" [label = "California",pos = "-3773.335437,4999.475986"]
+"documentation§201" [label = "documentation",pos = "-310.859580,-2381.266519"]
+"protection§202" [label = "protection",pos = "-1411.128817,2495.572090"]
+"finance§203" [label = "finance",pos = "-375.243013,5297.736925"]
+"telephone§204" [label = "telephone",pos = "-2909.074960,-190.935281"]
+"means§205" [label = "means",pos = "-3380.736328,-247.154085"]
+"placement§206" [label = "placement",pos = "888.101529,1002.341053"]
+"breakdown§207" [label = "breakdown",pos = "4173.138492,-1402.490890"]
+"child§208" [label = "child",pos = "-1419.123216,-1908.144940"]
+"studies§209" [label = "studies",pos = "669.308060,5085.420238"]
+"projects§210" [label = "projects",pos = "-114.598332,2422.718149"]
+"change§211" [label = "change",pos = "3732.908420,-2476.628740"]
+"Japan§212" [label = "Japan",pos = "-4411.674610,4568.898137"]
+"management§213" [label = "management",pos = "-2816.108828,-601.392762"]
+"communications§214" [label = "communications",pos = "-6143.900342,-507.491106"]
+"France§215" [label = "France",pos = "-4077.618655,-4712.316916"]
+"housing§216" [label = "housing",pos = "841.021172,1085.729426"]
+"atrophy§217" [label = "atrophy",pos = "2777.616996,-4340.251842"]
+"Kingdom§218" [label = "Kingdom",pos = "-3755.578835,-4912.276507"]
+"headache§219" [label = "headache",pos = "4413.529328,-2086.683259"]
+"crime§220" [label = "crime",pos = "4334.818437,712.068293"]
+"Hospital§221" [label = "Hospital",pos = "-950.967521,2548.179693"]
+"dialysis§222" [label = "dialysis",pos = "-2771.184363,-721.304219"]
+"Bank§223" [label = "Bank",pos = "-2730.385458,-1652.292527"]
+"family§224" [label = "family",pos = "-946.188605,-1975.699502"]
+"banking§225" [label = "banking",pos = "-1041.842591,-1971.172284"]
+"distribution§226" [label = "distribution",pos = "970.181109,829.357937"]
+"exchange§227" [label = "exchange",pos = "-2826.728557,666.649762"]
+"radiation§228" [label = "radiation",pos = "4378.202534,-2172.540229"]
+"maintenance§229" [label = "maintenance",pos = "762.308798,5055.527404"]
+"Union§230" [label = "Union",pos = "-2159.475248,-2109.843267"]
+"use§231" [label = "use",pos = "-123.980077,-2328.326043"]
+"enforcement§232" [label = "enforcement",pos = "-471.988667,5306.478814"]
+"planning§233" [label = "planning",pos = "1061.790761,557.298566"]
+"rights§234" [label = "rights",pos = "892.266149,5010.535337"]
+"pregnancy§235" [label = "pregnancy",pos = "4370.122631,-214.444101"]
+"equipment§236" [label = "equipment",pos = "-2600.023424,5514.975285"]
+"States§237" [label = "States",pos = "-3505.748972,-5048.017251"]
+"palsy§238" [label = "palsy",pos = "3717.526209,-4527.735227"]
+"disabilities§239" [label = "disabilities",pos = "3389.190386,-4325.392062"]
+"constipation§240" [label = "constipation",pos = "4303.395717,-2342.479279"]
+"University§241" [label = "University",pos = "575.769713,5113.585755"]
+"benefits§242" [label = "benefits",pos = "-2587.143443,1166.079470"]
+"privacy§243" [label = "privacy",pos = "9.638687,5245.007800"]
+"nitrogen§244" [label = "nitrogen",pos = "3466.797593,3752.985633"]
+"alcoholism§245" [label = "alcoholism",pos = "1775.616022,-4498.325672"]
+"President§246" [label = "President",pos = "-5843.396717,-1787.490932"]
+"spreadsheet§247" [label = "spreadsheet",pos = "264.925895,2261.625393"]
+"Committee§248" [label = "Committee",pos = "-2593.382185,-1788.852037"]
+"Nations§249" [label = "Nations",pos = "-2915.085855,-1428.630656"]
+"breath§250" [label = "breath",pos = "4089.483557,-1668.111481"]
+"rates§251" [label = "rates",pos = "147.230354,-2222.135386"]
+"China§252" [label = "China",pos = "-4156.004559,-4659.029295"]
+"customer§253" [label = "customer",pos = "-2918.592023,-89.387945"]
+"blood§254" [label = "blood",pos = "1613.939260,-4589.609994"]
+"commitment§255" [label = "commitment",pos = "4118.925454,-1580.066647"]
+"PC§256" [label = "PC",pos = "-3088.361315,5768.812313"]
+"human§257" [label = "human",pos = "1228.500438,5792.627685"]
+"ideals§258" [label = "ideals",pos = "1089.606820,5417.516284"]
+"centers§259" [label = "centers",pos = "-2076.038716,2253.944221"]
+"costs§260" [label = "costs",pos = "617.987242,1390.924177"]
+"needs§261" [label = "needs",pos = "717.835689,1956.109343"]
+"hydrogen§262" [label = "hydrogen",pos = "3338.601783,3898.957710"]
+"advice§263" [label = "advice",pos = "483.573756,5139.513042"]
+"support§264" [label = "support",pos = "130.283514,1793.046355"]
+"library§265" [label = "library",pos = "-1973.707703,2305.616198"]
+"response§266" [label = "response",pos = "342.117377,1649.349771"]
+"Windows§267" [label = "Windows",pos = "464.668115,2144.514858"]
+"software§268" [label = "software",pos = "43.911441,1841.176096"]
+"delinquency§269" [label = "delinquency",pos = "4357.597398,-399.688052"]
+"care§270" [label = "care",pos = "-603.534270,-1954.696051"]
+"personnel§271" [label = "personnel",pos = "-2360.079789,1450.108133"]
+"liver§272" [label = "liver",pos = "4735.533649,-3934.960840"]
+"anxiety§273" [label = "anxiety",pos = "4313.036439,-768.280546"]
+"lungs§274" [label = "lungs",pos = "4681.423364,-4010.403120"]
+"organs§275" [label = "organs",pos = "4332.116506,-3810.366405"]
+"pollution§276" [label = "pollution",pos = "4281.055918,-951.172451"]
+"helium§277" [label = "helium",pos = "3529.019549,3678.389315"]
+"Internet§278" [label = "Internet",pos = "-2685.709619,-903.011785"]
+"Texas§279" [label = "Texas",pos = "-4250.966841,4689.348994"]
+"age§280" [label = "age",pos = "-182.316595,5274.916636"]
+"International§281" [label = "International",pos = "-2446.230599,-1914.410022"]
+"cord§282" [label = "cord",pos = "2256.846815,-4728.359175"]
+"disorders§283" [label = "disorders",pos = "2826.398801,-3686.527839"]
+"Institute§284" [label = "Institute",pos = "-3783.748145,5451.498521"]
+"institutes§285" [label = "institutes",pos = "-3595.311242,5098.664943"]
+"environment§286" [label = "environment",pos = "3641.166943,-2638.046534"]
+"Mexico§287" [label = "Mexico",pos = "-4494.677335,4503.142640"]
+"pressure§288" [label = "pressure",pos = "4326.607806,-676.440815"]
+"transportation§289" [label = "transportation",pos = "-2795.359617,757.127220"]
+"numbers§290" [label = "numbers",pos = "-2417.013506,5982.464956"]
+"details§291" [label = "details",pos = "-2317.832744,5594.956019"]
+"consultation§292" [label = "consultation",pos = "-2732.685726,-808.985663"]
+"network§293" [label = "network",pos = "-3035.014152,4871.608205"]
+"infrastructure§294" [label = "infrastructure",pos = "-1698.077915,2417.355941"]
+"disruption§295" [label = "disruption",pos = "4263.935368,-2426.516667"]
+"cost§296" [label = "cost",pos = "908.483596,1776.595423"]
+"selection§297" [label = "selection",pos = "-86.201254,5260.845976"]
+"Vietnam§298" [label = "Vietnam",pos = "-3837.319309,-4864.293015"]
+"World§299" [label = "World",pos = "-1758.246725,-2298.712237"]
+"bodies§300" [label = "bodies",pos = "-2115.502501,-1569.617497"]
+"shipping§301" [label = "shipping",pos = "-2908.523218,292.988486"]
+"stations§302" [label = "stations",pos = "-2315.426465,2108.291464"]
+"places§303" [label = "places",pos = "-3888.427877,4394.399850"]
+"aluminum§304" [label = "aluminum",pos = "3205.527057,4040.496151"]
+"removal§305" [label = "removal",pos = "1083.642067,464.063909"]
+"drug§306" [label = "drug",pos = "3776.634441,-2394.733971"]
+"United§307" [label = "United",pos = "-1848.420174,-2263.685802"]
+"nations§308" [label = "nations",pos = "-3559.370809,-4505.864430"]
+"India§309" [label = "India",pos = "-4235.412600,-4603.078018"]
+"emerging_markets§310" [label = "emerging_markets",pos = "-4468.572742,-4928.095477"]
+"fairness§311" [label = "fairness",pos = "-499.587798,-5211.175065"]
+"values§312" [label = "values",pos = "-686.396070,-2442.268111"]
+"memory§313" [label = "memory",pos = "-2813.827929,5866.500999"]
+"devices§314" [label = "devices",pos = "-2860.288858,5427.047886"]
+"computer§315" [label = "computer",pos = "-2618.308849,5927.273491"]
+"technology§316" [label = "technology",pos = "-2505.982268,5543.368895"]
+"names§317" [label = "names",pos = "-216.905493,-2356.611879"]
+"data§318" [label = "data",pos = "-233.815624,-1864.136464"]
+"unemployment§319" [label = "unemployment",pos = "4242.658862,-1132.825607"]
+"shop§320" [label = "shop",pos = "-765.504501,2545.204508"]
+"health§321" [label = "health",pos = "-726.659351,-1968.977642"]
+"pool§322" [label = "pool",pos = "-1043.654138,2544.505686"]
+"facilities§323" [label = "facilities",pos = "-1224.987796,2047.210117"]
+"diarrhea§324" [label = "diarrhea",pos = "4447.459205,-2000.264712"]
+"gain§325" [label = "gain",pos = "4341.488112,-2257.813044"]
+"effects§326" [label = "effects",pos = "3946.699960,-2037.295876"]
+"marketing§327" [label = "marketing",pos = "-2221.190484,1581.903341"]
+"system§328" [label = "system",pos = "3543.801667,-2796.135769"]
+"problems§329" [label = "problems",pos = "1305.449822,-1131.710953"]
+"security§330" [label = "security",pos = "-2223.791326,5618.179497"]
+"elements§331" [label = "elements",pos = "2914.022350,3694.521205"]
+"welfare§332" [label = "welfare",pos = "200.362472,5208.050982"]
+"matters§333" [label = "matters",pos = "-468.001553,2511.423193"]
+"mediation§334" [label = "mediation",pos = "-2633.917999,-994.473767"]
+"services§335" [label = "services",pos = "-898.308075,48.734358"]
+"secretary§336" [label = "secretary",pos = "-5879.656775,-1686.716628"]
+"positions§337" [label = "positions",pos = "-3250.665626,-797.678042"]
+"aircraft§338" [label = "aircraft",pos = "-2411.467774,5570.144751"]
+"systems§339" [label = "systems",pos = "-2494.895681,5076.311609"]
+"facilities§323" -- "Hospital§221" 
+"facilities§323" -- "centers§259" 
+"facilities§323" -- "library§265" 
+"facilities§323" -- "shop§320" 
+"facilities§323" -- "pool§322" 
+"effects§326" -- "problems§329" 
+"effects§326" -- "headache§219" 
+"effects§326" -- "radiation§228" 
+"effects§326" -- "constipation§240" 
+"effects§326" -- "disruption§295" 
+"effects§326" -- "diarrhea§324" 
+"effects§326" -- "gain§325" 
+"problems§329" -- "water§68" 
+"problems§329" -- "violence§72" 
+"problems§329" -- "development§73" 
+"problems§329" -- "alcohol§81" 
+"problems§329" -- "attack§92" 
+"problems§329" -- "loss§95" 
+"problems§329" -- "damage§98" 
+"problems§329" -- "growth§103" 
+"problems§329" -- "erosion§106" 
+"problems§329" -- "abuse§110" 
+"problems§329" -- "air§119" 
+"problems§329" -- "poverty§126" 
+"problems§329" -- "AIDS§129" 
+"problems§329" -- "fear§135" 
+"problems§329" -- "substance§137" 
+"problems§329" -- "performance§156" 
+"problems§329" -- "nausea§158" 
+"problems§329" -- "control§164" 
+"problems§329" -- "failure§165" 
+"problems§329" -- "climate§170" 
+"problems§329" -- "malaria§171" 
+"problems§329" -- "disorders§283" 
+"problems§329" -- "racism§175" 
+"problems§329" -- "injustice§176" 
+"problems§329" -- "illness§179" 
+"problems§329" -- "cancer§184" 
+"problems§329" -- "shortness§194" 
+"problems§329" -- "depression§197" 
+"problems§329" -- "breakdown§207" 
+"problems§329" -- "change§211" 
+"problems§329" -- "housing§216" 
+"problems§329" -- "crime§220" 
+"problems§329" -- "rights§234" 
+"problems§329" -- "pregnancy§235" 
+"problems§329" -- "alcoholism§245" 
+"problems§329" -- "breath§250" 
+"problems§329" -- "rates§251" 
+"problems§329" -- "blood§254" 
+"problems§329" -- "commitment§255" 
+"problems§329" -- "delinquency§269" 
+"problems§329" -- "anxiety§273" 
+"problems§329" -- "pollution§276" 
+"problems§329" -- "environment§286" 
+"problems§329" -- "pressure§288" 
+"problems§329" -- "drug§306" 
+"problems§329" -- "unemployment§319" 
+"problems§329" -- "system§328" 
+"elements§331" -- "zinc§62" 
+"elements§331" -- "oxygen§80" 
+"elements§331" -- "light§128" 
+"elements§331" -- "calcium§133" 
+"elements§331" -- "carbon§139" 
+"elements§331" -- "crime§220" 
+"elements§331" -- "iron§167" 
+"elements§331" -- "nitrogen§244" 
+"elements§331" -- "hydrogen§262" 
+"elements§331" -- "helium§277" 
+"elements§331" -- "cost§296" 
+"elements§331" -- "aluminum§304" 
+"elements§331" -- "security§330" 
+"matters§333" -- "divorce§64" 
+"matters§333" -- "procedure§74" 
+"matters§333" -- "copyright§105" 
+"matters§333" -- "marriage§127" 
+"matters§333" -- "projects§210" 
+"matters§333" -- "age§280" 
+"matters§333" -- "rights§234" 
+"matters§333" -- "protection§202" 
+"matters§333" -- "finance§203" 
+"matters§333" -- "enforcement§232" 
+"matters§333" -- "costs§260" 
+"matters§333" -- "privacy§243" 
+"matters§333" -- "advice§263" 
+"matters§333" -- "selection§297" 
+"matters§333" -- "welfare§332" 
+"services§335" -- "development§73" 
+"services§335" -- "home§71" 
+"services§335" -- "transportation§289" 
+"services§335" -- "assistance§78" 
+"services§335" -- "repair§82" 
+"services§335" -- "email§86" 
+"services§335" -- "guidance§89" 
+"services§335" -- "emergency§102" 
+"services§335" -- "therapy§104" 
+"services§335" -- "prenatal§109" 
+"services§335" -- "insurance§113" 
+"services§335" -- "surgery§116" 
+"services§335" -- "accommodation§117" 
+"services§335" -- "funds§125" 
+"services§335" -- "control§164" 
+"services§335" -- "training§143" 
+"services§335" -- "telephone§204" 
+"services§335" -- "processing§145" 
+"services§335" -- "treatment§146" 
+"services§335" -- "housing§216" 
+"services§335" -- "police§151" 
+"services§335" -- "data§318" 
+"services§335" -- "storage§152" 
+"services§335" -- "physician§157" 
+"services§335" -- "trust§159" 
+"services§335" -- "translation§163" 
+"services§335" -- "voice§174" 
+"services§335" -- "access§177" 
+"services§335" -- "monitoring§192" 
+"services§335" -- "placement§206" 
+"services§335" -- "child§208" 
+"services§335" -- "management§213" 
+"services§335" -- "dialysis§222" 
+"services§335" -- "family§224" 
+"services§335" -- "banking§225" 
+"services§335" -- "distribution§226" 
+"services§335" -- "exchange§227" 
+"services§335" -- "planning§233" 
+"services§335" -- "software§268" 
+"services§335" -- "customer§253" 
+"services§335" -- "support§264" 
+"services§335" -- "facilities§323" 
+"services§335" -- "response§266" 
+"services§335" -- "care§270" 
+"services§335" -- "personnel§271" 
+"services§335" -- "Internet§278" 
+"services§335" -- "consultation§292" 
+"services§335" -- "shipping§301" 
+"services§335" -- "removal§305" 
+"services§335" -- "health§321" 
+"services§335" -- "marketing§327" 
+"services§335" -- "mediation§334" 
+"positions§337" -- "management§213" 
+"positions§337" -- "President§246" 
+"positions§337" -- "secretary§336" 
+"systems§339" -- "security§330" 
+"systems§339" -- "aircraft§338" 
+"allies§65" -- "Japan§212" 
+"abnormalities§96" -- "disease§131" 
+"operations§99" -- "management§213" 
+"categories§100" -- "services§335" 
+"channels§118" -- "Internet§278" 
+"channels§118" -- "television§199" 
+"funds§125" -- "Fund§124" 
+"disease§131" -- "heart§121" 
+"disease§131" -- "asthma§107" 
+"disease§131" -- "diabetes§120" 
+"chronic_disease§132" -- "disease§131" 
+"research§138" -- "studies§209" 
+"difficulties§186" -- "problems§329" 
+"powers§188" -- "Iran§187" 
+"documentation§201" -- "data§318" 
+"means§205" -- "communications§214" 
+"means§205" -- "television§199" 
+"means§205" -- "telephone§204" 
+"projects§210" -- "facilities§323" 
+"projects§210" -- "University§241" 
+"projects§210" -- "studies§209" 
+"rights§234" -- "freedom§183" 
+"rights§234" -- "speech§166" 
+"equipment§236" -- "systems§339" 
+"disabilities§239" -- "mental§85" 
+"disabilities§239" -- "retardation§91" 
+"disabilities§239" -- "autism§123" 
+"disabilities§239" -- "palsy§238" 
+"benefits§242" -- "coverage§79" 
+"benefits§242" -- "productivity§84" 
+"benefits§242" -- "Security§108" 
+"benefits§242" -- "dental§142" 
+"benefits§242" -- "life§150" 
+"benefits§242" -- "pension§155" 
+"benefits§242" -- "Social§169" 
+"benefits§242" -- "retirement§193" 
+"benefits§242" -- "protection§202" 
+"benefits§242" -- "services§335" 
+"ideals§258" -- "rights§234" 
+"ideals§258" -- "human§257" 
+"centers§259" -- "Center§111" 
+"costs§260" -- "cost§296" 
+"costs§260" -- "overhead§141" 
+"costs§260" -- "interest§154" 
+"costs§260" -- "depreciation§172" 
+"costs§260" -- "services§335" 
+"needs§261" -- "maintenance§229" 
+"needs§261" -- "costs§260" 
+"software§268" -- "spreadsheet§247" 
+"software§268" -- "Windows§267" 
+"organs§275" -- "lung§114" 
+"organs§275" -- "kidney§115" 
+"organs§275" -- "heart§121" 
+"organs§275" -- "liver§272" 
+"organs§275" -- "lungs§274" 
+"disorders§283" -- "sclerosis§67" 
+"disorders§283" -- "disease§131" 
+"disorders§283" -- "epilepsy§69" 
+"disorders§283" -- "dementia§77" 
+"disorders§283" -- "addiction§83" 
+"disorders§283" -- "ALS§94" 
+"disorders§283" -- "autism§123" 
+"disorders§283" -- "injury§122" 
+"disorders§283" -- "multiple§130" 
+"disorders§283" -- "spinal§134" 
+"disorders§283" -- "obesity§144" 
+"disorders§283" -- "schizophrenia§147" 
+"disorders§283" -- "hypertension§149" 
+"disorders§283" -- "syndrome§182" 
+"disorders§283" -- "pain§185" 
+"disorders§283" -- "stroke§198" 
+"disorders§283" -- "atrophy§217" 
+"disorders§283" -- "cord§282" 
+"institutes§285" -- "Center§111" 
+"institutes§285" -- "Institute§284" 
+"details§291" -- "age§280" 
+"details§291" -- "numbers§290" 
+"infrastructure§294" -- "systems§339" 
+"infrastructure§294" -- "facilities§323" 
+"infrastructure§294" -- "housing§216" 
+"infrastructure§294" -- "roads§93" 
+"infrastructure§294" -- "communications§214" 
+"infrastructure§294" -- "transportation§289" 
+"infrastructure§294" -- "network§293" 
+"bodies§300" -- "Council§63" 
+"bodies§300" -- "Organization§75" 
+"bodies§300" -- "Association§112" 
+"bodies§300" -- "services§335" 
+"bodies§300" -- "United§307" 
+"bodies§300" -- "Congress§173" 
+"bodies§300" -- "Bank§223" 
+"bodies§300" -- "Union§230" 
+"bodies§300" -- "Committee§248" 
+"bodies§300" -- "Nations§249" 
+"bodies§300" -- "International§281" 
+"bodies§300" -- "World§299" 
+"places§303" -- "India§309" 
+"places§303" -- "Russia§66" 
+"places§303" -- "Canada§101" 
+"places§303" -- "Asia§76" 
+"places§303" -- "Africa§90" 
+"places§303" -- "centers§259" 
+"places§303" -- "China§252" 
+"places§303" -- "Chicago§168" 
+"places§303" -- "Paris§190" 
+"places§303" -- "Gulf§195" 
+"places§303" -- "California§200" 
+"places§303" -- "Japan§212" 
+"places§303" -- "University§241" 
+"places§303" -- "Texas§279" 
+"places§303" -- "Mexico§287" 
+"places§303" -- "stations§302" 
+"nations§308" -- "Britain§70" 
+"nations§308" -- "Canada§101" 
+"nations§308" -- "Mexico§287" 
+"nations§308" -- "Cuba§136" 
+"nations§308" -- "Japan§212" 
+"nations§308" -- "Brazil§148" 
+"nations§308" -- "Argentina§161" 
+"nations§308" -- "Iran§187" 
+"nations§308" -- "Peru§180" 
+"nations§308" -- "England§191" 
+"nations§308" -- "Union§230" 
+"nations§308" -- "France§215" 
+"nations§308" -- "Kingdom§218" 
+"nations§308" -- "States§237" 
+"nations§308" -- "India§309" 
+"nations§308" -- "China§252" 
+"nations§308" -- "Vietnam§298" 
+"nations§308" -- "United§307" 
+"emerging_markets§310" -- "China§252" 
+"emerging_markets§310" -- "India§309" 
+"values§312" -- "democracy§153" 
+"values§312" -- "honesty§181" 
+"values§312" -- "freedom§183" 
+"values§312" -- "health§321" 
+"values§312" -- "fairness§311" 
+"devices§314" -- "aids§87" 
+"devices§314" -- "sets§88" 
+"devices§314" -- "systems§339" 
+"devices§314" -- "tubes§162" 
+"devices§314" -- "PC§256" 
+"devices§314" -- "memory§313" 
+"technology§316" -- "systems§339" 
+"technology§316" -- "computer§315" 
+"data§318" -- "rates§251" 
+"data§318" -- "temperature§97" 
+"data§318" -- "GDP§196" 
+"data§318" -- "use§231" 
+"data§318" -- "names§317" 
+"facilities§323" -- "stations§302" 
+"facilities§323" -- "station§140" 
+"facilities§323" -- "center§160" 
+"facilities§323" -- "store§178" 
+"facilities§323" -- "laboratory§189" 
+}
