@@ -1,15 +1,14 @@
 package org.clulab.linnaeus.model.converter
 
-import org.clulab.linnaeus.model.EidosNode
-import org.clulab.linnaeus.model.EidosNode
+import org.clulab.linnaeus.model.graph.eidos.EidosNetwork
 import org.clulab.linnaeus.model.reader.EidosReader
 import org.clulab.linnaeus.model.writer.D3Writer
 
-object EidosToD3Converter {
+class EidosToD3Converter(inFilename: String) extends Converter(inFilename) {
 
-  def convert(resourceName: String, filename: String) = {
-    val root: EidosNode.Node = EidosReader.read(resourceName)
+  def convert(): Unit = {
+    val network: EidosNetwork = new EidosReader(inFilename).read()
 
-    new D3Writer(filename).writeEidos(root)
+    new D3Writer(baseFilename).write(network)
   }
 }

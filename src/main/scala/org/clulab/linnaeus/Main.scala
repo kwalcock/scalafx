@@ -1,9 +1,7 @@
 package org.clulab.linnaeus
 
-import org.clulab.linnaeus.stage.graphStage.CytoscapeStage
 import org.clulab.linnaeus.stage.graphStage.EighthBridgeStage
 import org.clulab.linnaeus.stage.graphStage.FXGraphStage
-import org.clulab.linnaeus.stage.graphStage.GephiStage
 import org.clulab.linnaeus.stage.graphStage.GraphStage
 import org.clulab.linnaeus.stage.graphStage.GraphStreamStage
 import org.clulab.linnaeus.stage.graphStage.GraphVizStage
@@ -28,9 +26,7 @@ object Main extends JFXApp {
   val textStage = new TextStage(stageManager)
 
 //  val graphStage: GraphStage = new EighthBridgeStage(stageManager)
-//  val graphStage: GraphStage = new GephiStage(stageManager)
-//  val jGraphXStage:f GraphStage = new JGraphXStage(stageManager)
-//  val cytoscapeStage: GraphStage = new CytoscapeStage(stageManager)
+//  val jGraphXStage: GraphStage = new JGraphXStage(stageManager)
 //  val fxGraph: GraphStage = new FXGraphStage(stageManager)
 //  val graphStreamStage: GraphStage = new GraphStreamStage(stageManager)
 //  val jGraphTStage: GraphStage = new JGraphTStage(stageManager)

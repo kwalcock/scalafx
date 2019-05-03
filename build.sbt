@@ -47,6 +47,8 @@ libraryDependencies ++= {
     "net.sf.jung" % "jung-samples"       % "2.1.1",
 
     "guru.nidi" % "graphviz-java" % "0.8.3",
-    "org.apache.xmlgraphics" % "batik-rasterizer" % "1.10"
+    "org.apache.xmlgraphics" % "batik-rasterizer" % "1.10",
+
+    "org.yaml" % "snakeyaml" % "1.14"
   )
 }

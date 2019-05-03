@@ -1,14 +1,14 @@
 package org.clulab.linnaeus.model.converter
 
-import org.clulab.linnaeus.model.EidosNode
+import org.clulab.linnaeus.model.graph.eidos.EidosNetwork
 import org.clulab.linnaeus.model.reader.EidosReader
 import org.clulab.linnaeus.model.writer.GephiWriter
 
-object EidosToGephiConverter {
+class EidosToGephiConverter(inFilename: String) extends Converter(inFilename) {
 
-  def convert(resourceName: String, fileBasename: String) = {
-    val root: EidosNode.Node = EidosReader.read(resourceName)
+  def convert(): Unit = {
+    val network: EidosNetwork = new EidosReader(inFilename).read()
 
-    new GephiWriter(fileBasename).writeEidos(Seq(root))
+    new GephiWriter(baseFilename).write(network)
   }
 }
