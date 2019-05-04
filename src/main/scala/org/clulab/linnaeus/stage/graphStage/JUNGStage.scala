@@ -10,33 +10,36 @@ import edu.uci.ics.jung.samples.SimpleGraphDraw
 import edu.uci.ics.jung.visualization.VisualizationViewer
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller
 import org.clulab.linnaeus.model.reader.EidosReader
-import org.clulab.linnaeus.model.OntologyTreeItem
+import org.clulab.linnaeus.model.graph.eidos.EidosNode
 import org.clulab.linnaeus.stage.StageManager
 import scalafx.embed.swing.SwingNode
 import scalafx.scene.Scene
 import scalafx.scene.layout.BorderPane
 
 class JUNGStage(stageManager: StageManager) extends GraphStage(stageManager) {
+  protected val ONTOLOGY_PATH =  "data/un_ontology.yml"
+
   val WIDTH = 800
   val HEIGHT = 800
 
   protected def getGraphFromScratch(): Graph[_, _] = SimpleGraphDraw.getGraph()
 
-  protected def getGraphFromEidos(): SparseMultigraph[OntologyTreeItem, String] = {
-    val ontologyRootItem = EidosReader.read()
-    val graph = new SparseMultigraph[OntologyTreeItem, String]()
+  protected def getGraphFromEidos(): SparseMultigraph[EidosNode, String] = {
+    val network = new EidosReader(ONTOLOGY_PATH).read()
+    val rootRecord = network.rootRecord
+    val graph = new SparseMultigraph[EidosNode, String]()
 
-    def addChildren(ontologyTreeItem: OntologyTreeItem, remaining: Int): Unit = {
+    def addChildren(parentRecord: network.NodeRecord, remaining: Int): Unit = {
       if (remaining > 0)
-        ontologyTreeItem.children.foreach { child =>
-          graph.addVertex(child)
-          graph.addEdge(ontologyTreeItem.toString + " - " + child.toString(), ontologyTreeItem, child)
-          addChildren(child, remaining - 1)
+        parentRecord.outgoing.map(_.targetRecord).foreach { childRecord =>
+          graph.addVertex(childRecord.node)
+          graph.addEdge(parentRecord.node.name + " - " + childRecord.node.name, parentRecord.node, childRecord.node)
+          addChildren(childRecord, remaining - 1)
         }
     }
 
-    graph.addVertex(ontologyRootItem)
-    addChildren(ontologyRootItem, 100)
+    graph.addVertex(rootRecord.node)
+    addChildren(rootRecord, 100)
     graph
   }
 
