@@ -1,12 +1,8 @@
 package org.clulab.linnaeus.model
 
-import org.clulab.wm.eidos.EidosSystem
-import org.clulab.wm.eidos.groundings.OntologyBranchNode
-import org.clulab.wm.eidos.groundings.OntologyLeafNode
-import org.clulab.wm.eidos.groundings.OntologyNode
-import org.clulab.wm.eidos.groundings.OntologyParentNode
-import org.clulab.wm.eidos.groundings.OntologyRootNode
-import org.clulab.wm.eidos.groundings.TreeDomainOntology.TreeDomainOntologyBuilder
+import org.clulab.linnaeus.model.graph.eidos.EidosNetwork
+import org.clulab.linnaeus.model.graph.eidos.EidosNode
+import org.clulab.linnaeus.model.reader.EidosReader
 import scalafx.scene.control.TreeItem
 
 import scala.annotation.tailrec
@@ -14,7 +10,7 @@ import scala.collection.mutable
 import scala.util.Random
 
 object TreeNode {
-  protected val ONTOLOGY_PATH =  "/org/clulab/wm/eidos/english/ontologies/un_ontology.yml"
+  protected val ONTOLOGY_PATH =  "data/un_ontology.yml"
   protected val rng = new Random()
 
   protected def randomWord(): String = {
@@ -50,7 +46,6 @@ object TreeNode {
     treeItem
   }
 
-
   class DescriptionItem(description: String) extends TreeItem[String](description)
 
   class DescriptionsItem extends TreeItem[String]("Descriptions") {
@@ -69,101 +64,55 @@ object TreeNode {
     expanded = true
   }
 
-  class LeafItem(val ontologyLeafNode: OntologyLeafNode) extends TreeItem[String](ontologyLeafNode.nodeName) {
+  class LeafItem(val node: EidosNode) extends TreeItem[String](node.name) {
     expanded = true
 
-    if (ontologyLeafNode.descriptions.isDefined) {
+    if (node.descriptions.nonEmpty) {
       val descriptionsItem = new DescriptionsItem
-      ontologyLeafNode.descriptions.foreach { descriptions =>
-        descriptions.foreach { description =>
-          descriptionsItem.children.add(new DescriptionItem(description))
-        }
+      node.descriptions.foreach { description =>
+        descriptionsItem.children.add(new DescriptionItem(description))
       }
       children.add(descriptionsItem)
     }
 
-    if (ontologyLeafNode.examples.isDefined) {
-      val nonEmptyExamples = ontologyLeafNode.examples.get.filter(_.nonEmpty)
-
-      if (nonEmptyExamples.nonEmpty) {
-        val examplesItem = new ExamplesItem
-        nonEmptyExamples.map { example =>
-          examplesItem.children.add(new ExampleItem(example))
-        }
-        children.add(examplesItem)
+    if (node.examples.nonEmpty) {
+      val examplesItem = new ExamplesItem
+      node.examples.foreach { example =>
+        examplesItem.children.add(new ExampleItem(example))
       }
+      children.add(examplesItem)
     }
 
-    if (ontologyLeafNode.patterns.isDefined) {
+    if (node.patterns.nonEmpty) {
       val patternsItem = new PatternsItem
-      ontologyLeafNode.patterns.foreach { patterns =>
-        patterns.foreach { pattern =>
-          patternsItem.children.add(new ExampleItem(pattern.toString))
-        }
+      node.patterns.foreach { pattern =>
+        patternsItem.children.add(new ExampleItem(pattern.toString))
       }
       children.add(patternsItem)
     }
   }
 
-  protected def getNodeName(ontologyParentNode: OntologyParentNode): String =
-      if (ontologyParentNode.isRoot) "<root>"
-      else ontologyParentNode.asInstanceOf[OntologyBranchNode].nodeName
+  protected def mkTree(network: EidosNetwork): TreeItem[String] = {
 
-  protected def getOntologyParentNode(ontologyParentNode: OntologyParentNode): Option[OntologyParentNode] =
-    if (ontologyParentNode.isRoot) None
-    else Some(ontologyParentNode.asInstanceOf[OntologyBranchNode].parent)
+    def newItem(nodeRecord: network.NodeRecord): TreeItem[String] = {
+      if (nodeRecord.isLeaf)
+        new LeafItem(nodeRecord.node)
+      else {
+        val treeItem = new TreeItem[String](nodeRecord.node.name)
 
-  class ParentItem(val ontologyParentNode: OntologyParentNode) extends TreeItem[String](getNodeName(ontologyParentNode)) {
-    expanded = true
-  }
-
-  @tailrec
-  protected def mkTree(treeItems: Seq[ParentItem], ontologyParentNodeToParentItemMap: mutable.Map[OntologyParentNode, ParentItem]): Unit = {
-    val newParentItems = treeItems.flatMap { treeItem =>
-      val ontologyParentNodeOpt = getOntologyParentNode(treeItem.ontologyParentNode)
-      val parentItemOpt = ontologyParentNodeOpt.flatMap { ontologyParentNode =>
-        val parentItem = ontologyParentNodeToParentItemMap.getOrElseUpdate(ontologyParentNode, new ParentItem(ontologyParentNode))
-        val isNewParentItem = parentItem.children.isEmpty
-
-        parentItem.children.add(treeItem)
-        if (isNewParentItem) Some(parentItem)
-        else None
+        nodeRecord.outgoing.foreach { outgoing =>
+          treeItem.children.add(newItem(outgoing.targetRecord))
+        }
+        treeItem
       }
-
-      parentItemOpt
     }
 
-    if (newParentItems.nonEmpty)
-      mkTree(newParentItems, ontologyParentNodeToParentItemMap)
-  }
-
-  protected def mkTree(treeItems: Seq[LeafItem]): TreeItem[String] = {
-    val ontologyParentNodeToParentItemMap = mutable.Map.empty[OntologyParentNode, ParentItem]
-    val newParentItems = treeItems.flatMap { treeItem =>
-      val ontologyParentNode = treeItem.ontologyLeafNode.parent
-      val parentItem = ontologyParentNodeToParentItemMap.getOrElseUpdate(ontologyParentNode, new ParentItem(ontologyParentNode))
-      val isNewParentItem = parentItem.children.isEmpty
-
-      parentItem.children.add(treeItem)
-      if (isNewParentItem) Some(parentItem)
-      else None
-    }
-    mkTree(newParentItems, ontologyParentNodeToParentItemMap)
-
-    val ontologyParentNodeToParentItemOpt = ontologyParentNodeToParentItemMap.find { case (ontologyParentNode, parentItem) =>
-      ontologyParentNode.isRoot
-    }
-    ontologyParentNodeToParentItemOpt.get._2
+    newItem(network.rootRecord)
   }
 
   def fromEidos: TreeItem[String] = {
-    val eidosSystem = new EidosSystem()
-    val proc = eidosSystem.proc
-    val canonicalizer = eidosSystem.canonicalizer
-    val filter = true
-    val treeDomainOntology = new TreeDomainOntologyBuilder(proc, canonicalizer, filter).buildFromPath(ONTOLOGY_PATH)
-    val leafItems = treeDomainOntology.ontologyNodes.map {new LeafItem(_)} // need to find single root
-    val rootItem = mkTree(leafItems)
+    val network = new EidosReader(ONTOLOGY_PATH).read()
+    val rootItem = mkTree(network)
 
     rootItem
   }

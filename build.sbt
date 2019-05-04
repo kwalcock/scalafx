@@ -9,7 +9,7 @@ resolvers += "bintray" at "https://dl.bintray.com/giancosta86/Hephaestus"
 
 libraryDependencies ++= {
   Seq(
-    "org.clulab" %% "eidos" % "0.2.3-SNAPSHOT",
+//    "org.clulab" %% "eidos" % "0.2.3-SNAPSHOT",
 
     "org.scalafx" %% "scalafx" % "8.0.144-R12",
 
