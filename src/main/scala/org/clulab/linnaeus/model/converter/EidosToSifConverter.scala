@@ -1,13 +1,15 @@
 package org.clulab.linnaeus.model.converter
 
-import org.clulab.linnaeus.model.OntologyTreeItem
+import org.clulab.linnaeus.model.graph.eidos.EidosNetwork
 import org.clulab.linnaeus.model.reader.EidosReader
 import org.clulab.linnaeus.model.writer.SifWriter
 
-object EidosToSifConverter {
+class EidosToSifConverter(inFilename: String) extends Converter(inFilename) {
 
-  def convert(filename: String) = {
-    val root: OntologyTreeItem = EidosReader.read()
-    new SifWriter(filename).write(root)
+  def convert(): Unit = {
+    val network: EidosNetwork = new EidosReader(inFilename).read()
+
+
+    new SifWriter(baseFilename).write(network)
   }
 }

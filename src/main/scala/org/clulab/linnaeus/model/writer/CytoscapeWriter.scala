@@ -1,33 +1,102 @@
 package org.clulab.linnaeus.model.writer
 
-import java.io.PrintWriter
-
-import org.clulab.linnaeus.model.SimpleEdge
-import org.clulab.linnaeus.model.SimpleNode
+import org.clulab.linnaeus.model.graph.eidos.EidosNetwork
+import org.clulab.linnaeus.model.graph.robert.RobertNetwork
 import org.clulab.linnaeus.util.Closer.AutoCloser
 import org.clulab.linnaeus.util.FileUtil
+import org.json4s.JArray
+import org.json4s.JField
+import org.json4s.JObject
+import org.json4s.JsonDSL._
+import org.json4s.jackson.JsonMethods
 
 class CytoscapeWriter(val filename: String) {
 
-  protected def writeNode(printWriter: PrintWriter, node: SimpleNode, isLast: Boolean): Unit = {
-    printWriter.println(s"""\t{data: {id: "${node.id}"}},""")
-    if (isLast)
-      printWriter.println()
+  protected def nodesToJArray(network: EidosNetwork): JArray = {
+    JArray(
+      network.mapNodesInLinearOrder { node =>
+        JObject(
+          "data" -> JObject(
+            "id" -> node.getId,
+            "label" -> node.name
+          )
+        )
+      }.toList
+    )
   }
 
-  protected def writeEdge(printWriter: PrintWriter, edge: SimpleEdge, isLast: Boolean): Unit = {
-    printWriter.print(s"""\t{data: {id: "${edge.id}", source: "${edge.sourceId}", target: "${edge.targetId}"}}""")
-    if (!isLast)
-      printWriter.print(",")
-    printWriter.println()
+  protected def edgesToJArray(network: EidosNetwork): JArray = {
+    val nextNodeId = network.nodeIndexer.next
+
+    JArray(
+      network.mapEdgesInLinearOrder { (source, edge, target) =>
+        JObject(
+          "data" -> JObject(
+            // Cytoscape IDs are shared between nodes and edges.
+            "id" -> (nextNodeId + edge.getId),
+            "source" -> source.getId,
+            "target" -> target.getId
+          )
+        )
+      }.toList
+    )
   }
 
-  def write(nodes: Seq[SimpleNode], edges: Seq[SimpleEdge]): Unit = {
-    FileUtil.newPrintWriter(filename).autoClose { printWriter =>
-      printWriter.println("var elements = [")
-      nodes.zipWithIndex.foreach { case (node, index) => writeNode(printWriter, node, index == nodes.size - 1) }
-      edges.zipWithIndex.foreach { case (edge, index) => writeEdge(printWriter, edge, index == edges.size - 1) }
-      printWriter.println("];")
+  def write(network: EidosNetwork): Unit = {
+    FileUtil.newPrintWriter(filename + CytoscapeWriter.FILE_END).autoClose { printWriter =>
+      printWriter.println(CytoscapeWriter.HEADER)
+
+      val nodeJArray = nodesToJArray(network)
+      val edgeJArray = edgesToJArray(network)
+      val json = JsonMethods.pretty(nodeJArray ++ edgeJArray)
+
+      printWriter.print(json)
+      printWriter.println(CytoscapeWriter.TRAILER)
     }
   }
+
+  protected def nodesToJArray(network: RobertNetwork): JArray = {
+    JArray(
+      network.mapNodesInLinearOrder { node =>
+        JObject(
+          "data" -> JObject(JField("id", node.getId))
+        )
+      }.toList
+    )
+  }
+
+  protected def edgesToJArray(network: RobertNetwork): JArray = {
+    JArray(
+      network.mapEdgesInLinearOrder { (source, edge, target) =>
+        JObject(
+          "data" -> JObject(
+            "id" -> edge.getId,
+            "source" -> source.getId,
+            "target" -> target.getId
+          )
+        )
+      }.toList
+    )
+  }
+
+  def write(network: RobertNetwork): Unit = {
+    FileUtil.newPrintWriter(filename + CytoscapeWriter.FILE_END).autoClose { printWriter =>
+      printWriter.println(CytoscapeWriter.HEADER)
+
+      val nodeJArray = nodesToJArray(network)
+      val edgeJArray = edgesToJArray(network)
+      val json = JsonMethods.pretty(nodeJArray ++ edgeJArray)
+
+      printWriter.print(json)
+      printWriter.println(CytoscapeWriter.TRAILER)
+    }
+  }
+}
+
+object CytoscapeWriter {
+  val FILE_END = "_cy.js"
+  val HEADER = "var elements = "
+  val TRAILER = ";"
+  val NAME_LABEL = "name"
+  val CHILDREN_LABEL = "children"
 }

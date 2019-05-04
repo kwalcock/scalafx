@@ -9,7 +9,7 @@ resolvers += "bintray" at "https://dl.bintray.com/giancosta86/Hephaestus"
 
 libraryDependencies ++= {
   Seq(
-    "org.clulab" %% "eidos" % "0.2.3-SNAPSHOT",
+//    "org.clulab" %% "eidos" % "0.2.3-SNAPSHOT",
 
     "org.scalafx" %% "scalafx" % "8.0.144-R12",
 
@@ -47,6 +47,8 @@ libraryDependencies ++= {
     "net.sf.jung" % "jung-samples"       % "2.1.1",
 
     "guru.nidi" % "graphviz-java" % "0.8.3",
-    "org.apache.xmlgraphics" % "batik-rasterizer" % "1.10"
+    "org.apache.xmlgraphics" % "batik-rasterizer" % "1.10",
+
+    "org.yaml" % "snakeyaml" % "1.14"
   )
 }

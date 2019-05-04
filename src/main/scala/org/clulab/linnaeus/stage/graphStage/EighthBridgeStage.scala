@@ -22,6 +22,9 @@ import scalafx.scene.Scene
 import scalafx.stage.Stage
 import scalafx.stage.WindowEvent
 
+/**
+  * This isn't working and a personal message to the author was not answered.
+  */
 class EighthBridgeGraph(val vertexes: Set[Vertex], val links: Set[Link], val bindings: Set[Binding]) extends Graph[Vertex, Link, Binding, EighthBridgeGraph] {
 
   override protected def graphCopy(vertexes: Set[Vertex], links: Set[Link], bindings: Set[Binding]): EighthBridgeGraph =
@@ -47,23 +50,22 @@ class EighthBridgeStage(stageManager: StageManager) extends GraphStage(stageMana
   }
 
   protected def mkVisualGraph(): DefaultVisualGraph[DefaultVisualVertex, DefaultVisualLink] = {
-//    val v1: DefaultVisualVertex = new DefaultVisualVertex(new Point2D(0d, 0d))
-//    val v2: DefaultVisualVertex = new DefaultVisualVertex(new Point2D(1d, 1d))
-//    val vs = Set(v1, v2)
-//    val l1: DefaultVisualLink = new DefaultVisualLink()
-//    val ls = Set(l1)
-//    val b1: ArcBinding = new ArcBinding(UUID.randomUUID, v1.id, v2.id, l1.id)
-//    val bs = Set(b1)
-//    val g1 = new DefaultVisualGraph(vs, ls, bs)
-//
-//    g1
-    null
+    val v1: DefaultVisualVertex = new DefaultVisualVertex(new Point2D(0d, 0d))
+    val v2: DefaultVisualVertex = new DefaultVisualVertex(new Point2D(1d, 1d))
+    val vs = Set(v1, v2)
+    val l1: DefaultVisualLink = new DefaultVisualLink()
+    val ls = Set(l1)
+    val b1: ArcBinding = new ArcBinding(UUID.randomUUID, v1.id, v2.id, l1.id)
+    val bs = Set(b1)
+    val g1 = new DefaultVisualGraph(vs, ls, bs)
+
+    g1
   }
 
   title = "Linnaeus EighthBridge Graph"
   scene = new Scene(400, 400) {
     val controller = new ReadOnlyController(renderDirected = false)
-//    val visualGraph = mkVisualGraph
+    val visualGraph = mkVisualGraph
 //    val graphCanvas = new GraphCanvas(controller, visualGraph)
 
 //    root = new JPane

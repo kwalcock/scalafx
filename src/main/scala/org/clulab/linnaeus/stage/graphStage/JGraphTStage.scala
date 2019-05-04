@@ -6,7 +6,7 @@ import com.mxgraph.layout.mxCircleLayout
 import com.mxgraph.layout.mxCompactTreeLayout
 import com.mxgraph.swing.mxGraphComponent
 import org.clulab.linnaeus.model.reader.EidosReader
-import org.clulab.linnaeus.model.OntologyTreeItem
+import org.clulab.linnaeus.model.graph.eidos.EidosNode
 import org.clulab.linnaeus.stage.StageManager
 import org.jgrapht.ListenableGraph
 import org.jgrapht.ext.JGraphXAdapter
@@ -18,11 +18,8 @@ import scalafx.embed.swing.SwingNode
 import scalafx.scene.Scene
 import scalafx.scene.layout.BorderPane
 
-import scala.annotation.tailrec
-import scala.collection.mutable
-
 class JGraphTStage(stageManager: StageManager) extends GraphStage(stageManager) {
-  protected val ONTOLOGY_PATH =  "/org/clulab/wm/eidos/english/ontologies/un_ontology.yml"
+  protected val ONTOLOGY_PATH =  "data/un_ontology.yml"
 
   val WIDTH = 800
   val HEIGHT = 800
@@ -53,27 +50,28 @@ class JGraphTStage(stageManager: StageManager) extends GraphStage(stageManager) 
     override def toString(): String = ""
   }
 
-  protected def newGraphAdapterFromEidos(): JGraphXAdapter[OntologyTreeItem, MyEdge] = {
-    val ontologyRootItem = EidosReader.read()
-//    val graph = new DefaultListenableGraph[OntologyTreeItem, DefaultEdge](new DefaultDirectedGraph[OntologyTreeItem, DefaultEdge](classOf[DefaultEdge]))
-    val graph = new DefaultListenableGraph[OntologyTreeItem, MyEdge](new DefaultDirectedGraph[OntologyTreeItem, MyEdge](classOf[MyEdge]))
-    val jgxAdapter = new JGraphXAdapter[OntologyTreeItem, MyEdge](graph)
+  protected def newGraphAdapterFromEidos(): JGraphXAdapter[EidosNode, MyEdge] = {
+    val network = new EidosReader(ONTOLOGY_PATH).read()
+    val rootRecord = network.rootRecord
+    val graph = new DefaultListenableGraph[EidosNode, MyEdge](new DefaultDirectedGraph[EidosNode, MyEdge](classOf[MyEdge]))
+    val jgxAdapter = new JGraphXAdapter[EidosNode, MyEdge](graph)
 
-    def addChildren(ontologyTreeItem: OntologyTreeItem, remaining: Int): Unit = {
+    def addChildren(parentRecord: network.NodeRecord, remaining: Int): Unit = {
       if (remaining > 0)
-        ontologyTreeItem.children.foreach { child =>
-          graph.addVertex(child)
-          graph.addEdge(ontologyTreeItem, child, new MyEdge())
-          addChildren(child, remaining - 1)
+        parentRecord.outgoing.map(_.targetRecord).foreach { childRecord =>
+          graph.addVertex(childRecord.node)
+          graph.addEdge(parentRecord.node, childRecord.node, new MyEdge())
+          addChildren(childRecord, remaining - 1)
         }
     }
 
-    graph.addVertex(ontologyRootItem)
-    addChildren(ontologyRootItem, 100)
+    graph.addVertex(rootRecord.node)
+    addChildren(rootRecord, 100)
     jgxAdapter
   }
 
   protected def mkLayout[T](jgxAdapter: JGraphXAdapter[T, MyEdge]) = {
+//  protected def mkLayout[T](jgxAdapter: JGraphXAdapter[T, DefaultEdge]) = {
     val layout = new mxCompactTreeLayout(jgxAdapter, false)
 
 //    val layout = new mxCircleLayout(jgxAdapter)
@@ -97,7 +95,7 @@ class JGraphTStage(stageManager: StageManager) extends GraphStage(stageManager) 
     swingNode.setContent(component)
 
 //    val layout = mkLayout[String](jgxAdapter)
-    val layout = mkLayout[OntologyTreeItem](jgxAdapter)
+    val layout = mkLayout[EidosNode](jgxAdapter)
     layout.execute(jgxAdapter.getDefaultParent)
 
     val borderPane = new BorderPane() {
