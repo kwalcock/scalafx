@@ -94,7 +94,7 @@ object TreeNode {
 
   protected def mkTree(network: EidosNetwork): TreeItem[String] = {
 
-    def newItem(nodeRecord: network.NodeRecord): TreeItem[String] = {
+    def newItem(nodeRecord: EidosNetwork#NodeRecord): TreeItem[String] = {
       if (nodeRecord.isLeaf)
         new LeafItem(nodeRecord.node)
       else {

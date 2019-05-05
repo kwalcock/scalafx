@@ -58,6 +58,80 @@ class GraphNetwork[
     override def compare(that: EdgeRecord): Int = this.index - that.index
   }
 
+  trait GraphVisitor {
+    def foreachNode(f: NodeType => Unit): Unit
+    def foreachEdge(f: (NodeType, EdgeType, NodeType) => Unit)
+  }
+
+  class ValueGraphVisitor extends GraphVisitor {
+
+    def foreachNode(f: NodeType => Unit): Unit = {
+      nodeRecordMap.values.foreach { nodeRecord =>
+        f(nodeRecord.node)
+      }
+    }
+
+    def foreachEdge(f: (NodeType, EdgeType, NodeType) => Unit): Unit = {
+      edgeRecordMap.values.foreach { edgeRecord =>
+        f(edgeRecord.sourceRecord.node, edgeRecord.edge, edgeRecord.targetRecord.node)
+      }
+    }
+  }
+
+  class LinearGraphVisitor extends GraphVisitor {
+    def foreachNode(f: NodeType => Unit): Unit = {
+      nodeRecordMap.values.toSeq.sorted.foreach { nodeRecord =>
+        f(nodeRecord.node)
+      }
+    }
+
+    def foreachNodeRecord(f: NodeRecord => Unit): Unit = {
+      nodeRecordMap.values.toSeq.sorted.foreach { nodeRecord =>
+        f(nodeRecord)
+      }
+    }
+
+    def mapNode[T](f: NodeType => T): Seq[T] = {
+      nodeRecordMap.values.toSeq.sorted.map { nodeRecord =>
+        f(nodeRecord.node)
+      }
+    }
+
+    def foreachEdge(f: (NodeType, EdgeType, NodeType) => Unit): Unit = {
+      edgeRecordMap.values.toSeq.sorted.foreach { edgeRecord =>
+        f(edgeRecord.sourceRecord.node, edgeRecord.edge, edgeRecord.targetRecord.node)
+      }
+    }
+
+    def mapEdge[T](f: (NodeType, EdgeType, NodeType) => T): Seq[T] = {
+      edgeRecordMap.values.toSeq.sorted.map { edgeRecord =>
+        f(edgeRecord.sourceRecord.node, edgeRecord.edge, edgeRecord.targetRecord.node)
+      }
+    }
+  }
+
+  class HierarchicalGraphVisitor extends GraphVisitor {
+    /**
+      * This has an implied top-down order that is only suitable for trees.
+      * It will recurse infinitely if there are cycles.
+      */
+    def foreachNode(f: NodeType => Unit): Unit = {
+
+      def foreachNodeInHierarchicalOrder(nodeRecord: NodeRecord): Unit = {
+        f(nodeRecord.node)
+        nodeRecord.outgoing.foreach { edgeRecord =>
+          foreachNodeInHierarchicalOrder(edgeRecord.targetRecord)
+        }
+      }
+
+      rootRecords.toSeq.sorted.foreach { root =>
+        foreachNodeInHierarchicalOrder(root)
+      }
+    }
+
+    def foreachEdge(f: (NodeType, EdgeType, NodeType) => Unit): Unit = ???
+  }
+
   /**
     * The IdentityTypes here are used to disambiguate the nodes and edges and are suitable map keys.
     */
@@ -112,8 +186,10 @@ class GraphNetwork[
   def newRootEdge(): EdgeType = ???
 
   def mkTree(): Unit = {
+    val visitor = new LinearGraphVisitor()
+
     // Remove edges that result in any node having multiple parents.
-    foreachNodeRecordInLinearOrder { nodeRecord =>
+    visitor.foreachNodeRecord { nodeRecord =>
       if (nodeRecord.incoming.size > 1) {
         nodeRecord.incoming.tail.foreach { edgeRecord =>
           // Remove the outgoing edge from the parent
@@ -131,66 +207,6 @@ class GraphNetwork[
 
     oldRootRecords.foreach { oldRootRecord =>
       newEdge(rootNodeRecord, newRootEdge(), oldRootRecord)
-    }
-  }
-
-  def foreachNode(f: NodeType => Unit): Unit = {
-    nodeRecordMap.values.foreach { nodeRecord =>
-      f(nodeRecord.node)
-    }
-  }
-
-  def foreachNodeInLinearOrder(f: NodeType => Unit): Unit = {
-    nodeRecordMap.values.toSeq.sorted.foreach { nodeRecord =>
-      f(nodeRecord.node)
-    }
-  }
-
-  def mapNodesInLinearOrder[T](f: NodeType => T): Seq[T] = {
-    nodeRecordMap.values.toSeq.sorted.map { nodeRecord =>
-      f(nodeRecord.node)
-    }
-  }
-
-  def foreachNodeRecordInLinearOrder(f: NodeRecord => Unit): Unit = {
-    nodeRecordMap.values.toSeq.sorted.foreach { nodeRecord =>
-      f(nodeRecord)
-    }
-  }
-
-  /**
-    * This has an implied top-down order that is only suitable for trees.
-    * It will recurse infinitely if there are cycles.
-    */
-  def foreachNodeInHierarchicalOrder(f: NodeType => Unit): Unit = {
-
-    def foreachNodeInHierarchicalOrder(nodeRecord: NodeRecord): Unit = {
-      f(nodeRecord.node)
-      nodeRecord.outgoing.foreach { edgeRecord =>
-        foreachNodeInHierarchicalOrder(edgeRecord.targetRecord)
-      }
-    }
-
-    rootRecords.toSeq.sorted.foreach { root =>
-      foreachNodeInHierarchicalOrder(root)
-    }
-  }
-
-  def foreachEdge(f: (NodeType, EdgeType, NodeType) => Unit): Unit = {
-    edgeRecordMap.values.foreach { edgeRecord =>
-      f(edgeRecord.sourceRecord.node, edgeRecord.edge, edgeRecord.targetRecord.node)
-    }
-  }
-
-  def foreachEdgeInLinearOrder(f: (NodeType, EdgeType, NodeType) => Unit): Unit = {
-    edgeRecordMap.values.toSeq.sorted.foreach { edgeRecord =>
-      f(edgeRecord.sourceRecord.node, edgeRecord.edge, edgeRecord.targetRecord.node)
-    }
-  }
-
-  def mapEdgesInLinearOrder[T](f: (NodeType, EdgeType, NodeType) => T): Seq[T] = {
-    edgeRecordMap.values.toSeq.sorted.map { edgeRecord =>
-      f(edgeRecord.sourceRecord.node, edgeRecord.edge, edgeRecord.targetRecord.node)
     }
   }
 }

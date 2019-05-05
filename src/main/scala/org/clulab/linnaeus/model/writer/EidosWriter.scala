@@ -24,7 +24,7 @@ class EidosWriter(val baseFilename: String) extends Writer {
       // There needs to be a bunch of escaping done here.
       // Just now it matches the input file except for the comments.
       // However, descriptions won't match because they span multiple lines.
-      def dumpRecord(nodeRecord: network.NodeRecord, depth: Int): Unit = {
+      def dumpRecord(nodeRecord: EidosNetwork#NodeRecord, depth: Int): Unit = {
         if (nodeRecord.isLeaf) {
           printWriter.println(tabber.tab(depth, "- OntologyNode:"))
           dumpList(depth + 1, "pattern", nodeRecord.node.patterns)

@@ -2,16 +2,14 @@ package org.clulab.linnaeus.stage.graphStage
 
 import java.io.File
 
-import guru.nidi.graphviz.attribute.Color
 import guru.nidi.graphviz.attribute.RankDir
 import guru.nidi.graphviz.engine.Format
 import guru.nidi.graphviz.engine.Graphviz
 import guru.nidi.graphviz.model.Factory
 import guru.nidi.graphviz.model.Graph
+import org.clulab.linnaeus.model.graph.eidos.EidosNetwork
 import org.clulab.linnaeus.model.reader.EidosReader
-import org.clulab.linnaeus.model.graph.eidos.EidosNode
 import org.clulab.linnaeus.stage.StageManager
-import scalafx.Includes._
 import scalafx.scene.image.Image
 import scalafx.scene.image.ImageView
 import scalafx.scene.Scene
@@ -23,7 +21,7 @@ class GraphVizStage(stageManager: StageManager) extends GraphStage(stageManager)
   val WIDTH = 800
   val HEIGHT = 800
 
-  protected def getGraphFromEidos(): Graph = {
+  protected def mkGraphFromEidos(): Graph = {
     val network = new EidosReader(ONTOLOGY_PATH).read()
     val rootRecord = network.rootRecord
     var graph = Factory
@@ -32,7 +30,7 @@ class GraphVizStage(stageManager: StageManager) extends GraphStage(stageManager)
         .graphAttr()
         .`with`(RankDir.LEFT_TO_RIGHT)
 
-    def addChildren(parentRecord: network.NodeRecord, remaining: Int): Unit = {
+    def addChildren(parentRecord: EidosNetwork#NodeRecord, remaining: Int): Unit = {
       if (remaining > 0)
         parentRecord.outgoing.map(_.targetRecord).foreach { childRecord =>
           graph = graph.`with`(Factory.node(childRecord.node.name).link(Factory.node(parentRecord.node.name)))
@@ -48,8 +46,8 @@ class GraphVizStage(stageManager: StageManager) extends GraphStage(stageManager)
 
   title = "Linnaeus GraphViz Graph"
   scene = new Scene(WIDTH, HEIGHT) {
-    val graph = getGraphFromEidos()
-    val visual = Graphviz.fromGraph(graph)/*.height(HEIGHT)*/.render(Format.PNG).toFile(new File("ex1.png"))
+    val graph: Graph = mkGraphFromEidos()
+    val visual: Unit = Graphviz.fromGraph(graph)/*.height(HEIGHT)*/.render(Format.PNG).toFile(new File("ex1.png"))
     val image = new Image("file:ex1.png")
     val imageView = new ImageView(image)
     val scrollPane = new ScrollPane()

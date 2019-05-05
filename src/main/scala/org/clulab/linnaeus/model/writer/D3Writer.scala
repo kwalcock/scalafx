@@ -14,13 +14,13 @@ class D3Writer(val baseFilename: String) {
   def write(network: EidosNetwork): Unit = {
     FileUtil.newPrintWriter(baseFilename + D3Writer.FILE_END).autoClose { printWriter =>
 
-      def toJArray(children: Seq[network.NodeRecord]): JArray = {
+      def toJArray(children: Seq[EidosNetwork#NodeRecord]): JArray = {
         new JArray(children.toList.map { child =>
           toJObject(child)
         })
       }
 
-      def toJObject(nodeRecord: network.NodeRecord): JObject = {
+      def toJObject(nodeRecord: EidosNetwork#NodeRecord): JObject = {
         JObject(
           D3Writer.NAME_LABEL -> nodeRecord.node.name,
           D3Writer.CHILDREN_LABEL -> toJArray(nodeRecord.outgoing.map(_.targetRecord))
@@ -39,13 +39,13 @@ class D3Writer(val baseFilename: String) {
   def write(network: RobertNetwork): Unit = {
     FileUtil.newPrintWriter(baseFilename + D3Writer.FILE_END).autoClose { printWriter =>
 
-      def toJArray(children: Seq[network.NodeRecord]): JArray = {
+      def toJArray(children: Seq[RobertNetwork#NodeRecord]): JArray = {
         new JArray(children.toList.map { child =>
           toJObject(child)
         })
       }
 
-      def toJObject(nodeRecord: network.NodeRecord): JObject = {
+      def toJObject(nodeRecord: RobertNetwork#NodeRecord): JObject = {
         JObject(
           D3Writer.NAME_LABEL -> nodeRecord.node.getId,
           D3Writer.CHILDREN_LABEL -> toJArray(nodeRecord.outgoing.map(_.targetRecord))

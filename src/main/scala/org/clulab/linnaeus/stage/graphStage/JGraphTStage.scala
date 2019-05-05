@@ -1,19 +1,17 @@
 package org.clulab.linnaeus.stage.graphStage
 
-import com.mxgraph.swing.mxGraphComponent
-import com.mxgraph.view.mxGraph
-import com.mxgraph.layout.mxCircleLayout
+//import com.mxgraph.layout.mxCircleLayout
 import com.mxgraph.layout.mxCompactTreeLayout
 import com.mxgraph.swing.mxGraphComponent
+import org.clulab.linnaeus.model.graph.eidos.EidosNetwork
 import org.clulab.linnaeus.model.reader.EidosReader
 import org.clulab.linnaeus.model.graph.eidos.EidosNode
 import org.clulab.linnaeus.stage.StageManager
-import org.jgrapht.ListenableGraph
+//import org.jgrapht.ListenableGraph
 import org.jgrapht.ext.JGraphXAdapter
 import org.jgrapht.graph.DefaultDirectedGraph
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.DefaultListenableGraph
-import scalafx.Includes._
 import scalafx.embed.swing.SwingNode
 import scalafx.scene.Scene
 import scalafx.scene.layout.BorderPane
@@ -47,7 +45,7 @@ class JGraphTStage(stageManager: StageManager) extends GraphStage(stageManager) 
   }
 
   class MyEdge extends DefaultEdge {
-    override def toString(): String = ""
+    override def toString: String = ""
   }
 
   protected def newGraphAdapterFromEidos(): JGraphXAdapter[EidosNode, MyEdge] = {
@@ -56,7 +54,7 @@ class JGraphTStage(stageManager: StageManager) extends GraphStage(stageManager) 
     val graph = new DefaultListenableGraph[EidosNode, MyEdge](new DefaultDirectedGraph[EidosNode, MyEdge](classOf[MyEdge]))
     val jgxAdapter = new JGraphXAdapter[EidosNode, MyEdge](graph)
 
-    def addChildren(parentRecord: network.NodeRecord, remaining: Int): Unit = {
+    def addChildren(parentRecord: EidosNetwork#NodeRecord, remaining: Int): Unit = {
       if (remaining > 0)
         parentRecord.outgoing.map(_.targetRecord).foreach { childRecord =>
           graph.addVertex(childRecord.node)
@@ -70,7 +68,7 @@ class JGraphTStage(stageManager: StageManager) extends GraphStage(stageManager) 
     jgxAdapter
   }
 
-  protected def mkLayout[T](jgxAdapter: JGraphXAdapter[T, MyEdge]) = {
+  protected def mkLayout[T](jgxAdapter: JGraphXAdapter[T, MyEdge]): mxCompactTreeLayout = {
 //  protected def mkLayout[T](jgxAdapter: JGraphXAdapter[T, DefaultEdge]) = {
     val layout = new mxCompactTreeLayout(jgxAdapter, false)
 
@@ -87,7 +85,7 @@ class JGraphTStage(stageManager: StageManager) extends GraphStage(stageManager) 
   title = "Linnaeus JGraphT Graph"
   scene = new Scene(WIDTH, HEIGHT) {
 //    val jgxAdapter = newGraphAdapterFromScratch()
-    val jgxAdapter = newGraphAdapterFromEidos()
+    val jgxAdapter: JGraphXAdapter[EidosNode, MyEdge] = newGraphAdapterFromEidos()
     val swingNode: SwingNode = new SwingNode()
     val component = new mxGraphComponent(jgxAdapter)
     component.setConnectable(false)
@@ -95,10 +93,10 @@ class JGraphTStage(stageManager: StageManager) extends GraphStage(stageManager) 
     swingNode.setContent(component)
 
 //    val layout = mkLayout[String](jgxAdapter)
-    val layout = mkLayout[EidosNode](jgxAdapter)
+    val layout: mxCompactTreeLayout = mkLayout[EidosNode](jgxAdapter)
     layout.execute(jgxAdapter.getDefaultParent)
 
-    val borderPane = new BorderPane() {
+    val borderPane: BorderPane = new BorderPane() {
       center = swingNode
     }
     root = borderPane
