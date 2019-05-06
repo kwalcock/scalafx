@@ -39,16 +39,12 @@ class D3Writer(val baseFilename: String) {
   def write(network: EidosNetwork): Unit = {
     FileUtil.newPrintWriter(baseFilename + D3Writer.FILE_END).autoClose { printWriter =>
       val visitor = new network.HierarchicalGraphVisitor()
-      val namedParentNode = visitor.fold(Option.empty[NamedParentNode]) { (namedParentNodeOpt: Option[NamedParentNode], node: EidosNode) =>
-        val result = new NamedParentNode(node.name)
-
-        namedParentNodeOpt.foreach { namedParentNode =>
-          namedParentNode.addChild(result)
-        }
-        Some(result)
-      }.get
-
-      val jObject = namedParentNode.toJObject
+      val jObject = visitor.foldUp { (node: EidosNode, children: Seq[JObject]) =>
+        JObject(
+          D3Writer.NAME_LABEL -> node.name,
+          D3Writer.CHILDREN_LABEL -> JArray(children.toList)
+        )
+      }
       val json = JsonMethods.pretty(jObject)
 
       printWriter.print(D3Writer.HEADER)
@@ -60,18 +56,12 @@ class D3Writer(val baseFilename: String) {
   def write(network: RobertNetwork): Unit = {
     FileUtil.newPrintWriter(baseFilename + D3Writer.FILE_END).autoClose { printWriter =>
       val visitor = new network.HierarchicalGraphVisitor()
-      val jObject = visitor.fold(Option.empty[JObject]) { (parentJObjectOpt: Option[JObject], node: RobertNode) =>
-        val result = JObject(
+      val jObject = visitor.foldUp { (node: RobertNode, children: Seq[JObject]) =>
+        JObject(
           D3Writer.NAME_LABEL -> node.getId,
-          // This can probably be delayed until there really are children.
-          D3Writer.CHILDREN_LABEL -> new JArray(List.empty[JValue])
+          D3Writer.CHILDREN_LABEL -> JArray(children.toList)
         )
-
-        parentJObjectOpt.foreach { parentJObject =>
-          (parentJObject \ D3Writer.CHILDREN_LABEL) ++ new JArray(List(result))
-        }
-        Some(result)
-      }.get
+      }
       val json = JsonMethods.pretty(jObject)
 
       printWriter.print(D3Writer.HEADER)

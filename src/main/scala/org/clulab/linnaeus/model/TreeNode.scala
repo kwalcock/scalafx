@@ -95,7 +95,7 @@ object TreeNode {
   protected def mkTree(network: EidosNetwork): TreeItem[String] = {
     val visitor = new network.HierarchicalGraphVisitor()
 
-    visitor.fold(Option.empty[NodeItem]) { (parentNodeItemOpt: Option[NodeItem], node) =>
+    visitor.foldDown(Option.empty[NodeItem]) { (parentNodeItemOpt: Option[NodeItem], node) =>
       val result = new NodeItem(node)
 
       parentNodeItemOpt.foreach { parentNodeItem =>

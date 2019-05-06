@@ -157,18 +157,35 @@ class GraphNetwork[
       }
     }
 
-    def fold[T](initial: T)(f: (T, NodeType) => T): T = {
+    def foldDown[T](initial: T)(f: (T, NodeType) => T): T = {
 
-      def fold(current: T, nodePacket: NodePacket): T = {
+      def foldDown(current: T, nodePacket: NodePacket): T = {
         val result = f(current, nodePacket.node)
+        // This calculates the result here and provides the result to
+        // the function used for all the children.
         nodePacket.outgoing.foreach { edgePacket =>
-          fold(result, edgePacket.targetPacket)
+          foldDown(result, edgePacket.targetPacket)
         }
         result
       }
 
       // Should be a tree
-      fold(initial, rootPackets.head)
+      foldDown(initial, rootPackets.head)
+    }
+
+
+    def foldUp[T](f: (NodeType, Seq[T]) => T): T = {
+
+      def foldUp(nodePacket: NodePacket): T = {
+        // This calculates the result here and provides the result to
+        // the function used for all the children.
+        val result = f(nodePacket.node, nodePacket.outgoing.map { edge => foldUp(edge.targetPacket) })
+
+        result
+      }
+
+      // Should be a tree
+      foldUp(rootPackets.head)
     }
   }
 
