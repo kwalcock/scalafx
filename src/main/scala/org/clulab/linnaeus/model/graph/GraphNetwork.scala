@@ -9,7 +9,7 @@ class GraphNetwork[
 ](val id: NetworkIdentityType)
     extends Identifyable[NetworkIdentityType] {
 
-  class NodePacket(val index: Int, val node: NodeType) extends Ordered[NodePacket] {
+  protected[this] class NodePacket(val index: Int, val node: NodeType) extends Ordered[NodePacket] {
     /**
       * Only a small number of edges are expected per node, so they are stored in Seqs
       * rather than Maps.
@@ -49,7 +49,7 @@ class GraphNetwork[
     }
   }
 
-  class EdgePacket(val index: Int, val sourcePacket: NodePacket, val edge: EdgeType, val targetPacket: NodePacket)
+  protected[this] class EdgePacket(val index: Int, val sourcePacket: NodePacket, val edge: EdgeType, val targetPacket: NodePacket)
       extends Ordered[EdgePacket] {
     // Connect the node.
     sourcePacket.addOutgoing(this)
@@ -117,19 +117,59 @@ class GraphNetwork[
       */
     def foreachNode(f: NodeType => Unit): Unit = {
 
-      def foreachNodeInHierarchicalOrder(nodePacket: NodePacket): Unit = {
+      def foreachNode(nodePacket: NodePacket): Unit = {
         f(nodePacket.node)
         nodePacket.outgoing.foreach { edgePacket =>
-          foreachNodeInHierarchicalOrder(edgePacket.targetPacket)
+          foreachNode(edgePacket.targetPacket)
         }
       }
 
       rootPackets.toSeq.sorted.foreach { root =>
-        foreachNodeInHierarchicalOrder(root)
+        foreachNode(root)
       }
     }
 
-    def foreachEdge(f: (NodeType, EdgeType, NodeType) => Unit): Unit = ???
+    def foreachNode(f: (NodeType, Int) => Unit): Unit = {
+
+      def foreachNode(nodePacket: NodePacket, depth: Int): Unit = {
+        f(nodePacket.node, depth)
+        nodePacket.outgoing.foreach { edgePacket =>
+          foreachNode(edgePacket.targetPacket, depth + 1)
+        }
+      }
+
+      rootPackets.toSeq.sorted.foreach { root =>
+        foreachNode(root, 0)
+      }
+    }
+
+    def foreachEdge(f: (NodeType, EdgeType, NodeType) => Unit): Unit = {
+
+      def foreachEdge(sourcePacket: NodePacket): Unit = {
+        sourcePacket.outgoing.foreach { edgePacket =>
+          f(sourcePacket.node, edgePacket.edge, edgePacket.targetPacket.node)
+          foreachEdge(edgePacket.targetPacket)
+        }
+      }
+
+      rootPackets.toSeq.sorted.foreach { root =>
+        foreachEdge(root)
+      }
+    }
+
+    def fold[T](initial: T)(f: (T, NodeType) => T): T = {
+
+      def fold(current: T, nodePacket: NodePacket): T = {
+        val result = f(current, nodePacket.node)
+        nodePacket.outgoing.foreach { edgePacket =>
+          fold(result, edgePacket.targetPacket)
+        }
+        result
+      }
+
+      // Should be a tree
+      fold(initial, rootPackets.head)
+    }
   }
 
   /**
@@ -150,18 +190,31 @@ class GraphNetwork[
     * These return Packets so that the actual node does not have to be looked up
     * in the map when it is used.  It is an "optimization".
     */
-  def newNodePacket(node: NodeType): NodePacket = {
+  def addNode(node: NodeType): Unit = {
     require(!nodePacketMap.contains(node.getId))
     val nodePacket = new NodePacket(nodePacketIndexer.next, node)
-    nodePacketMap += node.getId -> nodePacket
+    addNode(nodePacket)
+  }
+
+  protected def addNode(nodePacket: NodePacket): NodePacket = {
+    nodePacketMap += nodePacket.node.getId -> nodePacket
     nodePacket
   }
 
-  def newEdge(sourcePacket: NodePacket, edge: EdgeType, targetPacket: NodePacket): EdgePacket = {
-    require(nodePacketMap.contains(sourcePacket.node.getId))
+  def addEdge(sourceId: NodeIdentityType, edge: EdgeType, targetId: NodeIdentityType): Unit = {
+    require(nodePacketMap.contains(sourceId))
     require(!edgePacketMap.contains(edge.getId))
-    require(nodePacketMap.contains(targetPacket.node.getId))
+    require(nodePacketMap.contains(targetId))
+
+    val sourcePacket = nodePacketMap(sourceId)
+    val targetPacket = nodePacketMap(targetId)
+
+    addEdge(sourcePacket, edge, targetPacket)
+  }
+
+  protected def addEdge(sourcePacket: NodePacket, edge: EdgeType, targetPacket: NodePacket): EdgePacket = {
     val edgePacket = new EdgePacket(edgePacketIndexer.next, sourcePacket, edge, targetPacket)
+
     edgePacketMap += edge.getId -> edgePacket
     edgePacket
   }
@@ -174,10 +227,11 @@ class GraphNetwork[
 
   def leafPackets: Iterable[NodePacket] = nodePacketMap.values.filter(_.isLeaf)
 
-  def rootPacket: NodePacket = {
+  def rootNode: NodeType = {
     require(isTree)
-    rootPackets.head
+    rootPackets.head.node
   }
+
   // Also not circular!
   def isTree: Boolean = rootPackets.size == 1 && !nodePacketMap.values.exists(_.isMultiParented)
 
@@ -203,10 +257,11 @@ class GraphNetwork[
     }
 
     val oldRootPackets = rootPackets
-    val rootNodePacket = newNodePacket(newRootNode())
+    val rootPacket = new NodePacket(nodePacketIndexer.next, newRootNode())
 
+    addNode(rootPacket)
     oldRootPackets.foreach { oldRootPacket =>
-      newEdge(rootNodePacket, newRootEdge(), oldRootPacket)
+      addEdge(rootPacket, newRootEdge(), oldRootPacket)
     }
   }
 }

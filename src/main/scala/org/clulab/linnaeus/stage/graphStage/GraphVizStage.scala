@@ -10,6 +10,7 @@ import guru.nidi.graphviz.model.Graph
 import org.clulab.linnaeus.model.graph.eidos.EidosNetwork
 import org.clulab.linnaeus.model.reader.EidosReader
 import org.clulab.linnaeus.stage.StageManager
+import org.clulab.linnaeus.util.First
 import scalafx.scene.image.Image
 import scalafx.scene.image.ImageView
 import scalafx.scene.Scene
@@ -23,24 +24,20 @@ class GraphVizStage(stageManager: StageManager) extends GraphStage(stageManager)
 
   protected def mkGraphFromEidos(): Graph = {
     val network = new EidosReader(ONTOLOGY_PATH).read()
-    val rootPacket = network.rootPacket
+    val visitor = new network.HierarchicalGraphVisitor()
+    val first = new First()
     var graph = Factory
         .graph("example1")
         .directed()
         .graphAttr()
         .`with`(RankDir.LEFT_TO_RIGHT)
 
-    def addChildren(parentPacket: EidosNetwork#NodePacket, remaining: Int): Unit = {
-      if (remaining > 0)
-        parentPacket.outgoing.map(_.targetPacket).foreach { childPacket =>
-          graph = graph.`with`(Factory.node(childPacket.node.name).link(Factory.node(parentPacket.node.name)))
-          addChildren(childPacket, remaining - 1)
-        }
+    visitor.foreachEdge { (sourceNode, edge, targetNode) =>
+      first.ifTrue { _ =>
+        graph = graph.`with`(Factory.node(sourceNode.name))
+      }
+      graph = graph.`with`(Factory.node(targetNode.name).link(Factory.node(sourceNode.name)))
     }
-
-    // What if strings are not unique?
-    graph = graph.`with`(Factory.node(rootPacket.node.name))
-    addChildren(rootPacket, 100)
     graph
   }
 

@@ -30,23 +30,24 @@ class EidosReader(path: String) {
       yamlNodes.get(name).map(_.asInstanceOf[JCollection[String]].asScala.toSeq).getOrElse(Seq.empty)
 
     // This code is largely stolen from Eidos
-    def parseYamlLeaf(parentPacketOpt: Option[network.NodePacket], yamlNodes: mutable.Map[String, JCollection[Any]]): Unit = {
+    def parseYamlLeaf(parentNodeOpt: Option[EidosNode], yamlNodes: mutable.Map[String, JCollection[Any]]): Unit = {
       val name = yamlNodes(EidosReader.NAME).asInstanceOf[String]
       val polarityOpt = yamlNodes.get(EidosReader.POLARITY).asInstanceOf[Option[Double]]
       val examples = yamlNodesToStrings(yamlNodes, EidosReader.EXAMPLES)
       val descriptions = yamlNodesToStrings(yamlNodes, EidosReader.DESCRIPTION)
       // These need to be valid regexes, but don't check that just yet.
       val patterns = yamlNodesToStrings(yamlNodes, EidosReader.PATTERN)
-      val childPacket: network.NodePacket = network.newNodePacket(new EidosNode(network.nodeIndexer.next, name, polarityOpt, examples, descriptions, patterns))
+      val childNode = new EidosNode(network.nodeIndexer.next, name, polarityOpt, examples, descriptions, patterns)
 
-      parentPacketOpt.foreach { parentPacket =>
+      network.addNode(childNode)
+      parentNodeOpt.foreach { parentNode =>
         val edge = new EidosEdge(network.edgeIndexer.next)
 
-        network.newEdge(parentPacket, edge, childPacket)
+        network.addEdge(parentNode.getId, edge, childNode.getId)
       }
     }
 
-    def parseYamlBranchOrLeaf(parentPacketOpt: Option[network.NodePacket], yamlNodes: Iterable[Any]): Unit = {
+    def parseYamlBranchOrLeaf(parentNodeOpt: Option[EidosNode], yamlNodes: Iterable[Any]): Unit = {
       yamlNodes.foreach { yamlNode =>
         if (yamlNode.isInstanceOf[String])
           throw new Exception(s"Ontology has string (${yamlNode.asInstanceOf[String]}) where it should have a map.")
@@ -54,16 +55,17 @@ class EidosReader(path: String) {
         val key: String = map.keys.head
 
         if (key == EidosReader.FIELD)
-          parseYamlLeaf(parentPacketOpt, map)
+          parseYamlLeaf(parentNodeOpt, map)
         else {
-          val childPacket = network.newNodePacket(new EidosNode(network.nodeIndexer.next, key))
+          val childNode = new EidosNode(network.nodeIndexer.next, key)
 
-          parentPacketOpt.foreach { parentPacket =>
+          network.addNode(childNode)
+          parentNodeOpt.foreach { parentNode =>
             val edge = new EidosEdge(network.edgeIndexer.next)
 
-            network.newEdge(parentPacket, edge, childPacket)
+            network.addEdge(parentNode.getId, edge, childNode.getId)
           }
-          parseYamlBranchOrLeaf(Some(childPacket), map(key).asScala.toSeq)
+          parseYamlBranchOrLeaf(Some(childNode), map(key).asScala.toSeq)
         }
       }
     }

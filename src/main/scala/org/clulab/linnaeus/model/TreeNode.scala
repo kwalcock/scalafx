@@ -64,7 +64,7 @@ object TreeNode {
     expanded = true
   }
 
-  class LeafItem(val node: EidosNode) extends TreeItem[String](node.name) {
+  class NodeItem(val node: EidosNode) extends TreeItem[String](node.name) {
     expanded = true
 
     if (node.descriptions.nonEmpty) {
@@ -93,21 +93,16 @@ object TreeNode {
   }
 
   protected def mkTree(network: EidosNetwork): TreeItem[String] = {
+    val visitor = new network.HierarchicalGraphVisitor()
 
-    def newItem(nodePacket: EidosNetwork#NodePacket): TreeItem[String] = {
-      if (nodePacket.isLeaf)
-        new LeafItem(nodePacket.node)
-      else {
-        val treeItem = new TreeItem[String](nodePacket.node.name)
+    visitor.fold(Option.empty[NodeItem]) { (parentNodeItemOpt: Option[NodeItem], node) =>
+      val result = new NodeItem(node)
 
-        nodePacket.outgoing.foreach { outgoing =>
-          treeItem.children.add(newItem(outgoing.targetPacket))
-        }
-        treeItem
+      parentNodeItemOpt.foreach { parentNodeItem =>
+        parentNodeItem.children.add(result)
       }
-    }
-
-    newItem(network.rootPacket)
+      Some(result)
+    }.get
   }
 
   def fromEidos: TreeItem[String] = {

@@ -7,6 +7,7 @@ import org.clulab.linnaeus.model.graph.eidos.EidosNetwork
 import org.clulab.linnaeus.model.reader.EidosReader
 import org.clulab.linnaeus.model.graph.eidos.EidosNode
 import org.clulab.linnaeus.stage.StageManager
+import org.clulab.linnaeus.util.First
 //import org.jgrapht.ListenableGraph
 import org.jgrapht.ext.JGraphXAdapter
 import org.jgrapht.graph.DefaultDirectedGraph
@@ -50,21 +51,18 @@ class JGraphTStage(stageManager: StageManager) extends GraphStage(stageManager) 
 
   protected def newGraphAdapterFromEidos(): JGraphXAdapter[EidosNode, MyEdge] = {
     val network = new EidosReader(ONTOLOGY_PATH).read()
-    val rootPacket = network.rootPacket
+    val visitor = new network.HierarchicalGraphVisitor()
+    val first = new First()
     val graph = new DefaultListenableGraph[EidosNode, MyEdge](new DefaultDirectedGraph[EidosNode, MyEdge](classOf[MyEdge]))
     val jgxAdapter = new JGraphXAdapter[EidosNode, MyEdge](graph)
 
-    def addChildren(parentPacket: EidosNetwork#NodePacket, remaining: Int): Unit = {
-      if (remaining > 0)
-        parentPacket.outgoing.map(_.targetPacket).foreach { childPacket =>
-          graph.addVertex(childPacket.node)
-          graph.addEdge(parentPacket.node, childPacket.node, new MyEdge())
-          addChildren(childPacket, remaining - 1)
-        }
+    visitor.foreachEdge { (sourceNode, edge, targetNode) =>
+      first.ifTrue { _ =>
+        graph.addVertex(sourceNode)
+      }
+      graph.addVertex(targetNode)
+      graph.addEdge(sourceNode, targetNode, new MyEdge())
     }
-
-    graph.addVertex(rootPacket.node)
-    addChildren(rootPacket, 100)
     jgxAdapter
   }
 

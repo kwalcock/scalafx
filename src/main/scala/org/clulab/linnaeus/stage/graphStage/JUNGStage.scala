@@ -2,6 +2,7 @@ package org.clulab.linnaeus.stage.graphStage
 
 //import edu.uci.ics.jung.algorithms.layout.FRLayout
 import edu.uci.ics.jung.algorithms.layout.SpringLayout
+import org.clulab.linnaeus.util.First
 //import edu.uci.ics.jung.algorithms.layout.TreeLayout
 import edu.uci.ics.jung.graph.Graph
 import edu.uci.ics.jung.graph.SparseMultigraph
@@ -26,20 +27,17 @@ class JUNGStage(stageManager: StageManager) extends GraphStage(stageManager) {
 
   protected def mkGraphFromEidos(): SparseMultigraph[EidosNode, String] = {
     val network = new EidosReader(ONTOLOGY_PATH).read()
-    val rootPacket = network.rootPacket
+    val visitor = new network.HierarchicalGraphVisitor()
+    val first = new First()
     val graph = new SparseMultigraph[EidosNode, String]()
 
-    def addChildren(parentPacket: EidosNetwork#NodePacket, remaining: Int): Unit = {
-      if (remaining > 0)
-        parentPacket.outgoing.map(_.targetPacket).foreach { childPacket =>
-          graph.addVertex(childPacket.node)
-          graph.addEdge(parentPacket.node.name + " - " + childPacket.node.name, parentPacket.node, childPacket.node)
-          addChildren(childPacket, remaining - 1)
-        }
+    visitor.foreachEdge { (sourceNode, edge, targetNode) =>
+      first.ifTrue { _ =>
+        graph.addVertex(sourceNode)
+      }
+      graph.addVertex(targetNode)
+      graph.addEdge(sourceNode.name + " - " + targetNode.name, sourceNode, targetNode)
     }
-
-    graph.addVertex(rootPacket.node)
-    addChildren(rootPacket, 100)
     graph
   }
 
