@@ -13,15 +13,16 @@ class RobertWriter(val baseFilename: String) {
 
   def write(network: RobertNetwork): Unit = {
     FileUtil.newPrintWriter(baseFilename + RobertWriter.FILE_END).autoClose { printWriter =>
+      val visitor = new network.LinearGraphVisitor()
       val first = new First()
 
-      network.foreachNodeInLinearOrder { node =>
+      visitor.foreachNode { node =>
         first.ifFalse(_ => printWriter.print('\t'))
         printWriter.print(node.getId)
       }
       printWriter.println()
 
-      network.foreachEdgeInLinearOrder { (source, edge, target) =>
+      visitor.foreachEdge { (source, edge, target) =>
         printWriter.print(s"${source.getId}\t${target.getId}")
         edge.weightOpt.foreach { weight =>
           printWriter.print(s"\t$weight")

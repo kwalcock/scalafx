@@ -9,7 +9,9 @@ class SifWriter(val filename: String) {
 
   def write(network: EidosNetwork): Unit = {
     FileUtil.newPrintWriter(filename + SifWriter.FILE_END).autoClose { printWriter =>
-      network.foreachEdgeInLinearOrder { (source, edge, target) =>
+      val visitor = new network.LinearGraphVisitor()
+
+      visitor.foreachEdge { (source, edge, target) =>
         printWriter.print(source.name.replace(' ', '_'))
         printWriter.print(s" is_the_parent_of ")
         printWriter.println(target.name.replace(' ', '_'))
@@ -19,7 +21,9 @@ class SifWriter(val filename: String) {
 
   def write(network: RobertNetwork): Unit = {
     FileUtil.newPrintWriter(filename + SifWriter.FILE_END).autoClose { printWriter =>
-      network.foreachEdgeInLinearOrder { (source, edge, target) =>
+      val visitor = new network.LinearGraphVisitor()
+
+      visitor.foreachEdge { (source, edge, target) =>
         printWriter.print(source.getId.replace(' ', '_'))
         printWriter.print(s" is_a_hypernym_of ")
         printWriter.println(target.getId.replace(' ', '_'))
