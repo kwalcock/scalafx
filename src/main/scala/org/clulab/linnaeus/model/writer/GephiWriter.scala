@@ -8,18 +8,22 @@ import org.clulab.linnaeus.util.FileUtil
 class GephiWriter(val fileBasename: String) extends Writer {
 
   protected def writeNodes(filename: String, network: EidosNetwork): Unit = {
+    val visitor = new network.LinearGraphVisitor()
+
     FileUtil.newPrintWriter(filename).autoClose { printWriter =>
       printWriter.println(GephiWriter.NODE_HEADER)
-      network.foreachNodeInLinearOrder { node =>
+      visitor.foreachNode { node =>
         printWriter.println(s"${node.getId}\t${node.name}")
       }
     }
   }
 
   protected def writeEdges(filename: String, network: EidosNetwork): Unit = {
+    val visitor = new network.LinearGraphVisitor()
+
     FileUtil.newPrintWriter(filename).autoClose { printWriter =>
       printWriter.println(GephiWriter.EDGE_HEADER)
-      network.foreachEdgeInLinearOrder { (source, edge, target) =>
+      visitor.foreachEdge { (source, edge, target) =>
         printWriter.println(s"${source.getId}\t${target.getId}")
       }
     }
@@ -31,18 +35,22 @@ class GephiWriter(val fileBasename: String) extends Writer {
   }
 
   protected def writeNodes(filename: String, network: RobertNetwork): Unit = {
+    val visitor = new network.LinearGraphVisitor()
+
     FileUtil.newPrintWriter(filename).autoClose { printWriter =>
       printWriter.println(GephiWriter.NODE_HEADER)
-      network.foreachNodeInLinearOrder { node =>
+      visitor.foreachNode { node =>
         printWriter.println(s"${node.getId}\t${node.getId}")
       }
     }
   }
 
   protected def writeEdges(filename: String, network: RobertNetwork): Unit = {
+    val visitor = new network.LinearGraphVisitor()
+
     FileUtil.newPrintWriter(filename).autoClose { printWriter =>
       printWriter.println(GephiWriter.EDGE_HEADER)
-      network.foreachEdgeInLinearOrder { (source, edge, target) =>
+      visitor.foreachEdge { (source, edge, target) =>
         printWriter.println(s"${source.getId}\t${target.getId}")
       }
     }

@@ -14,7 +14,7 @@ libraryDependencies ++= {
     "org.scalafx" %% "scalafx" % "8.0.144-R12",
 
     "org.json4s" %% "json4s-core"    % "3.6.5",
-    "org.json4s" %% "json4s-jackson" % "3.6.5",    
+    "org.json4s" %% "json4s-jackson" % "3.6.5",
     
     // This one seems to be configured for
     // https://repo1.maven.org/maven2/org/scalafx/scalafx_2.11/8.0.92-R10/scalafx_2.11-8.0.92-R10.jar

@@ -13,8 +13,10 @@ import org.json4s.jackson.JsonMethods
 class CytoscapeWriter(val filename: String) {
 
   protected def nodesToJArray(network: EidosNetwork): JArray = {
+    val visitor = new network.LinearGraphVisitor()
+
     JArray(
-      network.mapNodesInLinearOrder { node =>
+      visitor.mapNode { node =>
         JObject(
           "data" -> JObject(
             "id" -> node.getId,
@@ -27,9 +29,10 @@ class CytoscapeWriter(val filename: String) {
 
   protected def edgesToJArray(network: EidosNetwork): JArray = {
     val nextNodeId = network.nodeIndexer.next
+    val visitor = new network.LinearGraphVisitor()
 
     JArray(
-      network.mapEdgesInLinearOrder { (source, edge, target) =>
+      visitor.mapEdge { (source, edge, target) =>
         JObject(
           "data" -> JObject(
             // Cytoscape IDs are shared between nodes and edges.
@@ -56,8 +59,10 @@ class CytoscapeWriter(val filename: String) {
   }
 
   protected def nodesToJArray(network: RobertNetwork): JArray = {
+    val visitor = new network.LinearGraphVisitor()
+
     JArray(
-      network.mapNodesInLinearOrder { node =>
+      visitor.mapNode { node =>
         JObject(
           "data" -> JObject(JField("id", node.getId))
         )
@@ -66,8 +71,10 @@ class CytoscapeWriter(val filename: String) {
   }
 
   protected def edgesToJArray(network: RobertNetwork): JArray = {
+    val visitor = new network.LinearGraphVisitor()
+
     JArray(
-      network.mapEdgesInLinearOrder { (source, edge, target) =>
+      visitor.mapEdge { (source, edge, target) =>
         JObject(
           "data" -> JObject(
             "id" -> edge.getId,
@@ -83,6 +90,7 @@ class CytoscapeWriter(val filename: String) {
     FileUtil.newPrintWriter(filename + CytoscapeWriter.FILE_END).autoClose { printWriter =>
       printWriter.println(CytoscapeWriter.HEADER)
 
+      val visitor = new network.LinearGraphVisitor
       val nodeJArray = nodesToJArray(network)
       val edgeJArray = edgesToJArray(network)
       val json = JsonMethods.pretty(nodeJArray ++ edgeJArray)
