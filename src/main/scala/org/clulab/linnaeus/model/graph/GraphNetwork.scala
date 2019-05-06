@@ -173,7 +173,6 @@ class GraphNetwork[
       foldDown(initial, rootPackets.head)
     }
 
-
     def foldUp[T](f: (NodeType, Seq[T]) => T): T = {
 
       def foldUp(nodePacket: NodePacket): T = {
