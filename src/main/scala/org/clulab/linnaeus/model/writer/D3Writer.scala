@@ -14,21 +14,21 @@ class D3Writer(val baseFilename: String) {
   def write(network: EidosNetwork): Unit = {
     FileUtil.newPrintWriter(baseFilename + D3Writer.FILE_END).autoClose { printWriter =>
 
-      def toJArray(children: Seq[EidosNetwork#NodeRecord]): JArray = {
+      def toJArray(children: Seq[EidosNetwork#NodePacket]): JArray = {
         new JArray(children.toList.map { child =>
           toJObject(child)
         })
       }
 
-      def toJObject(nodeRecord: EidosNetwork#NodeRecord): JObject = {
+      def toJObject(nodePacket: EidosNetwork#NodePacket): JObject = {
         JObject(
-          D3Writer.NAME_LABEL -> nodeRecord.node.name,
-          D3Writer.CHILDREN_LABEL -> toJArray(nodeRecord.outgoing.map(_.targetRecord))
+          D3Writer.NAME_LABEL -> nodePacket.node.name,
+          D3Writer.CHILDREN_LABEL -> toJArray(nodePacket.outgoing.map(_.targetPacket))
         )
       }
 
       printWriter.print(D3Writer.HEADER)
-      val jObject = toJObject(network.rootRecord)
+      val jObject = toJObject(network.rootPacket)
       val json = JsonMethods.pretty(jObject)
 
       printWriter.print(json)
@@ -39,21 +39,21 @@ class D3Writer(val baseFilename: String) {
   def write(network: RobertNetwork): Unit = {
     FileUtil.newPrintWriter(baseFilename + D3Writer.FILE_END).autoClose { printWriter =>
 
-      def toJArray(children: Seq[RobertNetwork#NodeRecord]): JArray = {
+      def toJArray(children: Seq[RobertNetwork#NodePacket]): JArray = {
         new JArray(children.toList.map { child =>
           toJObject(child)
         })
       }
 
-      def toJObject(nodeRecord: RobertNetwork#NodeRecord): JObject = {
+      def toJObject(nodePacket: RobertNetwork#NodePacket): JObject = {
         JObject(
-          D3Writer.NAME_LABEL -> nodeRecord.node.getId,
-          D3Writer.CHILDREN_LABEL -> toJArray(nodeRecord.outgoing.map(_.targetRecord))
+          D3Writer.NAME_LABEL -> nodePacket.node.getId,
+          D3Writer.CHILDREN_LABEL -> toJArray(nodePacket.outgoing.map(_.targetPacket))
         )
       }
 
       printWriter.print(D3Writer.HEADER)
-      val jObject = toJObject(network.rootRecord)
+      val jObject = toJObject(network.rootPacket)
       val json = JsonMethods.pretty(jObject)
 
       printWriter.print(json)

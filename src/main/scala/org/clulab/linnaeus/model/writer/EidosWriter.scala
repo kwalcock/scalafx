@@ -24,26 +24,26 @@ class EidosWriter(val baseFilename: String) extends Writer {
       // There needs to be a bunch of escaping done here.
       // Just now it matches the input file except for the comments.
       // However, descriptions won't match because they span multiple lines.
-      def dumpRecord(nodeRecord: EidosNetwork#NodeRecord, depth: Int): Unit = {
-        if (nodeRecord.isLeaf) {
+      def dumpPacket(nodePacket: EidosNetwork#NodePacket, depth: Int): Unit = {
+        if (nodePacket.isLeaf) {
           printWriter.println(tabber.tab(depth, "- OntologyNode:"))
-          dumpList(depth + 1, "pattern", nodeRecord.node.patterns)
-          dumpList(depth + 1, "examples", nodeRecord.node.examples)
-          dumpList(depth + 1, "descriptions", nodeRecord.node.descriptions)
-          printWriter.println(tabber.tab(depth + 1, s"name: ${nodeRecord.node.name}"))
-          nodeRecord.node.polarityOpt.foreach { polarity =>
+          dumpList(depth + 1, "pattern", nodePacket.node.patterns)
+          dumpList(depth + 1, "examples", nodePacket.node.examples)
+          dumpList(depth + 1, "descriptions", nodePacket.node.descriptions)
+          printWriter.println(tabber.tab(depth + 1, s"name: ${nodePacket.node.name}"))
+          nodePacket.node.polarityOpt.foreach { polarity =>
             printWriter.println(tabber.tab(depth + 1, s"polarity: $polarity"))
           }
         }
         else {
-          printWriter.println(tabber.tab(depth, s"- ${nodeRecord.node.name}:"))
-          nodeRecord.outgoing.foreach { edgeRecord =>
-            dumpRecord(edgeRecord.targetRecord, depth + 1)
+          printWriter.println(tabber.tab(depth, s"- ${nodePacket.node.name}:"))
+          nodePacket.outgoing.foreach { edgePacket =>
+            dumpPacket(edgePacket.targetPacket, depth + 1)
           }
         }
       }
 
-      dumpRecord(network.rootRecord, 0)
+      dumpPacket(network.rootPacket, 0)
     }
   }
 

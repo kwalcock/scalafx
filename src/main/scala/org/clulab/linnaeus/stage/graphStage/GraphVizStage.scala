@@ -23,24 +23,24 @@ class GraphVizStage(stageManager: StageManager) extends GraphStage(stageManager)
 
   protected def mkGraphFromEidos(): Graph = {
     val network = new EidosReader(ONTOLOGY_PATH).read()
-    val rootRecord = network.rootRecord
+    val rootPacket = network.rootPacket
     var graph = Factory
         .graph("example1")
         .directed()
         .graphAttr()
         .`with`(RankDir.LEFT_TO_RIGHT)
 
-    def addChildren(parentRecord: EidosNetwork#NodeRecord, remaining: Int): Unit = {
+    def addChildren(parentPacket: EidosNetwork#NodePacket, remaining: Int): Unit = {
       if (remaining > 0)
-        parentRecord.outgoing.map(_.targetRecord).foreach { childRecord =>
-          graph = graph.`with`(Factory.node(childRecord.node.name).link(Factory.node(parentRecord.node.name)))
-          addChildren(childRecord, remaining - 1)
+        parentPacket.outgoing.map(_.targetPacket).foreach { childPacket =>
+          graph = graph.`with`(Factory.node(childPacket.node.name).link(Factory.node(parentPacket.node.name)))
+          addChildren(childPacket, remaining - 1)
         }
     }
 
     // What if strings are not unique?
-    graph = graph.`with`(Factory.node(rootRecord.node.name))
-    addChildren(rootRecord, 100)
+    graph = graph.`with`(Factory.node(rootPacket.node.name))
+    addChildren(rootPacket, 100)
     graph
   }
 

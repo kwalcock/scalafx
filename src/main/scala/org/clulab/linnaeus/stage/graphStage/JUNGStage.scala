@@ -26,20 +26,20 @@ class JUNGStage(stageManager: StageManager) extends GraphStage(stageManager) {
 
   protected def mkGraphFromEidos(): SparseMultigraph[EidosNode, String] = {
     val network = new EidosReader(ONTOLOGY_PATH).read()
-    val rootRecord = network.rootRecord
+    val rootPacket = network.rootPacket
     val graph = new SparseMultigraph[EidosNode, String]()
 
-    def addChildren(parentRecord: EidosNetwork#NodeRecord, remaining: Int): Unit = {
+    def addChildren(parentPacket: EidosNetwork#NodePacket, remaining: Int): Unit = {
       if (remaining > 0)
-        parentRecord.outgoing.map(_.targetRecord).foreach { childRecord =>
-          graph.addVertex(childRecord.node)
-          graph.addEdge(parentRecord.node.name + " - " + childRecord.node.name, parentRecord.node, childRecord.node)
-          addChildren(childRecord, remaining - 1)
+        parentPacket.outgoing.map(_.targetPacket).foreach { childPacket =>
+          graph.addVertex(childPacket.node)
+          graph.addEdge(parentPacket.node.name + " - " + childPacket.node.name, parentPacket.node, childPacket.node)
+          addChildren(childPacket, remaining - 1)
         }
     }
 
-    graph.addVertex(rootRecord.node)
-    addChildren(rootRecord, 100)
+    graph.addVertex(rootPacket.node)
+    addChildren(rootPacket, 100)
     graph
   }
 

@@ -94,20 +94,20 @@ object TreeNode {
 
   protected def mkTree(network: EidosNetwork): TreeItem[String] = {
 
-    def newItem(nodeRecord: EidosNetwork#NodeRecord): TreeItem[String] = {
-      if (nodeRecord.isLeaf)
-        new LeafItem(nodeRecord.node)
+    def newItem(nodePacket: EidosNetwork#NodePacket): TreeItem[String] = {
+      if (nodePacket.isLeaf)
+        new LeafItem(nodePacket.node)
       else {
-        val treeItem = new TreeItem[String](nodeRecord.node.name)
+        val treeItem = new TreeItem[String](nodePacket.node.name)
 
-        nodeRecord.outgoing.foreach { outgoing =>
-          treeItem.children.add(newItem(outgoing.targetRecord))
+        nodePacket.outgoing.foreach { outgoing =>
+          treeItem.children.add(newItem(outgoing.targetPacket))
         }
         treeItem
       }
     }
 
-    newItem(network.rootRecord)
+    newItem(network.rootPacket)
   }
 
   def fromEidos: TreeItem[String] = {

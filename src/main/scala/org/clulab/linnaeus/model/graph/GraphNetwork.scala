@@ -9,13 +9,13 @@ class GraphNetwork[
 ](val id: NetworkIdentityType)
     extends Identifyable[NetworkIdentityType] {
 
-  class NodeRecord(val index: Int, val node: NodeType) extends Ordered[NodeRecord] {
+  class NodePacket(val index: Int, val node: NodeType) extends Ordered[NodePacket] {
     /**
       * Only a small number of edges are expected per node, so they are stored in Seqs
       * rather than Maps.
       */
-    var incoming: Seq[EdgeRecord] = Seq.empty
-    var outgoing: Seq[EdgeRecord] = Seq.empty
+    var incoming: Seq[EdgePacket] = Seq.empty
+    var outgoing: Seq[EdgePacket] = Seq.empty
 
     def isRoot: Boolean = incoming.isEmpty
 
@@ -27,35 +27,35 @@ class GraphNetwork[
 
     def isMultiParented: Boolean = incoming.size > 1
 
-    override def compare(that: NodeRecord): Int = this.index - that.index
+    override def compare(that: NodePacket): Int = this.index - that.index
 
     /**
       * These are kept in "linear" order as received.
       */
-    def addIncoming(edgeRecord: EdgeRecord): Unit = incoming = incoming :+ edgeRecord
+    def addIncoming(edgePacket: EdgePacket): Unit = incoming = incoming :+ edgePacket
 
-    def addOutgoing(edgeRecord: EdgeRecord): Unit = outgoing = outgoing :+ edgeRecord
+    def addOutgoing(edgePacket: EdgePacket): Unit = outgoing = outgoing :+ edgePacket
 
-    def subIncoming(edgeRecord: EdgeRecord): Unit = {
+    def subIncoming(edgePacket: EdgePacket): Unit = {
       incoming = incoming.filter { incoming =>
-        incoming.edge.getId != edgeRecord.edge.getId
+        incoming.edge.getId != edgePacket.edge.getId
       }
     }
 
-    def subOutgoing(edgeRecord: EdgeRecord): Unit = {
+    def subOutgoing(edgePacket: EdgePacket): Unit = {
       outgoing = outgoing.filter { outgoing =>
-        outgoing.edge.getId != edgeRecord.edge.getId
+        outgoing.edge.getId != edgePacket.edge.getId
       }
     }
   }
 
-  class EdgeRecord(val index: Int, val sourceRecord: NodeRecord, val edge: EdgeType, val targetRecord: NodeRecord)
-      extends Ordered[EdgeRecord] {
+  class EdgePacket(val index: Int, val sourcePacket: NodePacket, val edge: EdgeType, val targetPacket: NodePacket)
+      extends Ordered[EdgePacket] {
     // Connect the node.
-    sourceRecord.addOutgoing(this)
-    targetRecord.addIncoming(this)
+    sourcePacket.addOutgoing(this)
+    targetPacket.addIncoming(this)
 
-    override def compare(that: EdgeRecord): Int = this.index - that.index
+    override def compare(that: EdgePacket): Int = this.index - that.index
   }
 
   trait GraphVisitor {
@@ -66,46 +66,46 @@ class GraphNetwork[
   class ValueGraphVisitor extends GraphVisitor {
 
     def foreachNode(f: NodeType => Unit): Unit = {
-      nodeRecordMap.values.foreach { nodeRecord =>
-        f(nodeRecord.node)
+      nodePacketMap.values.foreach { nodePacket =>
+        f(nodePacket.node)
       }
     }
 
     def foreachEdge(f: (NodeType, EdgeType, NodeType) => Unit): Unit = {
-      edgeRecordMap.values.foreach { edgeRecord =>
-        f(edgeRecord.sourceRecord.node, edgeRecord.edge, edgeRecord.targetRecord.node)
+      edgePacketMap.values.foreach { edgePacket =>
+        f(edgePacket.sourcePacket.node, edgePacket.edge, edgePacket.targetPacket.node)
       }
     }
   }
 
   class LinearGraphVisitor extends GraphVisitor {
     def foreachNode(f: NodeType => Unit): Unit = {
-      nodeRecordMap.values.toSeq.sorted.foreach { nodeRecord =>
-        f(nodeRecord.node)
+      nodePacketMap.values.toSeq.sorted.foreach { nodePacket =>
+        f(nodePacket.node)
       }
     }
 
-    def foreachNodeRecord(f: NodeRecord => Unit): Unit = {
-      nodeRecordMap.values.toSeq.sorted.foreach { nodeRecord =>
-        f(nodeRecord)
+    def foreachNodePacket(f: NodePacket => Unit): Unit = {
+      nodePacketMap.values.toSeq.sorted.foreach { nodePacket =>
+        f(nodePacket)
       }
     }
 
     def mapNode[T](f: NodeType => T): Seq[T] = {
-      nodeRecordMap.values.toSeq.sorted.map { nodeRecord =>
-        f(nodeRecord.node)
+      nodePacketMap.values.toSeq.sorted.map { nodePacket =>
+        f(nodePacket.node)
       }
     }
 
     def foreachEdge(f: (NodeType, EdgeType, NodeType) => Unit): Unit = {
-      edgeRecordMap.values.toSeq.sorted.foreach { edgeRecord =>
-        f(edgeRecord.sourceRecord.node, edgeRecord.edge, edgeRecord.targetRecord.node)
+      edgePacketMap.values.toSeq.sorted.foreach { edgePacket =>
+        f(edgePacket.sourcePacket.node, edgePacket.edge, edgePacket.targetPacket.node)
       }
     }
 
     def mapEdge[T](f: (NodeType, EdgeType, NodeType) => T): Seq[T] = {
-      edgeRecordMap.values.toSeq.sorted.map { edgeRecord =>
-        f(edgeRecord.sourceRecord.node, edgeRecord.edge, edgeRecord.targetRecord.node)
+      edgePacketMap.values.toSeq.sorted.map { edgePacket =>
+        f(edgePacket.sourcePacket.node, edgePacket.edge, edgePacket.targetPacket.node)
       }
     }
   }
@@ -117,14 +117,14 @@ class GraphNetwork[
       */
     def foreachNode(f: NodeType => Unit): Unit = {
 
-      def foreachNodeInHierarchicalOrder(nodeRecord: NodeRecord): Unit = {
-        f(nodeRecord.node)
-        nodeRecord.outgoing.foreach { edgeRecord =>
-          foreachNodeInHierarchicalOrder(edgeRecord.targetRecord)
+      def foreachNodeInHierarchicalOrder(nodePacket: NodePacket): Unit = {
+        f(nodePacket.node)
+        nodePacket.outgoing.foreach { edgePacket =>
+          foreachNodeInHierarchicalOrder(edgePacket.targetPacket)
         }
       }
 
-      rootRecords.toSeq.sorted.foreach { root =>
+      rootPackets.toSeq.sorted.foreach { root =>
         foreachNodeInHierarchicalOrder(root)
       }
     }
@@ -135,51 +135,51 @@ class GraphNetwork[
   /**
     * The IdentityTypes here are used to disambiguate the nodes and edges and are suitable map keys.
     */
-  protected var nodeRecordMap: mutable.Map[NodeIdentityType, NodeRecord] = mutable.Map.empty
-  protected var edgeRecordMap: mutable.Map[EdgeIdentityType, EdgeRecord] = mutable.Map.empty
+  protected var nodePacketMap: mutable.Map[NodeIdentityType, NodePacket] = mutable.Map.empty
+  protected var edgePacketMap: mutable.Map[EdgeIdentityType, EdgePacket] = mutable.Map.empty
   /**
     * These Indexers allow the nodes and edges to be sorted in the order added (newed).
     * This is especially useful when rewriting a network so that before and after can be compared.
     */
-  protected var nodeRecordIndexer: Indexer = new Indexer()
-  protected var edgeRecordIndexer: Indexer = new Indexer()
+  protected var nodePacketIndexer: Indexer = new Indexer()
+  protected var edgePacketIndexer: Indexer = new Indexer()
 
   def getId: NetworkIdentityType = id
 
   /**
-    * These return Records so that the actual node does not have to be looked up
+    * These return Packets so that the actual node does not have to be looked up
     * in the map when it is used.  It is an "optimization".
     */
-  def newNodeRecord(node: NodeType): NodeRecord = {
-    require(!nodeRecordMap.contains(node.getId))
-    val nodeRecord = new NodeRecord(nodeRecordIndexer.next, node)
-    nodeRecordMap += node.getId -> nodeRecord
-    nodeRecord
+  def newNodePacket(node: NodeType): NodePacket = {
+    require(!nodePacketMap.contains(node.getId))
+    val nodePacket = new NodePacket(nodePacketIndexer.next, node)
+    nodePacketMap += node.getId -> nodePacket
+    nodePacket
   }
 
-  def newEdge(sourceRecord: NodeRecord, edge: EdgeType, targetRecord: NodeRecord): EdgeRecord = {
-    require(nodeRecordMap.contains(sourceRecord.node.getId))
-    require(!edgeRecordMap.contains(edge.getId))
-    require(nodeRecordMap.contains(targetRecord.node.getId))
-    val edgeRecord = new EdgeRecord(edgeRecordIndexer.next, sourceRecord, edge, targetRecord)
-    edgeRecordMap += edge.getId -> edgeRecord
-    edgeRecord
+  def newEdge(sourcePacket: NodePacket, edge: EdgeType, targetPacket: NodePacket): EdgePacket = {
+    require(nodePacketMap.contains(sourcePacket.node.getId))
+    require(!edgePacketMap.contains(edge.getId))
+    require(nodePacketMap.contains(targetPacket.node.getId))
+    val edgePacket = new EdgePacket(edgePacketIndexer.next, sourcePacket, edge, targetPacket)
+    edgePacketMap += edge.getId -> edgePacket
+    edgePacket
   }
 
-  def getNodeRecord(nodeId: NodeIdentityType): Option[NodeRecord] = nodeRecordMap.get(nodeId)
+  def getNodePacket(nodeId: NodeIdentityType): Option[NodePacket] = nodePacketMap.get(nodeId)
 
-  def getEdgeRecord(edgeId: EdgeIdentityType): Option[EdgeRecord] = edgeRecordMap.get(edgeId)
+  def getEdgePacket(edgeId: EdgeIdentityType): Option[EdgePacket] = edgePacketMap.get(edgeId)
 
-  def rootRecords: Iterable[NodeRecord] = nodeRecordMap.values.filter(_.isRoot)
+  def rootPackets: Iterable[NodePacket] = nodePacketMap.values.filter(_.isRoot)
 
-  def leafRecords: Iterable[NodeRecord] = nodeRecordMap.values.filter(_.isLeaf)
+  def leafPackets: Iterable[NodePacket] = nodePacketMap.values.filter(_.isLeaf)
 
-  def rootRecord: NodeRecord = {
+  def rootPacket: NodePacket = {
     require(isTree)
-    rootRecords.head
+    rootPackets.head
   }
   // Also not circular!
-  def isTree: Boolean = rootRecords.size == 1 && !nodeRecordMap.values.exists(_.isMultiParented)
+  def isTree: Boolean = rootPackets.size == 1 && !nodePacketMap.values.exists(_.isMultiParented)
 
   def newRootNode(): NodeType = ???
 
@@ -189,24 +189,24 @@ class GraphNetwork[
     val visitor = new LinearGraphVisitor()
 
     // Remove edges that result in any node having multiple parents.
-    visitor.foreachNodeRecord { nodeRecord =>
-      if (nodeRecord.incoming.size > 1) {
-        nodeRecord.incoming.tail.foreach { edgeRecord =>
+    visitor.foreachNodePacket { nodePacket =>
+      if (nodePacket.incoming.size > 1) {
+        nodePacket.incoming.tail.foreach { edgePacket =>
           // Remove the outgoing edge from the parent
-          edgeRecord.sourceRecord.subOutgoing(edgeRecord)
+          edgePacket.sourcePacket.subOutgoing(edgePacket)
           // Remove the outgoing edge from the network
-          edgeRecordMap -= edgeRecord.edge.getId
+          edgePacketMap -= edgePacket.edge.getId
         }
         // Remove all but first incoming edges from the child.
-        nodeRecord.incoming = Seq(nodeRecord.incoming.head)
+        nodePacket.incoming = Seq(nodePacket.incoming.head)
       }
     }
 
-    val oldRootRecords = rootRecords
-    val rootNodeRecord = newNodeRecord(newRootNode())
+    val oldRootPackets = rootPackets
+    val rootNodePacket = newNodePacket(newRootNode())
 
-    oldRootRecords.foreach { oldRootRecord =>
-      newEdge(rootNodeRecord, newRootEdge(), oldRootRecord)
+    oldRootPackets.foreach { oldRootPacket =>
+      newEdge(rootNodePacket, newRootEdge(), oldRootPacket)
     }
   }
 }

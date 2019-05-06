@@ -50,21 +50,21 @@ class JGraphTStage(stageManager: StageManager) extends GraphStage(stageManager) 
 
   protected def newGraphAdapterFromEidos(): JGraphXAdapter[EidosNode, MyEdge] = {
     val network = new EidosReader(ONTOLOGY_PATH).read()
-    val rootRecord = network.rootRecord
+    val rootPacket = network.rootPacket
     val graph = new DefaultListenableGraph[EidosNode, MyEdge](new DefaultDirectedGraph[EidosNode, MyEdge](classOf[MyEdge]))
     val jgxAdapter = new JGraphXAdapter[EidosNode, MyEdge](graph)
 
-    def addChildren(parentRecord: EidosNetwork#NodeRecord, remaining: Int): Unit = {
+    def addChildren(parentPacket: EidosNetwork#NodePacket, remaining: Int): Unit = {
       if (remaining > 0)
-        parentRecord.outgoing.map(_.targetRecord).foreach { childRecord =>
-          graph.addVertex(childRecord.node)
-          graph.addEdge(parentRecord.node, childRecord.node, new MyEdge())
-          addChildren(childRecord, remaining - 1)
+        parentPacket.outgoing.map(_.targetPacket).foreach { childPacket =>
+          graph.addVertex(childPacket.node)
+          graph.addEdge(parentPacket.node, childPacket.node, new MyEdge())
+          addChildren(childPacket, remaining - 1)
         }
     }
 
-    graph.addVertex(rootRecord.node)
-    addChildren(rootRecord, 100)
+    graph.addVertex(rootPacket.node)
+    addChildren(rootPacket, 100)
     jgxAdapter
   }
 

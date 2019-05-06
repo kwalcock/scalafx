@@ -18,16 +18,16 @@ class RobertReader(path: String) {
         if (index == 0) {
           val nodes = line.split('\t').map { id => new RobertNode(id) }
 
-          nodes.foreach(network.newNodeRecord)
+          nodes.foreach(network.newNodePacket)
         }
         else {
           val parts = line.split('\t')
-          val sourceRecord = network.getNodeRecord(parts(0)).get
-          val targetRecord = network.getNodeRecord(parts(1)).get
+          val sourcePacket = network.getNodePacket(parts(0)).get
+          val targetPacket = network.getNodePacket(parts(1)).get
           val weightOpt = parts.lift(2).map(_.toDouble)
           val edge = new RobertEdge(network.edgeIndexer.next, weightOpt)
 
-          network.newEdge(sourceRecord, edge, targetRecord)
+          network.newEdge(sourcePacket, edge, targetPacket)
         }
       }
       network
