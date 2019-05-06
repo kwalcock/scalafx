@@ -1,7 +1,9 @@
 package org.clulab.linnaeus.util
 
+import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.File
+import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
 import java.io.PrintWriter
@@ -22,4 +24,10 @@ object FileUtil {
       )
     )
   }
+
+  def newBufferedInputStream(file: File): BufferedInputStream =
+    new BufferedInputStream(new FileInputStream(file))
+
+  def newBufferedInputStream(filename: String): BufferedInputStream =
+    newBufferedInputStream(new File(filename))
 }

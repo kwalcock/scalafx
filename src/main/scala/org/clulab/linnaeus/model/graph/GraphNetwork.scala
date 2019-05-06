@@ -85,21 +85,15 @@ class GraphNetwork[
       }
     }
 
-    def foreachNodePacket(f: NodePacket => Unit): Unit = {
-      nodePacketMap.values.toSeq.sorted.foreach { nodePacket =>
-        f(nodePacket)
+    def foreachEdge(f: (NodeType, EdgeType, NodeType) => Unit): Unit = {
+      edgePacketMap.values.toSeq.sorted.foreach { edgePacket =>
+        f(edgePacket.sourcePacket.node, edgePacket.edge, edgePacket.targetPacket.node)
       }
     }
 
     def mapNode[T](f: NodeType => T): Seq[T] = {
       nodePacketMap.values.toSeq.sorted.map { nodePacket =>
         f(nodePacket.node)
-      }
-    }
-
-    def foreachEdge(f: (NodeType, EdgeType, NodeType) => Unit): Unit = {
-      edgePacketMap.values.toSeq.sorted.foreach { edgePacket =>
-        f(edgePacket.sourcePacket.node, edgePacket.edge, edgePacket.targetPacket.node)
       }
     }
 
@@ -129,6 +123,7 @@ class GraphNetwork[
       }
     }
 
+    // This one adds depth which is handy for tabbing.
     def foreachNode(f: (NodeType, Int) => Unit): Unit = {
 
       def foreachNode(nodePacket: NodePacket, depth: Int): Unit = {
@@ -235,13 +230,7 @@ class GraphNetwork[
     edgePacket
   }
 
-  def getNodePacket(nodeId: NodeIdentityType): Option[NodePacket] = nodePacketMap.get(nodeId)
-
-  def getEdgePacket(edgeId: EdgeIdentityType): Option[EdgePacket] = edgePacketMap.get(edgeId)
-
-  def rootPackets: Iterable[NodePacket] = nodePacketMap.values.filter(_.isRoot)
-
-  def leafPackets: Iterable[NodePacket] = nodePacketMap.values.filter(_.isLeaf)
+  protected def rootPackets: Iterable[NodePacket] = nodePacketMap.values.filter(_.isRoot)
 
   def rootNode: NodeType = {
     require(isTree)
@@ -256,10 +245,15 @@ class GraphNetwork[
   def newRootEdge(): EdgeType = ???
 
   def mkTree(): Unit = {
-    val visitor = new LinearGraphVisitor()
+
+    def foreachNodePacket(f: NodePacket => Unit): Unit = {
+      nodePacketMap.values.toSeq.sorted.foreach { nodePacket =>
+        f(nodePacket)
+      }
+    }
 
     // Remove edges that result in any node having multiple parents.
-    visitor.foreachNodePacket { nodePacket =>
+    foreachNodePacket { nodePacket =>
       if (nodePacket.incoming.size > 1) {
         nodePacket.incoming.tail.foreach { edgePacket =>
           // Remove the outgoing edge from the parent

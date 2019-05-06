@@ -18,12 +18,10 @@ import scala.io.Source
 class EidosReader(path: String) {
 
   def read(): EidosNetwork = {
-    val yamlText = Source.fromFile(path, FileUtil.utf8).autoClose { source =>
-      source.mkString
-    }
     val yaml = new Yaml(new Constructor(classOf[JCollection[Any]]))
-    // This can also be done with an input stream, which would be better for large files.
-    val yamlNodes = yaml.load(yamlText).asInstanceOf[JCollection[Any]].asScala
+    val yamlNodes = FileUtil.newBufferedInputStream(path).autoClose { bufferedInputStream =>
+      yaml.load(bufferedInputStream).asInstanceOf[JCollection[Any]].asScala
+    }
     val network = new EidosNetwork(0, path)
 
     def yamlNodesToStrings(yamlNodes: mutable.Map[String, JCollection[Any]], name: String): Seq[String] =
